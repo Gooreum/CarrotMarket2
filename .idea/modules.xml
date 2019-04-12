@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CarrotMarket.iml" filepath="$PROJECT_DIR$/CarrotMarket.iml" />
+      <module fileurl="file://D:\CarrotMarket2\CarrotMarket.iml" filepath="D:\CarrotMarket2\CarrotMarket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CarrotMarket2.iml" filepath="$PROJECT_DIR$/CarrotMarket2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\CarrotMarket2\app\app.iml" filepath="D:\CarrotMarket2\app\app.iml" />
     </modules>
   </component>
 </project>
