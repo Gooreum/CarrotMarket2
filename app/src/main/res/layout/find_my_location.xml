@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
+    tools:context="com.example.goo.carrotmarket.Activity.SelectingLocation.FindMyLocationActivity"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
+
+<!--   <android.support.v7.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_below="@+id/app_toolbar"
+        android:autofillHints="동명(읍,면)으로 검색(ex.서초동)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+    <EditText
+        android:id="@+id/edit_search"
+        android:layout_below="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:singleLine="true"
+        android:hint="동명(읍,면)으로 검색(ex.서초동)"
+        />
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_search"
+        android:layout_marginTop="20dp"
+        android:background="#f76707"
+        android:text="현재위치로 찾기"
+        android:textColor="#ffffff" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_location_list"
+        android:layout_below="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="20dp">
+
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>
