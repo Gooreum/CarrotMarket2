@@ -1,4 +1,6 @@
-package com.example.goo.carrotmarket.Activity.SelectingLocation;
+package com.example.goo.carrotmarket.View.SelectingLocation;
+
+import android.widget.Button;
 
 import com.example.goo.carrotmarket.Model.Location;
 
@@ -14,5 +16,5 @@ public interface FindMyLocationView {
     void hideProgress();
     void failToGetLocation(String message);
     void onGetResult(List<Location> location);
-
+    void onDialog(String location);
 }

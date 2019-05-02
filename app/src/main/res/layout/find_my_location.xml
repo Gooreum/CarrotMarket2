@@ -1,45 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.example.goo.carrotmarket.Activity.SelectingLocation.FindMyLocationActivity"
-    >
+    tools:context="com.example.goo.carrotmarket.View.SelectingLocation.FindMyLocationActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/app_toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:src="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="내 동네 찾기"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
 
     <ProgressBar
         android:id="@+id/progress"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 
-<!--   <android.support.v7.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_below="@+id/app_toolbar"
-        android:autofillHints="동명(읍,면)으로 검색(ex.서초동)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
+    <!--   <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_below="@+id/app_toolbar"
+            android:autofillHints="동명(읍,면)으로 검색(ex.서초동)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />-->
     <EditText
         android:id="@+id/edit_search"
-        android:layout_below="@+id/app_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:singleLine="true"
+        android:layout_below="@+id/appbar"
         android:hint="동명(읍,면)으로 검색(ex.서초동)"
-        />
+        android:singleLine="true" />
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
@@ -54,9 +75,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_location_list"
-        android:layout_below="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/btnLogin"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="20dp">
 

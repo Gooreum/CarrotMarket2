@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.goo.carrotmarket">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -11,16 +12,51 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Intro.IntroActivity">
+
+        <activity android:name=".View.Intro.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Activity.SelectingLocation.FindMyLocationActivity"/>
-        <activity android:name=".Activity.Main.HomeActivity"/>
+        <activity android:name=".View.SelectingLocation.FindMyLocationActivity" />
+
+        <activity android:name=".View.Write.WritingActivity" />
+        <activity android:name=".View.Authentication.AuthenticationActivity" />
+        <activity android:name=".Activity.Success" />
+        <activity android:name=".View.Detail.DetailActivity"/>
+        <activity android:name=".View.Write.WriteCategoryActivity"/>
+        <activity android:name=".View.Category.CategoryActivity"/>
+        <activity android:name=".View.Home.HomeActivity"/>
+        <activity android:name=".View.Home.HomeActivity2"/>
+        <activity android:name=".View.LoginRegister.RegisterActivity" />
+        <activity android:name=".View.Authentication.EmptyActivity" />
+
+
+
+        <meta-data
+            android:name="com.facebook.accountkit.ApplicationName"
+            android:value="@string/app_name" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/fb_app_id" />
+        <meta-data
+            android:name="com.facebook.accountkit.ClientToken"
+            android:value="@string/account_kit_client_token" />
+
+        <activity android:name="com.facebook.accountkit.ui.AccountKitActivity" />
+        <activity android:name="com.facebook.accountkit.ui.AccountKitEmailRedirectActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/ak_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
 
     </application>
 

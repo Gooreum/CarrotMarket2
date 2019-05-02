@@ -1,4 +1,4 @@
-package com.example.goo.carrotmarket.Activity.SelectingLocation;
+package com.example.goo.carrotmarket.View.SelectingLocation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,94 +11,93 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.API.ApiInterface;
 
-import com.example.goo.carrotmarket.Activity.Intro.IntroActivity;
-import com.example.goo.carrotmarket.Activity.Main.HomeActivity;
+import com.example.goo.carrotmarket.View.Intro.IntroActivity;
+import com.example.goo.carrotmarket.Dialog.CustomDialogFragment;
+import com.example.goo.carrotmarket.Dialog.CustomDialogPresenter;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Goo on 2019-04-13.
  */
 
-public class FindMyLocationActivity extends AppCompatActivity implements FindMyLocationView {
-    Intent intent;
+public class FindMyLocationActivity extends AppCompatActivity implements FindMyLocationView, View.OnClickListener {
+    @BindView(R.id.toolbar)
     Toolbar tb;
-    //private SearchView searchView ;
-    private EditText edit_search;
+    @BindView(R.id.recyclerview_location_list)
+    RecyclerView recyclerView;
+    @BindView(R.id.edit_search)
+    EditText edit_search;
+    @BindView(R.id.progress)
     ProgressBar progressBar;
+    Intent intent;
+    @BindView(R.id.back)
+    ImageButton back;
+
+
     private ApiInterface apiInterface;
 
     private List<Location> list;
-    private RecyclerView recyclerView;
+
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView_LocationList adapter;
     private RecyclerView_LocationList.ItemClickListener itemClickListener;
 
     private FindMyLocationPresenter presenter;
+    private CustomDialogPresenter presenterDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_my_location);
 
-        tb = (Toolbar) findViewById(R.id.app_toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(tb);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
 
-        progressBar = findViewById(R.id.progress);
 
-        recyclerView = findViewById(R.id.recyclerview_location_list);
+        initRecyclerView();
+        initBack();
+        initPresenter();
+        initItemClickListener();
+
+    }
+
+    public void initRecyclerView() {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
+    }
 
+    public void initBack() {
+        back.setOnClickListener(this);
+    }
 
-        edit_search = findViewById(R.id.edit_search);
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-
-
-        presenter = new FindMyLocationPresenter(this);
-
+    public void initPresenter() {
+        presenter = new FindMyLocationPresenter(this,this);
         presenter.search(edit_search);
+    }
 
+    public void initItemClickListener() {
         itemClickListener = ((view, position) -> {
-           String location = list.get(position).getLocation();
-            intent = new Intent(FindMyLocationActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+
+            presenter.showDialog( this,list.get(position).getCity(),list.get(position).getGu(),list.get(position).getDong());
+
         });
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbar_action, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                intent = new Intent(FindMyLocationActivity.this, IntroActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public void showProgress() {
@@ -119,9 +118,30 @@ public class FindMyLocationActivity extends AppCompatActivity implements FindMyL
     @Override
     public void onGetResult(List<Location> location) {
         list = location;
-        adapter = new RecyclerView_LocationList(FindMyLocationActivity.this, list,itemClickListener);
+        adapter = new RecyclerView_LocationList(FindMyLocationActivity.this, list, itemClickListener);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDialog(String location) {
+        CustomDialogFragment dialog = new CustomDialogFragment();
+
+        dialog.setText(location);
+        dialog.show(getFragmentManager(), "MyCustomDialog");
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+
+                break;
+
+        }
     }
 }
 

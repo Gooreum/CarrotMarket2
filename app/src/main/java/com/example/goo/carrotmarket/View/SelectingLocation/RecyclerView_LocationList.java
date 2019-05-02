@@ -1,7 +1,6 @@
-package com.example.goo.carrotmarket.Activity.SelectingLocation;
+package com.example.goo.carrotmarket.View.SelectingLocation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.goo.carrotmarket.Activity.Main.HomeActivity;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.R;
 
@@ -24,8 +22,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class RecyclerView_LocationList extends RecyclerView.Adapter<RecyclerView_LocationList.ViewHolder> {
-    private List<Location> listItems;
     private Context mContext;
+    private List<Location> listItems;
     private ItemClickListener itemClickListener;
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/refresh"
+
+        android:title="새로고침"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/report"
+
+        android:title="신고하기"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/forbid"
+        android:title="이 사용자의 글 보지 않기"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/share"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="share" />
+</menu>

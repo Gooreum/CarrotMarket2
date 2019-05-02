@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Goo on 2019-04-14.
  */
 
-public class LocationAPI {
+public class ApiClient {
 
     public static final String BASE_URL = "http://18.218.21.240/CarrotMarket/";
     public static Retrofit retrofit;
