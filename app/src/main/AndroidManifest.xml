@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/snowman_app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -32,6 +32,10 @@
         <activity android:name=".View.Home.HomeActivity2"/>
         <activity android:name=".View.LoginRegister.RegisterActivity" />
         <activity android:name=".View.Authentication.EmptyActivity" />
+        <activity android:name=".View.Home.HomeManagerActivity" />
+        <activity android:name=".View.MyProfile.SellList.SellListActivity" />
+        <activity android:name=".View.MyProfile.ConcernList.ConcernListActivity" />
+        <activity android:name=".View.MyProfile.BuyList.BuyListActivity" />
 
 
 
@@ -56,6 +60,12 @@
                 <data android:scheme="@string/ak_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.MyProfile.SetMyLocation.SetMyLocationActivity" />
+        <activity android:name=".View.Seller.SellerProducts.SellerActivity" />
+        <activity android:name=".View.MyProfile.Setting.SettingActivity" />
+        <activity android:name=".View.Seller.SellerProfile.SellerProfileActivity" />
+        <activity android:name=".View.Home.Search.SearchActivity" />
+        <activity android:name=".View.Category.Collection.CollectionActivity" />
 
 
     </application>

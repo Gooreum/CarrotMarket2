@@ -1,0 +1,598 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+
+            <TextView
+                android:id="@+id/myCarrot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="홈 전체보기 관리"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray" />
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/txt_category"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="홈 화면에서 보고 싶지 않은 카테고리는 체크를 해제하세요"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/caution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_category"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="최소 1개 이상 선택되어 있어야 합니다."
+
+        />
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/caution"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+
+        android:rowCount="7">
+
+
+        <RelativeLayout
+            android:id="@+id/relative_digital"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_digital"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:visibility="visible"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_digital"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="디지털/가전"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_furniture"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_furniture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_furniture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="가구/인테리어"
+                android:textColor="#000000" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_child"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+
+            >
+
+            <ImageView
+                android:id="@+id/check_child"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_child"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/category3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="유아동/유아도서"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_life"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_life"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_life"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/category4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="생활/가공식품"
+                android:textColor="#000000" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_woman_fashion"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_woman_fashion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_woman_fashion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="여성의류"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_woman_etc"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_woman_etc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_woman_etc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="여성잡화"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_beauty"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_beauty"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_beauty"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="뷰티/미용"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_man"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_man"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_man"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/category8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="남성패션/잡화"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_sports"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_sports"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_sports"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="스포츠/레저"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_game"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_game"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_game"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="게임/취미"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+
+            <ImageView
+                android:id="@+id/check_ticket"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_ticket"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="도서/티켓/음반"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+
+            <ImageView
+                android:id="@+id/check_pet"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_pet"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="반려동물용품"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_etc"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/check_etc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_etc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/category13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="기타 중고물품"
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_buying"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+
+            <ImageView
+                android:id="@+id/check_buying"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray" />
+
+            <ImageView
+                android:id="@+id/checked_buying"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/category14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="삽니다"
+
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+    </GridLayout>
+
+</RelativeLayout>

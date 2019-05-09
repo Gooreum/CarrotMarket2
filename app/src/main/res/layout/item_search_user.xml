@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_search"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="10dp"
+    android:background="@color/colorWhite"
+  >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:padding="15dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_person_outline_black_24dp"
+            app:civ_border_color="@color/viewBigBorder"
+            app:civ_border_width="1dp" />
+
+        <TextView
+            android:id="@+id/txt_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/profileImg"
+            android:layout_alignTop="@+id/profileImg"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toRightOf="@+id/profileImg"
+            android:gravity="center"
+            android:text="갤럭시"
+            android:textColor="#000000"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/txt_dong"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/profileImg"
+            android:layout_alignTop="@+id/profileImg"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/txt_nick"
+            android:gravity="center"
+            android:text="갤럭시"
+            android:textSize="14dp" />
+    </RelativeLayout>
+</RelativeLayout>

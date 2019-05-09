@@ -66,6 +66,9 @@ public class FindMyLocationPresenter {
 
     //검색할 때 키워드들 서버로 보내주기
     void search(EditText editText) {
+
+
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -83,6 +86,8 @@ public class FindMyLocationPresenter {
             }
         });
     }
+
+
 
     //다이얼로그 띄우기
     void showDialog(Context context, String city, String gu, String dong) {

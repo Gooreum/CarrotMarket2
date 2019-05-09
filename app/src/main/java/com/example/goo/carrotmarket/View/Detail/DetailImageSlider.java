@@ -49,13 +49,19 @@ public class DetailImageSlider extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.image_slider_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-
-        if(arrayList.get(0).imageList().get(position).toString().isEmpty() || arrayList.get(0).imageList().get(position).toString()==null){
+        // arrayList.get(0).imageList().get(position).toString().isEmpty() || arrayList.get(0).imageList().get(position).toString()==null ||arrayList.get(0).imageList().get(position).toString().equals("NULL")
+        if (arrayList.get(0).imageList().size() == 0) {
             //imageView.setVisibility(View.GONE);
             view.setVisibility(View.GONE);
-           // Picasso.with(context).load(R.drawable.dress).error(R.drawable.dress).into(imageView);
-        }else{
-            Glide.with(context).load(arrayList.get(0).imageList().get(position).toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.dress).into(imageView);
+            // Picasso.with(context).load(R.drawable.dress).error(R.drawable.dress).into(imageView);
+        } else {
+
+            try {
+                Picasso.with(context).load(arrayList.get(0).imageList().get(position)).fit().centerCrop().error(R.drawable.dress).into(imageView);
+            } catch (Exception e) {
+                Picasso.with(context).load(R.drawable.dress).fit().centerCrop().error(R.drawable.dress).into(imageView);
+            }
+
         }
 
 

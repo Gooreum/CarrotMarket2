@@ -24,27 +24,25 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        btnLogin = findViewById(R.id.btnLogin);
         //로그인 세션
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
-
-        if (user.get(sessionManager.DONG).toString() != null) {
+        //user.get(sessionManager.DONG).toString() != null || user.get(sessionManager.DONG).toString().equals("")
+        if (sessionManager.isLoggIn() == true ) {
             Intent intent = new Intent(IntroActivity.this, HomeActivity2.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        } else {
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(IntroActivity.this, FindMyLocationActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
-
-        btnLogin = findViewById(R.id.btnLogin);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent(IntroActivity.this, FindMyLocationActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

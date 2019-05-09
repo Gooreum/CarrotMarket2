@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/update"
+        android:title="끌올하기"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/refresh"
+        android:title="새로고침"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/motify"
+        android:title="수정"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/hide"
+        android:title="숨기기"
+        app:showAsAction="never" />
+
+<!--    <item
+        android:id="@+id/cancel_hide"
+        android:title="숨기기 취소"
+        app:showAsAction="never" />-->
+
+    <item
+        android:id="@+id/delete"
+        android:title="삭제"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/share"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="share" />
+
+</menu>

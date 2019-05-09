@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "http://18.218.21.240/CarrotMarket/";
+    public static final String BASE_URL = "http://54.180.32.57/CarrotMarket/";
     public static Retrofit retrofit;
 
     public static Retrofit getApiLocation(){

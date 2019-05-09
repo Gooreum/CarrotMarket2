@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview_product"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp"
+    >
+    <!--app:cardElevation="3dp"-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_effect">
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/productCard"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/productThumb"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:riv_border_color="#333333"
+
+                        app:riv_corner_radius="10dp"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="false" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_imageCnt"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="#000000"
+                        app:cardCornerRadius="5dp">
+
+                        <TextView
+                            android:id="@+id/imgCnt"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="10"
+                            android:textColor="#ffffff"
+                            android:textSize="10dp" />
+                    </android.support.v7.widget.CardView>
+
+                </RelativeLayout>
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productCard"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:text="물건이름"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/seller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/title"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="8dp"
+            android:text="밍꾸꾸"
+            android:textColor="#000000"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/seller"
+            android:text="대치동"
+            android:textColor="#000000"
+            android:textSize="12dp" />
+
+        <RelativeLayout
+            android:id="@+id/relative_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/title"
+            android:layout_below="@+id/seller"
+            android:layout_marginTop="10dp">
+
+
+            <RelativeLayout
+                android:id="@+id/relative_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/price"
+                android:layout_alignTop="@+id/price"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="3dp"
+                android:visibility="gone">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_traded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorOrange"
+                    app:cardCornerRadius="3dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="거래완료"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_reserving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/colorGreen"
+                    app:cardCornerRadius="3dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="예약중"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="8dp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/relative_temp"
+                android:text="35,000원"
+                android:textColor="@color/colorAccent"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
