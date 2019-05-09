@@ -1,0 +1,649 @@
+package com.example.goo.carrotmarket.View.Detail;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.goo.carrotmarket.Dialog.BottomSheet.BottomSheetDialog;
+import com.example.goo.carrotmarket.Model.Product;
+import com.example.goo.carrotmarket.Model.UserInfo;
+import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.SessionManager;
+import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
+import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+/**
+ * Created by Goo on 2019-04-26.
+ */
+
+public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener, BottomSheetDialog.BottomSheetListener {
+
+    @BindView(R.id.progress)
+    ProgressBar progress;
+    @BindView(R.id.profileImg)
+    CircleImageView profileImg;
+    @BindView(R.id.nick)
+    TextView nick;
+    @BindView(R.id.location)
+    TextView location;
+    @BindView(R.id.relative_profile)
+    RelativeLayout relative_profile;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.description)
+    TextView description;
+    @BindView(R.id.category)
+    TextView category;
+    @BindView(R.id.date)
+    TextView date;
+    @BindView(R.id.chatCount)
+    TextView chatCount;
+    @BindView(R.id.likeCount)
+    TextView likeCount;
+    @BindView(R.id.lookCount)
+    TextView lookCount;
+    @BindView(R.id.relative_report)
+    RelativeLayout relative_report;
+    @BindView(R.id.relative_reply)
+    RelativeLayout relative_reply;
+    @BindView(R.id.replyCount)
+    TextView replyCount;
+    @BindView(R.id.price)
+    TextView price;
+    @BindView(R.id.relative_products)
+    RelativeLayout relative_products;
+    @BindView(R.id.recyclerView_products)
+    RecyclerView recyclerView_products;
+    @BindView(R.id.products)
+    TextView txtProducts;
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+    @BindView(R.id.priceNego)
+    TextView priceNego;
+    @BindView(R.id.priceNonNego)
+    TextView priceNonNego;
+    @BindView(R.id.txt_showAll)
+    TextView txt_showAll;
+    @BindView(R.id.like_unchecked)
+    ImageView like_unchecked;
+    @BindView(R.id.like_checked)
+    ImageView like_checked;
+
+    //bottom sheet dialog
+    @BindView(R.id.relative_state)
+    RelativeLayout relative_state;
+    @BindView(R.id.cardview_selling)
+    CardView cardview_selling;
+    @BindView(R.id.cardview_reserving)
+    CardView cardview_reserving;
+    @BindView(R.id.cardview_deal_complete)
+    CardView cardview_deal_complete;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.SliderDots)
+    LinearLayout SliderDots;
+
+
+    private int dotsCount;
+    private ImageView[] dots;
+
+
+    private List<Product> product;
+    private List<Product> sellingProducts;
+    private List<Product> productLike;
+
+    private List<UserInfo> userinfo;
+    private DetailPresenter presenter;
+    Intent intent;
+
+    private DetailImageSlider mViewPager;
+    //private List<SliderImages> sliderImagesList;
+    boolean refresh;
+
+    int id;
+    String seller;
+    int hide;
+    //좋아요 눌렀는지 안 눌렀는지 판단
+    boolean flag;
+
+    int hide_state;
+    SessionManager sessionManager;
+    HashMap<String, String> user;
+    DetailSellerProductsAdapter adapter;
+    DetailSellerProductsAdapter.ItemClickListener itemClickListener;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+
+        ButterKnife.bind(this);
+
+        setToolbar();
+
+        intent = getIntent();
+
+        recyclerView_products.setLayoutManager(new LinearLayoutManager(this));
+        id = Integer.parseInt(intent.getStringExtra("id"));  //해당 게시글 불러올 id 값
+        seller = intent.getStringExtra("seller");
+        hide = intent.getIntExtra("hide", 0);
+        refresh = false;
+
+        flag = false;
+
+        product = new ArrayList<>();
+        sellingProducts = new ArrayList<>();
+        productLike = new ArrayList<>();
+        userinfo = new ArrayList<>();
+
+        //세션
+        sessionManager = new SessionManager(this);
+        user = sessionManager.getUserDetail();
+
+        //프레젠터 이벤트
+        initPresenter();
+
+        //버튼 이벤트
+        initButton();
+
+        //리사이클러뷰 아이템 클릭 이벤트
+        setItemClickListener();
+
+
+        //내 게시글인지 아닌지 확인하기
+        isMyProduct();
+
+
+    }
+
+
+    //툴바 설정
+    public void setToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+
+    }
+
+
+    //버튼 이벤트
+    public void initButton() {
+        txt_showAll.setOnClickListener(this);
+        relative_profile.setOnClickListener(this);
+        like_checked.setOnClickListener(this);
+        like_unchecked.setOnClickListener(this);
+        cardview_selling.setOnClickListener(this);
+        cardview_reserving.setOnClickListener(this);
+        cardview_deal_complete.setOnClickListener(this);
+    }
+
+    //프레젠터
+    public void initPresenter() {
+
+        //프레젠터
+        presenter = new DetailPresenter(this);
+
+        //로그인 되어 있을 떄만 해당 글을 관심목록에 담을 수 있음.
+        if (sessionManager.isLoggIn()) {
+            //  System.out.println("로그인됐엉");
+            String nick = user.get(sessionManager.NICK).toString();
+            //  System.out.println("나의 닉네임은 :" + nick);
+            presenter.getLikeStates(nick, id);
+            presenter.getData(id, refresh);
+            presenter.getSellerProducts(seller, refresh, id);
+            presenter.getSellerProfile(seller);
+        } else {
+            presenter.getData(id, refresh);
+            presenter.getSellerProducts(seller, refresh, id);
+            presenter.getSellerProfile(seller);
+
+        }
+    }
+
+    //판매자의 다른 게시글 눌렀을 때 상세화면 보기로 넘어가기
+    public void setItemClickListener() {
+        itemClickListener = ((view1, position) -> {
+
+            String id = String.valueOf(sellingProducts.get(position).getId());
+            String seller = sellingProducts.get(position).getSeller();
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("id", id);
+            intent.putExtra("seller", seller);
+            intent.putExtra("hide", hide);
+            startActivity(intent);
+            Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+
+        });
+    }
+
+    //내 게시글인지 아닌지 확인 한 후, 판매 상태 수정하기 버튼 보여주기
+    public void isMyProduct() {
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
+            getMenuInflater().inflate(R.menu.appbar_my_detail_product, menu);
+
+
+            if (hide == 0) {
+                menu.getItem(3).setTitle("숨기기");
+            } else if (hide == 1) {
+                menu.getItem(3).setTitle("숨기기 취소");
+            }
+
+        } else {
+            getMenuInflater().inflate(R.menu.appbar_product_detail, menu);
+        }
+
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+                finish();
+
+                return true;
+            case R.id.refresh:
+
+                refresh = true;
+                presenter.getData(id, refresh);
+                presenter.getSellerProducts(seller, refresh, id);
+                presenter.getSellerProfile(seller);
+                if (sessionManager.isLoggIn() == true) {
+                    String nick = user.get(sessionManager.NICK).toString();
+                    presenter.getLikeStates(nick, id);
+                }
+
+                return true;
+
+            case R.id.report:
+
+
+                return true;
+
+            case R.id.forbid:
+
+
+                return true;
+
+            case R.id.share:
+
+
+                return true;
+
+            case R.id.update:
+
+                if (product.get(0).getUpdateWritingCnt() == 4) {
+                    Toast.makeText(this, "끌올은 한 게시글 당 4번 밖에 되지 않습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    String date = presenter.getCurrentTime("yyyyMMddHHmmssSSS");
+                    presenter.updateProductDate(id, date);
+                }
+
+
+                return true;
+
+
+            case R.id.motify:
+
+
+                return true;
+
+
+            case R.id.hide:
+                if (hide == 0) {
+                    presenter.updateWritingState(id, 4);
+                } else {
+                    presenter.updateWritingState(id, 5);
+                }
+
+
+                return true;
+
+
+            case R.id.delete:
+                presenter.showDialog(this, id);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    //이미지 슬라이더 불러오기 메서드
+    public void initDotsSlider() {
+
+        mViewPager = new DetailImageSlider(product, this);
+        viewPager.setAdapter(mViewPager);
+        dotsCount = mViewPager.getCount();
+        dots = new ImageView[dotsCount];
+
+        if (dotsCount != 0) {
+            for (int i = 0; i < dotsCount; i++) {
+
+                dots[i] = new ImageView(this);
+                dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(8, 0, 8, 0);
+                SliderDots.addView(dots[i], params);
+
+            }
+            dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+
+                    for (int i = 0; i < dotsCount; i++) {
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+                    }
+
+                    dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetResult(String message) {
+        showSnackBar(message);
+
+    }
+
+
+    @Override
+    public void onGetResultDelete(String message) {
+        Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onGetResult(List<Product> products) {
+        product = products;
+        setValues();
+        initDotsSlider();
+        if (product.get(0).getImageCnt() == 0) {
+            viewPager.setVisibility(View.GONE);
+        } else {
+            viewPager.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onGetResultSellerInfo(List<UserInfo> userinfos) {
+        userinfo = userinfos;
+        setSellerInfo();
+
+    }
+
+
+    @Override
+    public void onGetSellerProductsResult(List<Product> products) {
+        sellingProducts = products;
+        setSellerProducts();
+
+    }
+
+    @Override
+    public void onGetResultLikeState(List<Product> products) {
+        productLike = products;
+        // System.out.println("좋아요를 눌렀냐 안눌렀냐 !? " + product.get(0).getLike_state());
+        if (productLike.size() != 0) {
+            if (productLike.get(0).getLike_state() == 1) {
+
+                like_checked.setVisibility(View.VISIBLE);
+                like_unchecked.setVisibility(View.INVISIBLE);
+            } else {
+                like_checked.setVisibility(View.INVISIBLE);
+                like_unchecked.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onPostLike() {
+        Snackbar.make(getWindow().getDecorView().getRootView(), "관심목록에 추가되었습니다.", Snackbar.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void showSnackBar(String text) {
+        Snackbar.make(getWindow().getDecorView().getRootView(), text, Snackbar.LENGTH_LONG).show();
+    }
+
+
+    public void setValues() {
+        //hide_state = product.get(0).getHide();
+        title.setText(product.get(0).getTitle().toString());
+        if (product.get(0).getUpdateWritingCnt() >= 1) {
+            date.setText("끌올 " + product.get(0).getDate().toString() + "전에");
+        } else {
+            date.setText(product.get(0).getDate().toString() + "전에");
+        }
+
+        description.setText(product.get(0).getDescription().toString());
+        price.setText(product.get(0).getPrice().toString() + "원");
+        category.setText(product.get(0).getCategory().toString());
+        txtProducts.setText(product.get(0).getSeller().toString() + "님의 판매 상품");
+        toolbar_title.setText(product.get(0).getTitle().toString());
+
+        int dealable = product.get(0).getDealable();
+
+        if (dealable == 0) {
+            priceNego.setVisibility(View.GONE);
+            priceNonNego.setVisibility(View.VISIBLE);
+        } else if (dealable == 1) {
+            priceNego.setVisibility(View.VISIBLE);
+            priceNonNego.setVisibility(View.GONE);
+        }
+
+        likeCount.setText(product.get(0).getLike_count() + "");
+        likeCount.setText(product.get(0).getChat_count() + "");
+
+        //내 게시글일 떄!
+
+        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
+            relative_state.setVisibility(View.VISIBLE);
+            if (product.get(0).getState() == 1) {
+                cardview_selling.setVisibility(View.VISIBLE);
+                cardview_reserving.setVisibility(View.GONE);
+                cardview_deal_complete.setVisibility(View.GONE);
+            } else if (product.get(0).getState() == 2) {
+                cardview_selling.setVisibility(View.GONE);
+                cardview_reserving.setVisibility(View.VISIBLE);
+                cardview_deal_complete.setVisibility(View.GONE);
+            } else if (product.get(0).getState() == 3) {
+                cardview_selling.setVisibility(View.GONE);
+                cardview_reserving.setVisibility(View.GONE);
+                cardview_deal_complete.setVisibility(View.VISIBLE);
+            }
+        } else {
+            relative_state.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    public void setSellerInfo() {
+        nick.setText(userinfo.get(0).getNick().toString());
+        location.setText(userinfo.get(0).getDong1().toString());
+        Glide.with(this).load(userinfo.get(0).getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.ic_person_outline_black_24dp).into(profileImg);
+
+    }
+
+    //판매자 프로필 셋팅
+    public void setSellerProducts() {
+        //판매자의 판매하고 있는 상품이 현재 보고 있는 상품밖에 없으면 판매자의 상품 모두보기 화면은 안보이게 처리
+        if (sellingProducts.size() == 0) {
+            relative_products.setVisibility(View.GONE);
+            recyclerView_products.setVisibility(View.GONE);
+        } else {
+            relative_products.setVisibility(View.VISIBLE);
+            recyclerView_products.setVisibility(View.VISIBLE);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
+            recyclerView_products.setLayoutManager(layoutManager);
+            adapter = new DetailSellerProductsAdapter(this, sellingProducts, itemClickListener);
+            adapter.notifyDataSetChanged();
+            recyclerView_products.setAdapter(adapter);
+
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.txt_showAll:
+                Intent intent = new Intent(this, SellerActivity.class);
+                intent.putExtra("nick", nick.getText().toString());
+                startActivity(intent);
+                break;
+
+            case R.id.relative_profile:
+                intent = new Intent(DetailActivity.this, SellerProfileActivity.class);
+                intent.putExtra("nick", nick.getText().toString());
+                startActivity(intent);
+
+                break;
+
+            case R.id.like_checked:
+                if (sessionManager.isLoggIn() == true) {
+                    String nick = user.get(sessionManager.NICK).toString();
+                    presenter.dislike(id, 0, nick);
+                    like_checked.setVisibility(View.INVISIBLE);
+                    like_unchecked.setVisibility(View.VISIBLE);
+                } else {
+
+                }
+
+                break;
+
+            case R.id.like_unchecked:
+                if (sessionManager.isLoggIn() == true) {
+                    String nick = user.get(sessionManager.NICK).toString();
+                    presenter.like(id, 1, nick);
+                    like_checked.setVisibility(View.VISIBLE);
+                    like_unchecked.setVisibility(View.INVISIBLE);
+                } else {
+
+                }
+
+                break;
+
+            case R.id.cardview_selling:
+                BottomSheetDialog bottomSheet = new BottomSheetDialog();
+                bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
+                break;
+
+            case R.id.cardview_reserving:
+                BottomSheetDialog bottomSheet2 = new BottomSheetDialog();
+                bottomSheet2.show(getSupportFragmentManager(), "bottomSheet2");
+                break;
+
+            case R.id.cardview_deal_complete:
+                BottomSheetDialog bottomSheet3 = new BottomSheetDialog();
+                bottomSheet3.show(getSupportFragmentManager(), "bottomSheet3");
+                break;
+
+        }
+    }
+
+    //bottom sheet dialog interface
+    @Override
+    public void onButtonClicked(int state) {
+        if (state == 1) {
+            cardview_selling.setVisibility(View.VISIBLE);
+            cardview_reserving.setVisibility(View.GONE);
+            cardview_deal_complete.setVisibility(View.GONE);
+            presenter.updateWritingState(id, 1);
+        } else if (state == 2) {
+            cardview_selling.setVisibility(View.GONE);
+            cardview_reserving.setVisibility(View.VISIBLE);
+            cardview_deal_complete.setVisibility(View.GONE);
+            presenter.updateWritingState(id, 2);
+        } else if (state == 3) {
+            cardview_selling.setVisibility(View.GONE);
+            cardview_reserving.setVisibility(View.GONE);
+            cardview_deal_complete.setVisibility(View.VISIBLE);
+            presenter.updateWritingState(id, 3);
+        }
+
+    }
+
+
+}
+
