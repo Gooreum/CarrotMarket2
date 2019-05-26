@@ -170,7 +170,6 @@ public class DetailPresenter {
                 view.hideProgress();
                 if (response.isSuccessful() && response.body() != null) {
 
-
                 }
             }
 
@@ -230,7 +229,7 @@ public class DetailPresenter {
 
                     view.onGetResult("끌올 성공!");
 
-                   getData(id, true);
+                    getData(id, true);
                 }
             }
 
@@ -244,7 +243,7 @@ public class DetailPresenter {
     }
 
     //게시글 상태 변경
-    void updateWritingState(int id, int state ,MenuItem item) {
+    void updateWritingState(int id, int state, MenuItem item) {
         view.showProgress();
 
         //Request to Server
@@ -261,16 +260,16 @@ public class DetailPresenter {
                     if (state == 4) {
                         view.onGetResult("게시글이 숨김 되었습니다.");
                         //getData(id);
-                            if(item.getItemId() == R.id.hide){
-                                item.setTitle("숨기기 해제");
-                            }
+                        if (item.getItemId() == R.id.hide) {
+                            item.setTitle("숨기기 해제");
+                        }
 
                     } else if (state == 5) {
                         view.onGetResult("게시글이 숨김 해제되었습니다. ");
-                        if(item.getItemId() == R.id.hide){
+                        if (item.getItemId() == R.id.hide) {
                             item.setTitle("숨기기");
                         }
-                       // getData(id);
+                        // getData(id);
                     }
 
 
@@ -300,8 +299,26 @@ public class DetailPresenter {
             public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
                 view.hideProgress();
                 if (response.isSuccessful() && response.body() != null) {
+                    switch (state) {
+                        case 1:
+
+                            view.showMyProductStateSelling();
 
 
+                            break;
+
+                        case 2:
+                            view.showMyProductStateReserving();
+
+
+                            break;
+
+                        case 3:
+
+
+                            view.showMyProductStateComplete();
+                            break;
+                    }
 
                 }
             }
@@ -398,9 +415,6 @@ public class DetailPresenter {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-
-
 
 
     //현재시간 구하기

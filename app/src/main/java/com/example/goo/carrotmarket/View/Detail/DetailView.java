@@ -31,7 +31,11 @@ public interface DetailView {
 
     void onPostLike();
 
+    void showMyProductStateSelling();
 
+    void showMyProductStateReserving();
+
+    void showMyProductStateComplete();
 
     void showSnackBar(String message);
 }

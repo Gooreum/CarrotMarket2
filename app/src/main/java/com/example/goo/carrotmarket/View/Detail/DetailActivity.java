@@ -29,7 +29,6 @@ import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 import com.example.goo.carrotmarket.View.Detail.Reply.ReplyActivity;
-import com.example.goo.carrotmarket.View.Home.HomePresenter;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
@@ -144,7 +143,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     //좋아요 눌렀는지 안 눌렀는지 판단
     boolean flag;
 
-    HomePresenter homePresenter;
     SessionManager sessionManager;
     HashMap<String, String> user;
 
@@ -188,18 +186,11 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         //리사이클러뷰 아이템 클릭 이벤트
         setItemClickListener();
 
-
-        //내 게시글인지 아닌지 확인하기
-        isMyProduct();
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        //initPresenter();
 
     }
 
@@ -246,7 +237,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     //프레젠터
     public void initPresenter() {
 
-        //프레젠터
         presenter = new DetailPresenter(this);
 
         //로그인 되어 있을 떄만 해당 글을 관심목록에 담을 수 있음.
@@ -282,12 +272,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
         });
     }
-
-    //내 게시글인지 아닌지 확인 한 후, 판매 상태 수정하기 버튼 보여주기
-    public void isMyProduct() {
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -519,7 +503,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         Snackbar.make(getWindow().getDecorView().getRootView(), "관심목록에 추가되었습니다.", Snackbar.LENGTH_LONG).show();
     }
 
-
     @Override
     public void showSnackBar(String text) {
         Snackbar.make(getWindow().getDecorView().getRootView(), text, Snackbar.LENGTH_LONG).show();
@@ -527,7 +510,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
 
     public void setValues() {
-        //hide_state = product.get(0).getHide();
+
         title.setText(product.get(0).getTitle().toString());
         if (product.get(0).getUpdateWritingCnt() >= 1) {
             date.setText("끌올 " + product.get(0).getDate().toString() + "전에");
@@ -558,17 +541,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
         relative_state.setVisibility(View.VISIBLE);
         if (product.get(0).getState() == 1) {
-            cardview_selling.setVisibility(View.VISIBLE);
-            cardview_reserving.setVisibility(View.GONE);
-            cardview_deal_complete.setVisibility(View.GONE);
+            showMyProductStateSelling();
+
         } else if (product.get(0).getState() == 2) {
-            cardview_selling.setVisibility(View.GONE);
-            cardview_reserving.setVisibility(View.VISIBLE);
-            cardview_deal_complete.setVisibility(View.GONE);
+            showMyProductStateReserving();
+
         } else if (product.get(0).getState() == 3) {
-            cardview_selling.setVisibility(View.GONE);
-            cardview_reserving.setVisibility(View.GONE);
-            cardview_deal_complete.setVisibility(View.VISIBLE);
+            showMyProductStateComplete();
+
         }
 
 
@@ -684,28 +664,42 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
     }
 
+
     //bottom sheet dialog interface
     @Override
     public void onButtonClicked(int state) {
         if (state == 1) {
-            cardview_selling.setVisibility(View.VISIBLE);
-            cardview_reserving.setVisibility(View.GONE);
-            cardview_deal_complete.setVisibility(View.GONE);
+
             presenter.updateWritingState(id, 1);
         } else if (state == 2) {
-            cardview_selling.setVisibility(View.GONE);
-            cardview_reserving.setVisibility(View.VISIBLE);
-            cardview_deal_complete.setVisibility(View.GONE);
+
             presenter.updateWritingState(id, 2);
         } else if (state == 3) {
-            cardview_selling.setVisibility(View.GONE);
-            cardview_reserving.setVisibility(View.GONE);
-            cardview_deal_complete.setVisibility(View.VISIBLE);
+
             presenter.updateWritingState(id, 3);
         }
 
     }
 
+    @Override
+    public void showMyProductStateSelling() {
+        cardview_selling.setVisibility(View.VISIBLE);
+        cardview_reserving.setVisibility(View.GONE);
+        cardview_deal_complete.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showMyProductStateReserving() {
+        cardview_selling.setVisibility(View.GONE);
+        cardview_reserving.setVisibility(View.VISIBLE);
+        cardview_deal_complete.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMyProductStateComplete() {
+        cardview_selling.setVisibility(View.GONE);
+        cardview_reserving.setVisibility(View.GONE);
+        cardview_deal_complete.setVisibility(View.VISIBLE);
+    }
 }
 

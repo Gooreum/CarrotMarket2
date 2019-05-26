@@ -5,4 +5,14 @@ package com.example.goo.carrotmarket.View.Chat.ChatRoom;
  */
 
 public interface ChatRoomView {
+
+    void setEditTextEmpty();
+
+    void setToolbar();
+
+    void setAdapter(String message, String user);
+
+    void showActiveButton();
+
+    void showInactiveButton();
 }
