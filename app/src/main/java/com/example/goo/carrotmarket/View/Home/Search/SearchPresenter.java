@@ -1,13 +1,8 @@
 package com.example.goo.carrotmarket.View.Home.Search;
 
-import android.support.annotation.NonNull;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 
 import com.example.goo.carrotmarket.API.ApiClient;
 import com.example.goo.carrotmarket.API.ApiInterface;
-import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 
@@ -29,7 +24,7 @@ public class SearchPresenter {
         this.view = view;
     }
 
-    //검색 결과 받아오기
+    //물품 검색 결과 받아오기
     void getData(String key) {
         view.showProgress();
 
@@ -57,32 +52,8 @@ public class SearchPresenter {
         });
     }
 
-    //검색할 때 키워드 서버로 보내주기
-    void search(android.support.v7.widget.SearchView searchView) {
 
-        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                getData(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // getData(newText);
-                // searchAdapter.getFilter().filter(newText);
-
-                return false;
-            }
-        });
-    }
-
-
-    //사람검색 결과
-
-    //검색 결과 받아오기
+    //사람검색 결과받아오기
     void getDataUser(String key) {
         view.showProgress();
 
@@ -110,27 +81,7 @@ public class SearchPresenter {
         });
     }
 
-    //검색할 때 키워드 서버로 보내주기
-    void searchUser(android.support.v7.widget.SearchView searchView) {
 
-        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                getDataUser(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // getData(newText);
-                // searchAdapter.getFilter().filter(newText);
-
-                return false;
-            }
-        });
-    }
 
 
 }

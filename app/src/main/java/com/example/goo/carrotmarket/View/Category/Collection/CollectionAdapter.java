@@ -56,10 +56,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
         Product product = listItems.get(position);
 
         holder.txt_title.setText(product.getTitle());
-
+        holder.txt_seller.setText(product.getSeller());
         holder.txt_price.setText(product.getPrice() + "원");
         holder.txt_location.setText(product.getDong().toString());
-
 
 
         int imageCnt = product.getImageCnt();
@@ -79,6 +78,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
             holder.relative_temp.setVisibility(View.VISIBLE);
             holder.cardview_traded.setVisibility(View.VISIBLE);
             holder.cardview_reserving.setVisibility(View.GONE);
+        }else{
+            holder.relative_temp.setVisibility(View.GONE);
         }
 
         if (product.getImageCnt() == 0) {
@@ -200,6 +201,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Vi
         TextView txt_price;
         @BindView(R.id.title)
         TextView txt_title;
+        @BindView(R.id.seller)
+        TextView txt_seller;
+
         @BindView(R.id.productThumb)
         RoundedImageView productThumb;
         @BindView(R.id.card_imageCnt)

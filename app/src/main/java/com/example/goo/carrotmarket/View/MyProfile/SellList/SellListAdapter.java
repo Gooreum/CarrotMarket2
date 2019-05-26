@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.MyProfile.ConcernList.ConcernListAdapter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -78,6 +77,8 @@ public class SellListAdapter  extends RecyclerView.Adapter<SellListAdapter.ViewH
             holder.relative_temp.setVisibility(View.VISIBLE);
             holder.cardview_traded.setVisibility(View.VISIBLE);
             holder.cardview_reserving.setVisibility(View.GONE);
+        }else{
+            holder.relative_temp.setVisibility(View.GONE);
         }
 
 

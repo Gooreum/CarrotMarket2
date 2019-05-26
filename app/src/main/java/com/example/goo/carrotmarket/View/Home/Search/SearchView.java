@@ -13,8 +13,14 @@ public interface SearchView {
 
 
     void showProgress();
+
     void hideProgress();
+
     void onGetResult(List<Product> products);
+
     void onGetResultUserInfo(List<UserInfo> products);
+
     void onErrorLoading(String message);
+
+
 }

@@ -20,6 +20,7 @@ import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Category.CategoryActivity;
 import com.example.goo.carrotmarket.View.Category.CategoryAdapter;
 import com.example.goo.carrotmarket.View.Category.CategoryPresenter;
+import com.example.goo.carrotmarket.View.Category.Collection.CollectionManage.CollectionManageActivity;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
 import com.example.goo.carrotmarket.View.Home.HomeAdapter;
 
@@ -71,7 +72,7 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         //리사이클러뷰 메니저
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         //product = new ArrayList<>();
         presenter = new CollectionPresenter(this);
@@ -104,6 +105,15 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getProductCollection(nick);
+
+    }
+
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_collection, menu);
         return true;
@@ -118,7 +128,8 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
                 return true;
 
             case R.id.manage:
-
+                Intent intent = new Intent(this, CollectionManageActivity.class);
+                startActivity(intent);
 
                 return true;
 
@@ -145,7 +156,7 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
     @Override
     public void onGetResult(List<Product> products) {
         product = products;
-        adapter = new CollectionAdapter(this, product, itemClickListener);
+        adapter = new CollectionAdapter(this, products, itemClickListener);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 

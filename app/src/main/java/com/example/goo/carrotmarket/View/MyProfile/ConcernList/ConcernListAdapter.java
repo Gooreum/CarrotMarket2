@@ -78,6 +78,8 @@ public class ConcernListAdapter extends RecyclerView.Adapter<ConcernListAdapter.
             holder.relative_temp.setVisibility(View.VISIBLE);
             holder.cardview_traded.setVisibility(View.VISIBLE);
             holder.cardview_reserving.setVisibility(View.GONE);
+        }else{
+            holder.relative_temp.setVisibility(View.GONE);
         }
 
         //String uri = product.getImage0().toString();

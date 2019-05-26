@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.Home.HomeAdapter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -76,6 +75,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             holder.relative_temp.setVisibility(View.VISIBLE);
             holder.cardview_traded.setVisibility(View.VISIBLE);
             holder.cardview_reserving.setVisibility(View.GONE);
+        }else{
+            holder.relative_temp.setVisibility(View.GONE);
         }
 
         //String uri = product.getImage0().toString();

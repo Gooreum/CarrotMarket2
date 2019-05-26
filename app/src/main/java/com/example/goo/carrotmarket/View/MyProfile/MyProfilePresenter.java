@@ -32,9 +32,9 @@ public class MyProfilePresenter {
 
     //로그인 상태 확인하고 프로필 화면 설정해주기
     public void setProfile(String profileImg, String nick, String dong) {
-        if (sessionManager.isLoggIn() == true) {
+
             view.setting();
-        }
+
     }
 
     //버튼 클릭시 로그인 상태 확인을 하고, 다음 화면으로 넘겨주기

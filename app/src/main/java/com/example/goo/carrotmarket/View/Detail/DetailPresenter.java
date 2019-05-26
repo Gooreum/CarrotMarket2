@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.view.MenuItem;
 
 import com.example.goo.carrotmarket.API.ApiClient;
 import com.example.goo.carrotmarket.API.ApiInterface;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
+import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
 
 import java.text.SimpleDateFormat;
@@ -227,7 +229,8 @@ public class DetailPresenter {
                 if (response.isSuccessful() && response.body() != null) {
 
                     view.onGetResult("끌올 성공!");
-                    getData(id, true);
+
+                   getData(id, true);
                 }
             }
 
@@ -240,8 +243,8 @@ public class DetailPresenter {
         });
     }
 
-    //끌올하기
-    void updateWritingState(int id, int state) {
+    //게시글 상태 변경
+    void updateWritingState(int id, int state ,MenuItem item) {
         view.showProgress();
 
         //Request to Server
@@ -257,11 +260,47 @@ public class DetailPresenter {
 
                     if (state == 4) {
                         view.onGetResult("게시글이 숨김 되었습니다.");
-                        getData(id);
+                        //getData(id);
+                            if(item.getItemId() == R.id.hide){
+                                item.setTitle("숨기기 해제");
+                            }
+
                     } else if (state == 5) {
                         view.onGetResult("게시글이 숨김 해제되었습니다. ");
-                        getData(id);
+                        if(item.getItemId() == R.id.hide){
+                            item.setTitle("숨기기");
+                        }
+                       // getData(id);
                     }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Product> call, @NonNull Throwable t) {
+                view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+
+    void updateWritingState(int id, int state) {
+        view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<Product> call = apiInterface.updateWritingState(id, state);
+
+        call.enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(@NonNull Call<Product> call, @NonNull Response<Product> response) {
+                view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
 
 
                 }
@@ -360,9 +399,40 @@ public class DetailPresenter {
         alertDialog.show();
     }
 
+
+
+
+
     //현재시간 구하기
     public static String getCurrentTime(String timeFormat) {
         return new SimpleDateFormat(timeFormat).format(System.currentTimeMillis());
     }
+
+    //로그인/회원가입다이얼로그 띄우기
+    void showLoginDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("회원가입 또는 로그인후 이용할 수 있습니다.");
+
+        builder.setPositiveButton("로그인/가입", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Intent intent = new Intent(context, AuthenticationActivity.class);
+
+                context.startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 }

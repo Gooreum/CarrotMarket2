@@ -1,17 +1,18 @@
 package com.example.goo.carrotmarket.API;
 
 import com.example.goo.carrotmarket.Model.Category;
+import com.example.goo.carrotmarket.Model.Keyword;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -38,6 +39,18 @@ public interface ApiInterface {
     @GET("searchUser.php")
     Call<List<UserInfo>> getSearchUser(@Query("key") String keyword);
 
+    //동네설정변경(추가,수정,삭제) state = 1 : 수정 state = 2 : 삭제
+    @FormUrlEncoded
+    @POST("updateMyLocation.php")
+    Call<UserInfo> updateMyLocation(
+            @Field("nick") String nick,
+            @Field("city") String city,
+            @Field("gu") String gu,
+            @Field("dong") String dong,
+            @Field("state") int state,
+            @Field("location_state") int location_state
+    );
+
 
     //상품정보 관련
     @FormUrlEncoded
@@ -60,7 +73,7 @@ public interface ApiInterface {
     @GET("getMyWritingId.php")
     Call<List<Product>> getMyWritingId(@Query("date") String date);
 
-
+    //이미지 업로드하기
     @Multipart
     @POST("uploadImages.php")
     Call<ResponseBody> uploadMultiple(
@@ -70,7 +83,7 @@ public interface ApiInterface {
 
 
     @GET("product.php")
-    Call<List<Product>> getProduct(@Query("nick") String nick);
+    Call<List<Product>> getProduct(@Query("nick") String nick, @Query("city") String city, @Query("gu") String gu, @Query("dong") String dong);
 
     @GET("product.php")
     Call<List<Product>> getProduct();
@@ -84,23 +97,32 @@ public interface ApiInterface {
     @GET("detail.php")
     Call<List<Product>> getDetail(@Query("id") int id);
 
+
+    //판매자의 프로필 가져오기
     @GET("sellerProfile.php")
     Call<List<UserInfo>> getSellerProfile(@Query("seller") String seller);
+
 
     @GET("sellerProducts.php")
     Call<List<Product>> getSellerProducts(@Query("seller") String seller, @Query("id") int id);
 
+    //판매자의 상품들 중 거래중인 상품 보기
     @GET("sellerProducts.php")
     Call<List<Product>> getSellerProducts(@Query("nick") String seller);
 
+
+    //판매자의 상품들 중 거래중인 상품 보기
     @GET("sellerProducts.php")
     Call<List<Product>> getSellerProductsTrading(@Query("nick_1") String seller, @Query("state") int state);
 
+
+    //판매자의 상품들중 거래완료된 상품 보기
     @GET("sellerProducts.php")
     Call<List<Product>> getSellerProductsTraded(@Query("nick_2") String seller, @Query("state") int state);
 
+    //카테고리별 상품 보기
     @GET("categoryProduct.php")
-    Call<List<Product>> getCategoryProduct(@Query("category") String category);
+    Call<List<Product>> getCategoryProduct(@Query("category") String category, @Query("city") String city, @Query("gu") String gu);
 
     @GET("getLikeState.php")
     Call<List<Product>> getLikeState(@Query("nick") String category, @Query("id") int id);
@@ -150,6 +172,13 @@ public interface ApiInterface {
             @Field("state") int state
     );
 
+    //모아보는 사람 리스트 가지고오기
+    @GET("CollectingUsers.php")
+    Call<List<UserInfo>> getCollectionUserList(
+            @Query("nick") String nick
+
+    );
+
     //상대방 프로필 화면에서 모아보기 상태 불러오기
     @GET("CollectingUsers.php")
     Call<List<UserInfo>> checkCollectingState(
@@ -157,11 +186,7 @@ public interface ApiInterface {
             @Query("follower") String follower
     );
 
-
-
-    @GET("productSeller.php")
-    Call<List<UserInfo>> bringSellerInfo(@Query("id") int id);
-
+    //회원가입하기
     @FormUrlEncoded
     @POST("register.php")
     Call<UserInfo> register(
@@ -180,7 +205,26 @@ public interface ApiInterface {
             @Field("category") String category,
             @Field("state") String state);
 
-
+    //게시글 받아올 카테고리 값 가져오기
     @GET("getSelectedCategory.php")
     Call<List<Category>> bringCategory(@Query("nick") String nick);
+
+
+    //채팅 회원 목록 불러오기
+    // TODO: 2019-05-23  (->채팅 방 목록 불러오기로 변경해야함)
+    @GET("users")
+    Observable<List<UserInfo>> getUserList();
+
+    //채팅방 번호 보내기
+    @FormUrlEncoded
+    @POST("chat")
+    Call<Integer> sendChatRoomNum(
+            @Field("room") int room);
+
+
+    //<-------------------키워드 알림 관련--------------------->
+    //등록한 키워드 리스트 가지고 오기
+    @GET("keywords")
+    Observable<List<Keyword>> getKeywords(@Query("nick") String nick);
+
 }

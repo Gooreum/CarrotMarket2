@@ -7,26 +7,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/txt_none_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색 결과가 없어요."
+            android:layout_gravity="center_vertical|center_horizontal" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp" />
-
-                </RelativeLayout>
-
-
-
-        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

@@ -8,12 +8,9 @@ import android.support.v7.app.AlertDialog;
 
 import com.example.goo.carrotmarket.API.ApiClient;
 import com.example.goo.carrotmarket.API.ApiInterface;
-import com.example.goo.carrotmarket.Model.Category;
-import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
-import com.example.goo.carrotmarket.View.SelectingLocation.FindMyLocationView;
 
 import java.util.List;
 
@@ -42,17 +39,17 @@ public class HomePresenter {
     }
 
     //홈화면에서 상품 받아오기
-    void getProducts(String nick) {
+    void getProducts(String nick, String city, String gu, String dong) {
         view.showProgress();
 
         //Request to Server
 
         ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
-        Call<List<Product>> call = apiInterface.getProduct(nick);
+        Call<List<Product>> call = apiInterface.getProduct(nick, city, gu, dong);
 
         call.enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(@NonNull  Call<List<Product>> call,@NonNull  Response<List<Product>> response) {
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 view.hideProgress();
                 if (response.isSuccessful() && response.body() != null) {
 
@@ -61,7 +58,7 @@ public class HomePresenter {
             }
 
             @Override
-            public void onFailure(@NonNull  Call<List<Product>> call, @NonNull  Throwable t) {
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
                 view.hideProgress();
                 view.onErrorLoading(t.getLocalizedMessage());
 
@@ -80,7 +77,7 @@ public class HomePresenter {
 
         call.enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(@NonNull  Call<List<Product>> call,@NonNull  Response<List<Product>> response) {
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 view.hideProgress();
                 if (response.isSuccessful() && response.body() != null) {
 
@@ -89,7 +86,7 @@ public class HomePresenter {
             }
 
             @Override
-            public void onFailure(@NonNull  Call<List<Product>> call, @NonNull  Throwable t) {
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
                 view.hideProgress();
                 view.onErrorLoading(t.getLocalizedMessage());
 
@@ -97,6 +94,64 @@ public class HomePresenter {
         });
     }
 
+    //스피너에서 지역 선택 후 상품 받아오기
+    void getProductsFromSpinner1(String nick, String city, String gu, String dong) {
+        view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<List<Product>> call = apiInterface.getProduct(nick, city, gu, dong);
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+                view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    view.onGetResultFromSpinner1(response.body());
+                    view.snackBar(dong);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+                view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+    //스피너에서 지역 선택 후 상품 받아오기
+    void getProductsFromSpinner2(String nick, String city, String gu, String dong) {
+        view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<List<Product>> call = apiInterface.getProduct(nick, city, gu, dong);
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+                view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    view.onGetResultFromSpinner2(response.body());
+
+                    view.snackBar(dong);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+                view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
 
     //버튼 클릭시 로그인 상태 확인을 하고, 다음 화면으로 넘겨주기
     public void nextActivityIsLogin(Context context, Class activity) {
@@ -107,17 +162,9 @@ public class HomePresenter {
         }
     }
 
-    //버튼 클릭시 로그인 상태 확인을 하고, 다음 화면으로 넘겨주기
-    public void nextActivityIsLoginForResult(Context context, Class activity) {
-        if (sessionManager.isLoggIn() == true) {
-            view.moveActivityForResult(activity);
-        } else {
-            showDialog(context);
-        }
-    }
 
     //버튼 클릭시 로그인 상태확인을 안하고 다음 화면으로 넘겨주기
-    public void nextActivityWithoutLogin( Class activity) {
+    public void nextActivityWithoutLogin(Class activity) {
 
         view.moveActivity(activity);
 
@@ -148,64 +195,6 @@ public class HomePresenter {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-
-    //선택한 카테고리 결과 받아오기
-    void getCategory(String nick) {
-        view.showProgress();
-
-        //Request to Server
-
-        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
-        Call<List<Category>> call = apiInterface.bringCategory(nick);
-
-        call.enqueue(new Callback<List<Category>>() {
-            @Override
-            public void onResponse(@NonNull  Call<List<Category>> call,@NonNull  Response<List<Category>> response) {
-                view.hideProgress();
-                if (response.isSuccessful() && response.body() != null) {
-
-                    view.onGetResultCategory(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull  Call<List<Category>> call, @NonNull  Throwable t) {
-                view.hideProgress();
-                view.onErrorLoading(t.getLocalizedMessage());
-
-            }
-        });
-    }
-
-
-    //카테고리 서버에 보내기
-    void sendCategorytoServer(String nick, String category,String state) {
-        view.showProgress();
-
-        //Request to Server
-
-        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
-        Call<Category> call = apiInterface.sendCategory(nick,category,state);
-
-        call.enqueue(new Callback<Category>() {
-            @Override
-            public void onResponse(@NonNull  Call<Category> call,@NonNull  Response<Category> response) {
-                view.hideProgress();
-                if (response.isSuccessful() && response.body() != null) {
-
-                    view.onGetResultCategory(response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull  Call<Category> call, @NonNull  Throwable t) {
-                view.hideProgress();
-                view.onErrorLoading(t.getLocalizedMessage());
-
-            }
-        });
     }
 
 }

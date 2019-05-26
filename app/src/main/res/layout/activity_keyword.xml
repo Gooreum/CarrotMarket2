@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="키워드 알림"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@android:color/darker_gray" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/txt_keyword_counts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="키워드 등록(1/30)"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_keyword_counts"
+            android:layout_marginTop="10dp"
+            android:text="키워드를 등록해 두면, 해당 키워드와 관련된 판매글이 올라올 때 푸시 알림을 받을 수 있어요."
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15dp" />
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/txt"
+            android:layout_marginTop="10dp"
+            android:background="@color/viewBigBorder" />
+
+        <EditText
+            android:id="@+id/edit_keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_apply"
+            android:layout_alignTop="@+id/btn_apply"
+            android:layout_below="@id/view1"
+            android:layout_toLeftOf="@+id/btn_apply"
+            android:background="@null"
+            android:hint="키워드를 입력해주세요."
+
+            />
+
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/view1"
+            android:background="@color/colorOrange"
+            android:text="등록"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/btn_apply"
+            android:background="@color/viewBigBorder" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:layout_marginTop="15dp" />
+    </RelativeLayout>
+</RelativeLayout>

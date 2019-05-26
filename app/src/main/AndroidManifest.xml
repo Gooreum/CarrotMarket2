@@ -2,11 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.goo.carrotmarket">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/snowman_app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -21,24 +25,45 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.SelectingLocation.FindMyLocationActivity" />
-
         <activity android:name=".View.Write.WritingActivity" />
         <activity android:name=".View.Authentication.AuthenticationActivity" />
         <activity android:name=".Activity.Success" />
-        <activity android:name=".View.Detail.DetailActivity"/>
-        <activity android:name=".View.Write.WriteCategoryActivity"/>
-        <activity android:name=".View.Category.CategoryActivity"/>
-        <activity android:name=".View.Home.HomeActivity"/>
-        <activity android:name=".View.Home.HomeActivity2"/>
+        <activity android:name=".View.Detail.DetailActivity" />
+        <activity android:name=".View.Write.WriteCategoryActivity" />
+        <activity android:name=".View.Category.CategoryActivity" />
+        <activity android:name=".View.Home.HomeActivity" />
+        <activity android:name=".View.Home.HomeActivity2" />
         <activity android:name=".View.LoginRegister.RegisterActivity" />
         <activity android:name=".View.Authentication.EmptyActivity" />
-        <activity android:name=".View.Home.HomeManagerActivity" />
+        <activity android:name=".View.Home.Filter.HomeManagerActivity" />
         <activity android:name=".View.MyProfile.SellList.SellListActivity" />
         <activity android:name=".View.MyProfile.ConcernList.ConcernListActivity" />
         <activity android:name=".View.MyProfile.BuyList.BuyListActivity" />
+        <activity android:name=".View.MyProfile.SetMyLocation.SetMyLocationActivity" />
+        <activity android:name=".View.Seller.SellerProducts.SellerActivity" />
+        <activity android:name=".View.MyProfile.Setting.SettingActivity" />
+        <activity android:name=".View.Seller.SellerProfile.SellerProfileActivity" />
+        <activity android:name=".View.Home.Search.SearchActivity" />
+        <activity android:name=".View.Category.Collection.CollectionActivity" />
+        <activity android:name=".View.MyProfile.AuthenticateMyLocation.AuthenticateMyLocationActivity" />
+        <activity android:name=".View.Category.Collection.CollectionManage.CollectionManageActivity" />
+        <activity android:name=".View.Detail.Reply.ReplyActivity" />
+        <activity
+            android:name=".View.Chat.ChatRoom.ChatRoomActivity"
+            android:windowSoftInputMode="adjustResize" />
 
 
+        <!--구글맵을 이용하기 위해 필요한 설정-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAyTUp-E46buzU4_CDPxGgVGmT23MlNbqU" />
+
+
+        <!--페이스북 핸드폰,이메일 인증에 필요한 설정-->
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
             android:value="@string/app_name" />
@@ -60,12 +85,7 @@
                 <data android:scheme="@string/ak_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.MyProfile.SetMyLocation.SetMyLocationActivity" />
-        <activity android:name=".View.Seller.SellerProducts.SellerActivity" />
-        <activity android:name=".View.MyProfile.Setting.SettingActivity" />
-        <activity android:name=".View.Seller.SellerProfile.SellerProfileActivity" />
-        <activity android:name=".View.Home.Search.SearchActivity" />
-        <activity android:name=".View.Category.Collection.CollectionActivity" />
+        <activity android:name=".View.MyProfile.SetKeyword.SetKeywordActivity" />
 
 
     </application>

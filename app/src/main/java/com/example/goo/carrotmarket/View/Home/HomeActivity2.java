@@ -1,25 +1,40 @@
 package com.example.goo.carrotmarket.View.Home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.example.goo.carrotmarket.Dialog.BottomSheet.BottomSheetDialog;
+
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.BottomNavigationViewHelper;
 import com.example.goo.carrotmarket.View.Category.CategoryFragment;
-import com.example.goo.carrotmarket.View.Chat.ChatFragment;
+import com.example.goo.carrotmarket.View.Chat.ChatList.ChatListFragment;
 import com.example.goo.carrotmarket.View.MyProfile.MyProfileFragment;
 import com.example.goo.carrotmarket.View.Write.WriteFragment;
 
+
 public class HomeActivity2 extends AppCompatActivity {
-    Intent intent;
-    private TextView mTextMessage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home2);
+
+        //BottomNavigationViewHelper 클래스로부터 하단네비게이션바의 shifting 애니메이션을 없애도록 한다.
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        //프래그먼트 중에서 홈화면이 제일 첫 화면으로 나오게 한다.
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commit();
+
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,10 +62,6 @@ public class HomeActivity2 extends AppCompatActivity {
 
                 case R.id.navigation_writing:
 
-
-                    //  BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
-                    // bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
-
                     Bundle bundle3 = new Bundle();
                     selectedFragment = new WriteFragment();
                     selectedFragment.setArguments(bundle3);
@@ -62,7 +73,7 @@ public class HomeActivity2 extends AppCompatActivity {
 
 
                     Bundle bundle4 = new Bundle();
-                    selectedFragment = new ChatFragment();
+                    selectedFragment = new ChatListFragment();
                     selectedFragment.setArguments(bundle4);
 
                     break;
@@ -82,26 +93,5 @@ public class HomeActivity2 extends AppCompatActivity {
             return true;
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home2);
-
-
-        intent = getIntent();
-
-        // mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        //BottomNavigationViewHelper 클래스로부터 하단네비게이션바의 shifting 애니메이션을 없애도록 한다.
-        BottomNavigationViewHelper.disableShiftMode(navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-        //프래그먼트 중에서 홈화면이 제일 첫 화면으로 나오게 한다.
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commit();
-
-    }
 
 }

@@ -1,7 +1,5 @@
-package com.example.goo.carrotmarket.View.Home;
+package com.example.goo.carrotmarket.View.Home.Filter;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +14,11 @@ import android.widget.RelativeLayout;
 import com.example.goo.carrotmarket.Model.Category;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.GlobalBus.Events;
+import com.example.goo.carrotmarket.Util.GlobalBus.GlobalBus;
 import com.example.goo.carrotmarket.Util.SessionManager;
+import com.example.goo.carrotmarket.View.Home.HomePresenter;
+import com.example.goo.carrotmarket.View.Home.HomeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by Goo on 2019-05-03.
  */
 
-public class HomeManagerActivity extends AppCompatActivity implements View.OnClickListener, HomeView {
+public class HomeManagerActivity extends AppCompatActivity implements View.OnClickListener, FilterView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -137,8 +139,8 @@ public class HomeManagerActivity extends AppCompatActivity implements View.OnCli
     HashMap<String, String> user;
     List<Category> listCategory;
     String nick;
-    HomePresenter presenter;
-    Intent returnIntent;
+    FilterPresenter presenter;
+
     int count;
 
     @Override
@@ -152,13 +154,13 @@ public class HomeManagerActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-        returnIntent = getIntent();
+        //returnIntent = getIntent();
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
         listCategory = new ArrayList<>();
         nick = user.get(sessionManager.NICK).toString();
         //프레젠터
-        presenter = new HomePresenter(this);
+        presenter = new FilterPresenter(this);
         presenter.getCategory(nick);
 
         count = 0;
@@ -214,8 +216,10 @@ public class HomeManagerActivity extends AppCompatActivity implements View.OnCli
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                returnIntent.putExtra("managerDone", 1);
-                setResult(Activity.RESULT_OK, returnIntent);
+                //홈으로 뒤로가기 할 때 전해 줄 이벤트 생성
+                Events.BackToHomeFromFilter backToHome =new Events.BackToHomeFromFilter();
+
+                GlobalBus.getBus().post(backToHome);
 
                 finish();
 
@@ -676,11 +680,6 @@ public class HomeManagerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onGetResult(List<Product> products) {
-
-    }
-
-    @Override
     public void onGetResultCategory(List<Category> category) {
         listCategory = category;
 
@@ -843,13 +842,5 @@ public class HomeManagerActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    @Override
-    public void moveActivity(Class activity) {
 
-    }
-
-    @Override
-    public void moveActivityForResult(Class activity) {
-
-    }
 }

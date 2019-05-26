@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
-import com.example.goo.carrotmarket.View.Home.HomeAdapter;
 
-
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,7 +44,13 @@ public class CategoryActivity extends AppCompatActivity implements CategoryView 
 
     List<Product> product;
 
+
     Intent intent;
+
+    SessionManager sessionManager;
+    HashMap<String, String> user;
+    String city, gu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,20 +64,40 @@ public class CategoryActivity extends AppCompatActivity implements CategoryView 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
+        sessionManager = new SessionManager(this);
+        user = sessionManager.getUserDetail();
+
+
+        //로그인한 상태일 경우, 자신이 설정한 두개의 동네 중에서 현재 설정된 값을 '시'와 '구'의 값으로 생성하기
+        if (sessionManager.isLoggIn() == true) {
+            if (user.get(sessionManager.LOCATION1_STATE.toString()).equals("1")) {
+                city = user.get(sessionManager.CITY.toString());
+                gu = user.get(sessionManager.GU.toString());
+            } else if (user.get(sessionManager.LOCATION2_STATE.toString()).equals("1")) {
+                city = user.get(sessionManager.CITY2.toString());
+                gu = user.get(sessionManager.GU2.toString());
+            }
+        //비회원인 경우
+        } else {
+            city = user.get(sessionManager.CITY.toString());
+            gu = user.get(sessionManager.GU.toString());
+        }
+
+        //툴바에 선택한 카테고리 값 적어주기
         intent = getIntent();
         String category = intent.getStringExtra("category");
         txtCategory.setText(category);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
+        //프렌젠터를 생성하고, 값을 가지고 옴.
         presenter = new CategoryPresenter(this);
-        presenter.getProducts(category);
+        presenter.getProducts(category, city, gu);
 
+        //새로고침
         swipe_refresh.setOnRefreshListener(
-                () -> presenter.getProducts(category)
+                () -> presenter.getProducts(category, city, gu)
         );
 
+        //어뎁터의 아이템 클릭 리스너 인터페이스 구현
         itemClickListener = ((view1, position) -> {
 
             String id = String.valueOf(product.get(position).getId());
@@ -127,6 +153,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryView 
 
     @Override
     public void onGetResult(List<Product> products) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CategoryAdapter(CategoryActivity.this, products, itemClickListener);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);

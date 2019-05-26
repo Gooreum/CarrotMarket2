@@ -30,6 +30,9 @@ public class UserInfo {
     @SerializedName("dong1")
     private String dong1;
     @Expose
+    @SerializedName("location1_state")
+    private String location1_state;
+    @Expose
     @SerializedName("city2")
     private String city2;
     @Expose
@@ -39,6 +42,9 @@ public class UserInfo {
     @SerializedName("dong2")
     private String dong2;
     @Expose
+    @SerializedName("location2_state")
+    private String location2_state;
+    @Expose
     @SerializedName("collect_state")
     private int collect_state;
     @Expose
@@ -47,6 +53,8 @@ public class UserInfo {
     @Expose
     @SerializedName("message")
     private String message;
+
+
 
 
     public int getId() {
@@ -105,6 +113,14 @@ public class UserInfo {
         this.dong1 = dong1;
     }
 
+    public String getLocation1_state() {
+        return location1_state;
+    }
+
+    public void setLocation1_state(String location1_state) {
+        this.location1_state = location1_state;
+    }
+
     public String getCity2() {
         return city2;
     }
@@ -129,6 +145,14 @@ public class UserInfo {
         this.dong2 = dong2;
     }
 
+
+    public String getLocation2_state() {
+        return location2_state;
+    }
+
+    public void setLocation2_state(String location2_state) {
+        this.location2_state = location2_state;
+    }
 
     public String getProfileImg() {
         return profileImg;

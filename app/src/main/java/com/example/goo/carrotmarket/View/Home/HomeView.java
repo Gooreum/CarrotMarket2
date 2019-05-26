@@ -16,10 +16,12 @@ public interface HomeView {
     void hideProgress();
     void onErrorLoading(String message);
     void onGetResult(List<Product> products);
-    void onGetResultCategory(List<Category> products);
-    void onGetResultCategory(String text);
+    void onGetResultFromSpinner1(List<Product> products);
+    void onGetResultFromSpinner2(List<Product> products);
     void moveActivity( Class activity);
-    void moveActivityForResult( Class activity);
+
+    void snackBar(String dong);
+
 }
 
 

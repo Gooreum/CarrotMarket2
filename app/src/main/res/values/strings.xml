@@ -16,4 +16,10 @@
         회원가입 및 로그인을 하시겠어요?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="location">
+        <item>Dong1</item>
+        <item>Dong2</item>
+        <item>내 동네 설정</item>
+    </string-array>
 </resources>

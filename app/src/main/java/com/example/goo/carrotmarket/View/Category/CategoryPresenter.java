@@ -26,13 +26,13 @@ public class CategoryPresenter {
     }
 
     //검색 결과 받아오기
-    void getProducts(String category) {
+    void getProducts(String category,String city, String gu) {
         view.showProgress();
 
         //Request to Server
 
         ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
-        Call<List<Product>> call = apiInterface.getCategoryProduct(category);
+        Call<List<Product>> call = apiInterface.getCategoryProduct(category, city, gu);
 
         call.enqueue(new Callback<List<Product>>() {
             @Override

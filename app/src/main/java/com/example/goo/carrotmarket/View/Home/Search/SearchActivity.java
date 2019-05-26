@@ -1,6 +1,5 @@
 package com.example.goo.carrotmarket.View.Home.Search;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabItem;
@@ -9,26 +8,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.*;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.example.goo.carrotmarket.Model.Location;
-import com.example.goo.carrotmarket.Model.Product;
-import com.example.goo.carrotmarket.Model.Search;
+
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.Detail.DetailActivity;
-import com.example.goo.carrotmarket.View.Detail.DetailSellerProductsAdapter;
-import com.example.goo.carrotmarket.View.MyProfile.BuyList.BuyListPagerAdapter;
-import com.example.goo.carrotmarket.View.SelectingLocation.FindMyLocationActivity;
-import com.example.goo.carrotmarket.View.SelectingLocation.RecyclerView_LocationList;
+import com.example.goo.carrotmarket.Util.GlobalBus.Events;
+import com.example.goo.carrotmarket.Util.GlobalBus.GlobalBus;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.squareup.otto.Subscribe;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,17 +52,16 @@ public class SearchActivity extends AppCompatActivity {
     RelativeLayout relative_search_filter;
     @BindView(R.id.recyclerView_search_filter)
     RecyclerView recyclerView_search_filter;
-    //@BindView(R.id.search_view)
+    @BindView(R.id.search_view)
+    SearchView searchView;
 
     @BindView(R.id.relative_tab)
     RelativeLayout relative_tab;
 
 
-    static SearchView search_view ;
+    static SearchView search_view;
     //뷰페이저 어댑터
     SearchPagerAdapter pagerAdapter;
-
-
 
 
     @Override
@@ -81,10 +74,15 @@ public class SearchActivity extends AppCompatActivity {
 
         //툴바 생성
         setToolbar();
+
         //탭 레이아웃 생성
         setTabLayout();
 
+        //검색
+        search();
+
         relative_search_filter.setVisibility(View.GONE);
+
 
     }
 
@@ -105,7 +103,9 @@ public class SearchActivity extends AppCompatActivity {
         pagerAdapter = new SearchPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -114,6 +114,7 @@ public class SearchActivity extends AppCompatActivity {
                 } else if (tab.getPosition() == 1) {
 
                 } else if (tab.getPosition() == 2) {
+
 
                 }
             }
@@ -129,7 +130,14 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        //탭을 옮길 때 마다 프래그먼트가 새로고침이 안되고, 검색 결과를 그대로 가지고 있음.
+        //새로운 검색 쿼리가 입력 되어야 새로고침이 됨.
+        viewPager.setOffscreenPageLimit(3);
+
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
     }
 
 
@@ -158,5 +166,33 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    public void search() {
 
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener()
+
+        {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Events.Event1 event1 =new Events.Event1(query);
+
+                GlobalBus.getBus().post(event1);
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
+    }
+
+    @Subscribe
+    public void connectEvent1(Events.Event1 event1) {
+        Log.i("MyTag", event1.getMessage());
+
+    }
 }

@@ -22,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:text="판매 내역"
                 android:textColor="#000000"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
 
         </android.support.v7.widget.Toolbar>

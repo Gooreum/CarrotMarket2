@@ -1,5 +1,6 @@
 package com.example.goo.carrotmarket.View.SelectingLocation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,7 +69,6 @@ public class FindMyLocationPresenter {
     void search(EditText editText) {
 
 
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -88,7 +88,6 @@ public class FindMyLocationPresenter {
     }
 
 
-
     //다이얼로그 띄우기
     void showDialog(Context context, String city, String gu, String dong) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -99,7 +98,7 @@ public class FindMyLocationPresenter {
         builder.setPositiveButton("입장", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sessionManager.createSession(false,null, null, city, gu, dong);
+                sessionManager.createSession(false, null, null, city, gu, dong, "1", null, null, null, "0");
                 Intent intent = new Intent(context, HomeActivity2.class);
                 intent.putExtra("Location", dong);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

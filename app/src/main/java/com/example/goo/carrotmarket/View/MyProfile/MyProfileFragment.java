@@ -1,38 +1,34 @@
 package com.example.goo.carrotmarket.View.MyProfile;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.goo.carrotmarket.Model.Category;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
-import com.example.goo.carrotmarket.View.Authentication.EmptyActivity;
-import com.example.goo.carrotmarket.View.Category.CategoryActivity;
 import com.example.goo.carrotmarket.View.Home.HomeActivity2;
-import com.example.goo.carrotmarket.View.Home.HomeManagerActivity;
+import com.example.goo.carrotmarket.View.Home.Filter.HomeManagerActivity;
+import com.example.goo.carrotmarket.View.MyProfile.AuthenticateMyLocation.AuthenticateMyLocationActivity;
 import com.example.goo.carrotmarket.View.MyProfile.BuyList.BuyListActivity;
 import com.example.goo.carrotmarket.View.MyProfile.ConcernList.ConcernListActivity;
 import com.example.goo.carrotmarket.View.MyProfile.SellList.SellListActivity;
+import com.example.goo.carrotmarket.View.MyProfile.SetKeyword.SetKeywordActivity;
 import com.example.goo.carrotmarket.View.MyProfile.SetMyLocation.SetMyLocationActivity;
-import com.example.goo.carrotmarket.View.MyProfile.Setting.Logout.LogoutView;
 import com.example.goo.carrotmarket.View.MyProfile.Setting.SettingActivity;
 
 import java.util.HashMap;
@@ -89,7 +85,7 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
     MyProfilePresenter presenter;
     SessionManager sessionManager;
     HashMap<String, String> user;
-    String profileImage, nick, dong;
+    String profileImage, nick, dong, dong2;
 
     @Nullable
     @Override
@@ -98,24 +94,45 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
 
         ButterKnife.bind(this, view);
 
-        sessionManager = new SessionManager(getContext());
-        user = sessionManager.getUserDetail();
-        presenter = new MyProfilePresenter(this, getContext());
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
         setHasOptionsMenu(true);
-        if(sessionManager.isLoggIn() == true){
-            profileImage = user.get(sessionManager.PROFILEIMAGE).toString();
-            nick = user.get(sessionManager.NICK).toString();
-            dong = user.get(sessionManager.DONG).toString();
-            presenter.setProfile(profileImage, nick, dong);
-        }
 
+        //프로파일 설정
+        setProfile();
 
+        //버튼 이벤트 리스너 설정
         initButton();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("MyProfile_onResume", "onResume");
+        setProfile();
+    }
+
+    public void setProfile() {
+        sessionManager = new SessionManager(getContext());
+        user = sessionManager.getUserDetail();
+        presenter = new MyProfilePresenter(this, getContext());
+
+        if (sessionManager.isLoggIn() == true) {
+            profileImage = user.get(sessionManager.PROFILEIMAGE).toString();
+            nick = user.get(sessionManager.NICK).toString();
+            if (user.get(sessionManager.LOCATION1_STATE.toString()).equals("1")) {
+                dong = user.get(sessionManager.DONG).toString();
+                presenter.setProfile(profileImage, nick, dong);
+            } else if (user.get(sessionManager.LOCATION2_STATE.toString()).equals("1")) {
+                dong2 = user.get(sessionManager.DONG2).toString();
+                presenter.setProfile(profileImage, nick, dong2);
+            }
+
+        }
+
     }
 
     public void initButton() {
@@ -169,7 +186,14 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
         txt_nick.setVisibility(View.VISIBLE);
         txt_nick.setText(nick);
         txt_dong.setVisibility(View.VISIBLE);
-        txt_dong.setText(dong);
+        if (user.get(sessionManager.LOCATION1_STATE).equals("1")) {
+            txt_dong.setText(dong);
+        } else if (user.get(sessionManager.LOCATION2_STATE).equals("1")) {
+            txt_dong.setText(dong2);
+        } else {
+            txt_dong.setText("");
+        }
+
 
     }
 
@@ -186,17 +210,15 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
             case R.id.relative_concern_list:
                 presenter.nextActivityIsLogin(getContext(), ConcernListActivity.class);
                 break;
-           /* case R.id.relative_my_list:
-                presenter.nextActivityIsLogin(getContext(), CategoryActivity.class);
-                break;*/
+
             case R.id.relative_set_location:
                 presenter.nextActivityWithoutLogin(SetMyLocationActivity.class);
                 break;
             case R.id.relative_authentication_location:
-                presenter.nextActivityIsLogin(getContext(), HomeActivity2.class);
+                presenter.nextActivityIsLogin(getContext(), AuthenticateMyLocationActivity.class);
                 break;
             case R.id.relative_keyword_alarm:
-                presenter.nextActivityIsLogin(getContext(), HomeActivity2.class);
+                presenter.nextActivityIsLogin(getContext(), SetKeywordActivity.class);
                 break;
             case R.id.relative_invite:
                 presenter.nextActivityWithoutLogin(HomeActivity2.class);

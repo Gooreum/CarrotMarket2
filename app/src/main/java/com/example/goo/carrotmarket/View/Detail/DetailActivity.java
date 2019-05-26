@@ -1,9 +1,7 @@
 package com.example.goo.carrotmarket.View.Detail;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -15,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -30,6 +27,9 @@ import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
+import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
+import com.example.goo.carrotmarket.View.Detail.Reply.ReplyActivity;
+import com.example.goo.carrotmarket.View.Home.HomePresenter;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
@@ -49,6 +49,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     @BindView(R.id.progress)
     ProgressBar progress;
+    @BindView(R.id.relative_image)
+    RelativeLayout relative_image;
     @BindView(R.id.profileImg)
     CircleImageView profileImg;
     @BindView(R.id.nick)
@@ -87,6 +89,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     TextView txtProducts;
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
+    @BindView(R.id.txt_reply)
+    TextView txt_reply;
     @BindView(R.id.priceNego)
     TextView priceNego;
     @BindView(R.id.priceNonNego)
@@ -97,6 +101,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     ImageView like_unchecked;
     @BindView(R.id.like_checked)
     ImageView like_checked;
+    @BindView(R.id.cardview_chat)
+    CardView cardview_chat;
 
     //bottom sheet dialog
     @BindView(R.id.relative_state)
@@ -116,10 +122,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     LinearLayout SliderDots;
 
 
-    private int dotsCount;
-    private ImageView[] dots;
-
-
     private List<Product> product;
     private List<Product> sellingProducts;
     private List<Product> productLike;
@@ -129,18 +131,23 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     Intent intent;
 
     private DetailImageSlider mViewPager;
+    private int dotsCount;
+    private ImageView[] dots;
+
     //private List<SliderImages> sliderImagesList;
     boolean refresh;
 
     int id;
     String seller;
     int hide;
+
     //좋아요 눌렀는지 안 눌렀는지 판단
     boolean flag;
 
-    int hide_state;
+    HomePresenter homePresenter;
     SessionManager sessionManager;
     HashMap<String, String> user;
+
     DetailSellerProductsAdapter adapter;
     DetailSellerProductsAdapter.ItemClickListener itemClickListener;
 
@@ -188,6 +195,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //initPresenter();
+
+    }
 
     //툴바 설정
     public void setToolbar() {
@@ -202,12 +216,31 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     //버튼 이벤트
     public void initButton() {
         txt_showAll.setOnClickListener(this);
+
         relative_profile.setOnClickListener(this);
+
         like_checked.setOnClickListener(this);
+
         like_unchecked.setOnClickListener(this);
-        cardview_selling.setOnClickListener(this);
-        cardview_reserving.setOnClickListener(this);
-        cardview_deal_complete.setOnClickListener(this);
+
+        //댓글작성
+        if (sessionManager.isLoggIn() == true) {
+            txt_reply.setOnClickListener(this);
+        } else {
+            presenter.showLoginDialog(this);
+        }
+
+        //판매중,예약중, 거래완료 상태 변경
+        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
+            relative_state.setVisibility(View.VISIBLE);
+            cardview_selling.setOnClickListener(this);
+            cardview_reserving.setOnClickListener(this);
+            cardview_deal_complete.setOnClickListener(this);
+        }
+
+        cardview_chat.setOnClickListener(this);
+
+
     }
 
     //프레젠터
@@ -225,6 +258,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             presenter.getData(id, refresh);
             presenter.getSellerProducts(seller, refresh, id);
             presenter.getSellerProfile(seller);
+
         } else {
             presenter.getData(id, refresh);
             presenter.getSellerProducts(seller, refresh, id);
@@ -258,18 +292,18 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-
+        //내 게시글일 떄 숨기기/숨기기 내 게시글 전용 메뉴 아이템 띄워주기
         if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
             getMenuInflater().inflate(R.menu.appbar_my_detail_product, menu);
-
 
             if (hide == 0) {
                 menu.getItem(3).setTitle("숨기기");
             } else if (hide == 1) {
-                menu.getItem(3).setTitle("숨기기 취소");
+                menu.getItem(3).setTitle("숨기기 해제");
             }
 
         } else {
+            //상대방 게시글일 때 보여줄 메뉴 아이템
             getMenuInflater().inflate(R.menu.appbar_product_detail, menu);
         }
 
@@ -286,6 +320,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
             case android.R.id.home:
 
+
                 finish();
 
                 return true;
@@ -295,11 +330,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 presenter.getData(id, refresh);
                 presenter.getSellerProducts(seller, refresh, id);
                 presenter.getSellerProfile(seller);
+
                 if (sessionManager.isLoggIn() == true) {
                     String nick = user.get(sessionManager.NICK).toString();
                     presenter.getLikeStates(nick, id);
                 }
 
+
+                SliderDots.removeAllViews();    //새로고침을 했을 떄, 이미지 dots가 계속해서 생겨나는 걸 없애준다.
                 return true;
 
             case R.id.report:
@@ -337,10 +375,11 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
 
             case R.id.hide:
-                if (hide == 0) {
-                    presenter.updateWritingState(id, 4);
+
+                if (item.getTitle().equals("숨기기")) {
+                    presenter.updateWritingState(id, 4, item);
                 } else {
-                    presenter.updateWritingState(id, 5);
+                    presenter.updateWritingState(id, 5, item);
                 }
 
 
@@ -434,11 +473,12 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public void onGetResult(List<Product> products) {
         product = products;
         setValues();
-        initDotsSlider();
+
         if (product.get(0).getImageCnt() == 0) {
-            viewPager.setVisibility(View.GONE);
+            relative_image.setVisibility(View.GONE);
         } else {
-            viewPager.setVisibility(View.VISIBLE);
+            relative_image.setVisibility(View.VISIBLE);
+            initDotsSlider();
         }
 
     }
@@ -446,7 +486,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public void onGetResultSellerInfo(List<UserInfo> userinfos) {
         userinfo = userinfos;
-        setSellerInfo();
+        setSellerInfo(userinfo);
 
     }
 
@@ -516,31 +556,32 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
         //내 게시글일 떄!
 
-        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
-            relative_state.setVisibility(View.VISIBLE);
-            if (product.get(0).getState() == 1) {
-                cardview_selling.setVisibility(View.VISIBLE);
-                cardview_reserving.setVisibility(View.GONE);
-                cardview_deal_complete.setVisibility(View.GONE);
-            } else if (product.get(0).getState() == 2) {
-                cardview_selling.setVisibility(View.GONE);
-                cardview_reserving.setVisibility(View.VISIBLE);
-                cardview_deal_complete.setVisibility(View.GONE);
-            } else if (product.get(0).getState() == 3) {
-                cardview_selling.setVisibility(View.GONE);
-                cardview_reserving.setVisibility(View.GONE);
-                cardview_deal_complete.setVisibility(View.VISIBLE);
-            }
-        } else {
-            relative_state.setVisibility(View.GONE);
+        relative_state.setVisibility(View.VISIBLE);
+        if (product.get(0).getState() == 1) {
+            cardview_selling.setVisibility(View.VISIBLE);
+            cardview_reserving.setVisibility(View.GONE);
+            cardview_deal_complete.setVisibility(View.GONE);
+        } else if (product.get(0).getState() == 2) {
+            cardview_selling.setVisibility(View.GONE);
+            cardview_reserving.setVisibility(View.VISIBLE);
+            cardview_deal_complete.setVisibility(View.GONE);
+        } else if (product.get(0).getState() == 3) {
+            cardview_selling.setVisibility(View.GONE);
+            cardview_reserving.setVisibility(View.GONE);
+            cardview_deal_complete.setVisibility(View.VISIBLE);
         }
 
 
     }
 
-    public void setSellerInfo() {
+    public void setSellerInfo(List<UserInfo> userinfo) {
         nick.setText(userinfo.get(0).getNick().toString());
-        location.setText(userinfo.get(0).getDong1().toString());
+        if (userinfo.get(0).getLocation1_state().equals("1")) {
+            location.setText(userinfo.get(0).getDong1().toString());
+        } else if (userinfo.get(0).getLocation2_state().equals("1")) {
+            location.setText(userinfo.get(0).getDong2().toString());
+        }
+
         Glide.with(this).load(userinfo.get(0).getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.ic_person_outline_black_24dp).into(profileImg);
 
     }
@@ -587,7 +628,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                     like_checked.setVisibility(View.INVISIBLE);
                     like_unchecked.setVisibility(View.VISIBLE);
                 } else {
-
+                    presenter.showLoginDialog(this);
                 }
 
                 break;
@@ -599,7 +640,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                     like_checked.setVisibility(View.VISIBLE);
                     like_unchecked.setVisibility(View.INVISIBLE);
                 } else {
-
+                    presenter.showLoginDialog(this);
                 }
 
                 break;
@@ -617,6 +658,27 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             case R.id.cardview_deal_complete:
                 BottomSheetDialog bottomSheet3 = new BottomSheetDialog();
                 bottomSheet3.show(getSupportFragmentManager(), "bottomSheet3");
+                break;
+
+            case R.id.txt_reply:
+                intent = new Intent(DetailActivity.this, ReplyActivity.class);
+                //intent.putExtra("nick", nick.getText().toString());
+                startActivity(intent);
+
+                break;
+
+            case R.id.cardview_chat:
+                if (sessionManager.isLoggIn() == true && !seller.equals(user.get(sessionManager.NICK).toString())) {
+                    intent = new Intent(DetailActivity.this, ChatRoomActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(DetailActivity.this, ChatRoomActivity.class);
+
+                    startActivity(intent);
+                    //Toast.makeText(this, "자신의 글에서는 채팅으로 거래할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
         }

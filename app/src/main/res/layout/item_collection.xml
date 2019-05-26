@@ -37,9 +37,12 @@
                         android:id="@+id/productThumb"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+
+                        android:layout_alignParentTop="true"
                         android:scaleType="centerCrop"
                         app:riv_border_color="#333333"
-
                         app:riv_corner_radius="10dp"
                         app:riv_mutate_background="true"
                         app:riv_oval="false" />
@@ -86,7 +89,7 @@
             android:id="@+id/seller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/title"
+            android:layout_alignLeft="@+id/title"
             android:layout_below="@+id/title"
             android:layout_marginTop="8dp"
             android:text="밍꾸꾸"
@@ -109,7 +112,8 @@
             android:id="@+id/relative_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/title"
+            android:layout_alignLeft="@+id/title"
+
             android:layout_below="@+id/seller"
             android:layout_marginTop="10dp">
 
@@ -166,7 +170,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/relative_temp"
                 android:text="35,000원"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorOrange"
                 android:textSize="12dp"
                 android:textStyle="bold" />
 

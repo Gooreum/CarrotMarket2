@@ -107,7 +107,7 @@ public class WritingActivity extends AppCompatActivity implements WritingView, V
 
     boolean flag;
     int dealable;
-
+    String city, gu, dong;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,9 +204,17 @@ public class WritingActivity extends AppCompatActivity implements WritingView, V
         String description = editDescription.getText().toString().trim();
         String category = editCategory.getText().toString().trim();
         String price = editPrice.getText().toString().trim();
-        String city = user.get(sessionManager.CITY).toString();
-        String gu = user.get(sessionManager.GU).toString();
-        String dong = user.get(sessionManager.DONG).toString();
+
+        if (user.get(sessionManager.LOCATION1_STATE).equals("1")) {
+            city = user.get(sessionManager.CITY).toString();
+            gu = user.get(sessionManager.GU).toString();
+            dong = user.get(sessionManager.DONG).toString();
+        } else if (user.get(sessionManager.LOCATION2_STATE).equals("1")) {
+            city = user.get(sessionManager.CITY2).toString();
+            gu = user.get(sessionManager.GU2).toString();
+            dong = user.get(sessionManager.DONG2).toString();
+        }
+
         String seller = user.get(sessionManager.NICK).toString();
         date = getCurrentTime("yyyyMMddHHmmssSSS");
         System.out.println("현재시간 : " + date);
@@ -233,7 +241,6 @@ public class WritingActivity extends AppCompatActivity implements WritingView, V
 
 
     }
-
 
 
     @Override

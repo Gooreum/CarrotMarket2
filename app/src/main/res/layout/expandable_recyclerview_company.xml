@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImg"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_person_outline_black_24dp" />
+
+    <TextView
+        android:id="@+id/nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/profileImg"
+        android:text="밍구기"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/nick"
+        android:layout_toRightOf="@+id/nick"
+        android:text="경기도 광주시"
+        android:textColor="#000000"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profileImg"
+        android:layout_below="@+id/profileImg"
+        android:layout_marginBottom="10dp"
+        android:text="정자동인데 담주 월요일 가능할까요?"
+
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profileImg"
+        android:layout_below="@+id/description"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="3월25일" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date"
+        android:layout_alignTop="@+id/date"
+        android:layout_below="@+id/description"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/date"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_toRightOf="@+id/view"
+        android:gravity="center"
+        android:text="답글쓰기" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="?android:listPreferredItemPaddingLeft"
+        android:paddingLeft="45dp"
+        android:paddingStart="45dp"
+        android:text="company"
+        android:textColor="#f0f"
+        android:textSize="16sp"
+        android:visibility="invisible" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@+id/comment"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>

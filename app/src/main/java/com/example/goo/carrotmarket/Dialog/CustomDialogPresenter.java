@@ -23,7 +23,7 @@ public class CustomDialogPresenter {
 
 
 
-    void confirm(String city, String gu, String dong, Context context) {
+/*    void confirm(String city, String gu, String dong, Context context) {
 
 
         sessionManager.createSession(false,null,null,city,gu,dong);
@@ -32,7 +32,7 @@ public class CustomDialogPresenter {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
 
-    }
+    }*/
 
 }
 

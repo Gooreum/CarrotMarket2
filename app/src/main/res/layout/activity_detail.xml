@@ -63,7 +63,7 @@
                         android:id="@+id/viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        android:layout_alignParentStart="true"
+
                         android:layout_alignParentTop="true" />
 
                     <LinearLayout
@@ -169,14 +169,14 @@
                                 android:textColor="@color/colorWhite"
                                 android:textStyle="bold" />
 
-<!--                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_alignBottom="@id/txt_selling"
-                                android:layout_alignTop="@+id/txt_selling"
-                                android:layout_toRightOf="@+id/txt_selling"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/icons8-chevron-down-24" />-->
+                            <!--                            <ImageView
+                                                            android:layout_width="30dp"
+                                                            android:layout_height="30dp"
+                                                            android:layout_alignBottom="@id/txt_selling"
+                                                            android:layout_alignTop="@+id/txt_selling"
+                                                            android:layout_toRightOf="@+id/txt_selling"
+                                                            android:scaleType="fitXY"
+                                                            android:src="@drawable/icons8-chevron-down-24" />-->
 
                         </RelativeLayout>
                     </android.support.v7.widget.CardView>
@@ -428,6 +428,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txt_reply"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/reply"
@@ -580,6 +581,7 @@
                 android:visibility="gone" />
 
             <android.support.v7.widget.CardView
+                android:id="@+id/cardview_chat"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

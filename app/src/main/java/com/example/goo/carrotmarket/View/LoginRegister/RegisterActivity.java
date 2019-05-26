@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     SessionManager sessionManager;
     HashMap<String, String> hashUser;
 
-    String phone, nick, city1, gu1, dong1, profileImg;
+    String phone, nick, city1, gu1, dong1, location1_state, city2, gu2, dong2, location2_state, profileImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
         city1 = hashUser.get(sessionManager.CITY).toString();
         gu1 = hashUser.get(sessionManager.GU).toString();
         dong1 = hashUser.get(sessionManager.DONG).toString();
-
-
+        location1_state = hashUser.get(sessionManager.LOCATION1_STATE).toString();
+        city2 = hashUser.get(sessionManager.CITY2).toString();
+        gu2 = hashUser.get(sessionManager.GU2).toString();
+        dong2 = hashUser.get(sessionManager.DONG2).toString();
+        location2_state = hashUser.get(sessionManager.LOCATION2_STATE).toString();
         //presenter 생성
 
 
@@ -115,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView,
     @Override
     public void onGetResult(String message) {
         Toast.makeText(RegisterActivity.this, "회원가입이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
-        sessionManager.createSession(true, nick, profileImg, city1, gu1, dong1);
+        sessionManager.createSession(true, nick, profileImg, city1, gu1, dong1, location1_state, city2, gu2, dong2, "0");
         Intent intent = new Intent(RegisterActivity.this, HomeActivity2.class);
         startActivity(intent);
         finish();

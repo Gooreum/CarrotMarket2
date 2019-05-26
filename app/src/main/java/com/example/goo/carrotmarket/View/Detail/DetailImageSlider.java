@@ -49,11 +49,11 @@ public class DetailImageSlider extends PagerAdapter {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.image_slider_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        // arrayList.get(0).imageList().get(position).toString().isEmpty() || arrayList.get(0).imageList().get(position).toString()==null ||arrayList.get(0).imageList().get(position).toString().equals("NULL")
+
         if (arrayList.get(0).imageList().size() == 0) {
-            //imageView.setVisibility(View.GONE);
+
             view.setVisibility(View.GONE);
-            // Picasso.with(context).load(R.drawable.dress).error(R.drawable.dress).into(imageView);
+
         } else {
 
             try {

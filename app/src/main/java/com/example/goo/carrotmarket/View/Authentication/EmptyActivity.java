@@ -86,15 +86,19 @@ public class EmptyActivity extends AppCompatActivity implements AuthenticationVi
             String city = user.get(0).getCity1().toString();
             String dong = user.get(0).getDong1().toString();
             String gu = user.get(0).getGu1().toString();
-
+            String location1_state = user.get(0).getLocation1_state().toString();
+            String city2 = user.get(0).getCity2().toString();
+            String dong2 = user.get(0).getDong2().toString();
+            String gu2 = user.get(0).getGu2().toString();
+            String location2_state = user.get(0).getLocation2_state().toString();
             System.out.println("핸드폰 번호는 : " + user.get(0).getPhone().toString());
 
-            sessionManager.createSession(true, nick, profileImg, city, gu, dong);
+            sessionManager.createSession(true, nick, profileImg, city, gu, dong, location1_state, city2, gu2, dong2, location2_state);
             finish();
 
         } else {
             Intent intent = new Intent(EmptyActivity.this, RegisterActivity.class);
-            intent.putExtra("phone",phoneNum);
+            intent.putExtra("phone", phoneNum);
             startActivity(intent);
             finish();
         }

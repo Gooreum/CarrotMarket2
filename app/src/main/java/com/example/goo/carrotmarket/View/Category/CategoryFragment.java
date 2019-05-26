@@ -186,7 +186,7 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.relative_woman_etc:
                 intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("category", "가구/인테리어");
+                intent.putExtra("category", "여성잡화");
                 startActivity(intent);
                 break;
             case R.id.relative_man:
@@ -206,7 +206,7 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.relative_buying:
                 intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("category", "삽니다.");
+                intent.putExtra("category", "삽니다");
                 startActivity(intent);
                 break;
             case R.id.relative_hot:

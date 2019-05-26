@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+
+            <TextView
+                android:id="@+id/txt_authentication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="상수동 동네인증"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <FrameLayout
+                android:id="@+id/frame_map"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+
+                <fragment
+                    android:id="@+id/fragment"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="3dp">
+
+
+                    <Button
+                        android:id="@+id/btn_getMyLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:text="현재 위치 받아오기"
+                        android:textColor="@color/colorOrange" />
+
+                </android.support.v7.widget.CardView>
+
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frame_map"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/marker_96" />
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="현재 위치"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/txt_dong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image"
+                    android:layout_toRightOf="@+id/txt"
+                    android:text=" 사이동,사동,해양동"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="현재 위치가 내 동네로 설정한 '사동'내에 있습니다."
+                    android:textColor="#000000" />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_message"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="5dp">
+
+
+                    <Button
+                        android:id="@+id/btn_confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorOrange"
+                        android:text="현재 위치 받아오기"
+                        android:textColor="@color/colorWhite" />
+
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_fail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frame_map"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/image2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/marker_96" />
+
+                <TextView
+                    android:id="@+id/txt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image2"
+                    android:layout_toRightOf="@+id/image2"
+                    android:text="현재 위치"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/txt_dong2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/image2"
+                    android:layout_toRightOf="@+id/txt2"
+                    android:text=" 사이동,사동,해양동"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_message2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt2"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image2"
+                    android:text="내 동네가 '문정동'으로 설정되어 있습니다.                                  '문정동'에서만 동네 인증을 할 수 있어요.
+현재 위치를 확인해주세요."
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/txt_set_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_message2"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/image2"
+                    android:text="현재 위치로 동네 변경하기"
+
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>
