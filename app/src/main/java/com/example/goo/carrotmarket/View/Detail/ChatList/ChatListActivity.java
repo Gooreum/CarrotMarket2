@@ -1,26 +1,23 @@
-package com.example.goo.carrotmarket.View.Chat.ChatList;
+package com.example.goo.carrotmarket.View.Detail.ChatList;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,18 +26,19 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
- * Created by Goo on 2019-04-24.
+ * Created by Goo on 2019-05-29.
  */
 
-public class ChatListFragment extends Fragment implements ChatListView {
+public class ChatListActivity extends AppCompatActivity implements ChatListView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipe_refresh;
+    @BindView(R.id.txt_chat_list_cnt)
+    TextView txt_chat_list_cnt;
 
-    SessionManager sessionManager;
     HashMap<String, String> user;
 
     ChatListAdapter adapter;
@@ -48,28 +46,23 @@ public class ChatListFragment extends Fragment implements ChatListView {
     ChatListPresenter presenter;
     List<Chat> chat;
 
+    Intent intent;
+    String nick;
+    int product_id;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    String nick;
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail_chat_list);
 
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
-
-
-        //로그인 세션
-        sessionManager = new SessionManager(getContext());
-        user = sessionManager.getUserDetail();
-        nick = user.get(sessionManager.NICK).toString();
-        ButterKnife.bind(this, view);
-
-
-        //툴바 설정
+        ButterKnife.bind(this);
+        //툴바 셋팅
         setToolbar();
-        //1.로그인 한 상태일 때
-        chat = new ArrayList<>();
+
+        intent = getIntent();
+        nick = intent.getStringExtra("nick");
+        product_id = intent.getIntExtra("id", 0);
         presenter = new ChatListPresenter(this);
 
         //유저 목록 가져오기 및 새로고침 리스너 셋팅
@@ -80,19 +73,24 @@ public class ChatListFragment extends Fragment implements ChatListView {
 
         //리사이클러뷰 아이템 클릭 리스너
         setItemClickListener();
+    }
 
-        return view;
+    public void setToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
     }
 
     //유저 목록 가져오기 및 새로고침 리스너 셋팅
     public void setPresenter() {
-        presenter.getChatList(compositeDisposable, nick);
+        presenter.getChatListFromDetail(compositeDisposable, nick, product_id);
 
 
         //새로고침
         swipe_refresh.setOnRefreshListener(
-                () -> presenter.getChatList(compositeDisposable, nick)
+                () -> presenter.getChatListFromDetail(compositeDisposable, nick, product_id)
         );
     }
 
@@ -100,18 +98,17 @@ public class ChatListFragment extends Fragment implements ChatListView {
     public void setItemClickListener() {
         itemClickListener = ((view1, position) -> {
 
-            Intent intent = new Intent(getContext(), ChatRoomActivity.class);
+            Intent intent = new Intent(this, ChatRoomActivity.class);
             intent.putExtra("id", chat.get(position).getRoom_id());
             intent.putExtra("roomNum", chat.get(position).getRoom_id());
-            intent.putExtra("nick", user.get(sessionManager.NICK).toString());
+            intent.putExtra("nick", nick);
             intent.putExtra("seller", chat.get(position).getNick_seller());
             intent.putExtra("partner", chat.get(position).getUser_partner());
-            Toast.makeText(getContext(), chat.get(position).getRoom_id(), Toast.LENGTH_SHORT).show();
-            getContext().startActivity(intent);
+            Toast.makeText(this, chat.get(position).getRoom_id(), Toast.LENGTH_SHORT).show();
+            startActivity(intent);
 
         });
     }
-
 
     @Override
     public void onResume() {
@@ -119,12 +116,9 @@ public class ChatListFragment extends Fragment implements ChatListView {
         super.onResume();
         Log.i("온 리쥼 : ", "온 리쥼");
 
-        //유저 목록 가져오기 및 새로고침 리스너 셋팅
-        if (sessionManager.isLoggIn() == true) {
+        setPresenter();
 
-            setPresenter();
 
-        }
     }
 
 
@@ -148,6 +142,30 @@ public class ChatListFragment extends Fragment implements ChatListView {
         Log.i("온 포즈 : ", "온포즈");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_back, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+
+                finish();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void showProgress() {
@@ -161,24 +179,21 @@ public class ChatListFragment extends Fragment implements ChatListView {
 
     @Override
     public void onErrorLoading(String message) {
-        Toast.makeText(getContext(), "에러", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "에러", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetResult(List<Chat> chats) {
         //리사이클러뷰 메니저
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ChatListAdapter(getContext(), chats, itemClickListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ChatListAdapter(this, chats, itemClickListener);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         chat = chats;
-    }
-
-    //툴바설정
-    public void setToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
-        setHasOptionsMenu(true);
+        if (chat.size() > 0) {
+            int chat_cnt = chat.size();
+            txt_chat_list_cnt.setText(chat_cnt+"");
+        }
     }
 
 }

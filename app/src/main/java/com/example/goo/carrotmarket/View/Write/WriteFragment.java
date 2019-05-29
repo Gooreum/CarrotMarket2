@@ -1,28 +1,19 @@
 package com.example.goo.carrotmarket.View.Write;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.example.goo.carrotmarket.Dialog.BottomSheet.BottomSheetDialog;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
-import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
-import com.example.goo.carrotmarket.View.Category.CategoryActivity;
 
 import java.util.HashMap;
 import java.util.List;

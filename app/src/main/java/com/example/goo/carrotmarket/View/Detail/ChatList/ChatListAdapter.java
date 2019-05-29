@@ -1,4 +1,4 @@
-package com.example.goo.carrotmarket.View.Chat.ChatList;
+package com.example.goo.carrotmarket.View.Detail.ChatList;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Goo on 2019-05-22.
+ * Created by Goo on 2019-05-29.
  */
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
@@ -52,7 +52,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         Chat chat = listItems.get(position);
 
         holder.txt_nick.setText(chat.getUser_partner().toString());
-       // holder.txt_location.setText(userinfo.getDong1().toString());
+        // holder.txt_location.setText(userinfo.getDong1().toString());
 //        holder.txt_date.setText(userinfo.getDong1().toString());
 //        holder.txt_chat_description.setText(userinfo.getDong1().toString());
 
@@ -81,7 +81,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         @BindView(R.id.txt_chat_description)
         TextView txt_chat_description;
 
-        ItemClickListener itemClickListener;
+       ItemClickListener itemClickListener;
 
         public ViewHolder(View itemView, ItemClickListener itemClickListener) {
             super(itemView);
@@ -102,3 +102,4 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         void onItemClick(View view, int position);
     }
 }
+

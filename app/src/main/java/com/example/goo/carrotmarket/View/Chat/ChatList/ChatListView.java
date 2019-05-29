@@ -1,6 +1,6 @@
 package com.example.goo.carrotmarket.View.Chat.ChatList;
 
-import com.example.goo.carrotmarket.Model.UserInfo;
+import com.example.goo.carrotmarket.Model.Chat;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface ChatListView {
 
     void onErrorLoading(String message);
 
-    void onGetResult(List<UserInfo> userinfo);
+    void onGetResult(List<Chat> chat);
 }

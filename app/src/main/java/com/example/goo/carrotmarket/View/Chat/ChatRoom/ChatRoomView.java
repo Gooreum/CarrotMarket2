@@ -15,4 +15,8 @@ public interface ChatRoomView {
     void showActiveButton();
 
     void showInactiveButton();
+
+    void showActiveFirstButton();
+
+    //void hideBtnFirstChat();
 }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.goo.carrotmarket.API.ApiClient;
 import com.example.goo.carrotmarket.API.ApiInterface;
+import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
@@ -354,6 +355,35 @@ public class DetailPresenter {
 
             @Override
             public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+                view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+    //해당 게시글에 내 채팅방이 있는지 없는지 확인하기
+    void getChatRoom(String nick, int product_id) {
+        view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<List<Chat>> call = apiInterface.isChatRoom(nick, product_id);
+
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Chat>> call, @NonNull Response<List<Chat>> response) {
+                view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    view.onGetResultIsChatRoom(response.body());
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Chat>> call, @NonNull Throwable t) {
                 view.hideProgress();
                 view.onErrorLoading(t.getLocalizedMessage());
 

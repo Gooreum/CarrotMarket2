@@ -318,8 +318,6 @@ public class HomeFragment extends Fragment implements HomeView {
                 }
             });
         }
-
-
     }
 
     @Override
@@ -348,6 +346,19 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
 
+
+    @Override
+    public void snackBar(String dong) {
+        //Snackbar.make(getView(), dong + "으로 지역이 변경되었습니다.", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void moveActivity(Class activity) {
+        Intent intent = new Intent(getActivity(), activity);
+        getActivity().startActivity(intent);
+
+    }
+
     public void onGetResultFromSpinner1(List<Product> products) {
         //리사이클러뷰 메니저
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -370,18 +381,5 @@ public class HomeFragment extends Fragment implements HomeView {
         sessionManager.updateLocation2(city, gu, dong2, "0", "1");
         // Toast.makeText(getContext(), city + gu + dong2, Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void snackBar(String dong) {
-        //Snackbar.make(getView(), dong + "으로 지역이 변경되었습니다.", Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void moveActivity(Class activity) {
-        Intent intent = new Intent(getActivity(), activity);
-        getActivity().startActivity(intent);
-
-    }
-
 
 }

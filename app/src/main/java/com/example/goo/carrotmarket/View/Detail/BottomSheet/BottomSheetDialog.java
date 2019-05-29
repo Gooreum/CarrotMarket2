@@ -1,4 +1,4 @@
-package com.example.goo.carrotmarket.Dialog.BottomSheet;
+package com.example.goo.carrotmarket.View.Detail.BottomSheet;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,11 +8,9 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.Detail.DetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

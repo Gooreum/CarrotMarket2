@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_product"
+            android:icon="@drawable/shirt"
+            android:title="거래상품" />
+        <item
+            android:id="@+id/nav_reserve"
+            android:icon="@drawable/trust"
+            android:title="약속시간" />
+        <item
+            android:id="@+id/nav_chat_user"
+            android:icon="@drawable/chat"
+            android:title="참여자" />
+        <item
+            android:id="@+id/nav_etc"
+            android:icon="@drawable/mic"
+            android:title="기타" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/mic"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/mic"
+                android:title="Send" />
+
+        </menu>
+
+    </item>
+</menu>

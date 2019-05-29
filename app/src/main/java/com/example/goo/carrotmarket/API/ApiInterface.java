@@ -1,6 +1,7 @@
 package com.example.goo.carrotmarket.API;
 
 import com.example.goo.carrotmarket.Model.Category;
+import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.Keyword;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
@@ -210,17 +211,19 @@ public interface ApiInterface {
     Call<List<Category>> bringCategory(@Query("nick") String nick);
 
 
+    //<-------------------채팅 관련--------------------->
+
+    //상세보기에서 기존의 채팅창이 있는지 없는지 확인하기
+    @GET("detail.php")
+    Call<List<Chat>> isChatRoom(@Query("nick") String nick, @Query("product_id") int product_id);
+
     //채팅 회원 목록 불러오기
-    // TODO: 2019-05-23  (->채팅 방 목록 불러오기로 변경해야함)
-    @GET("users")
-    Observable<List<UserInfo>> getUserList();
 
-    //채팅방 번호 보내기
-    @FormUrlEncoded
-    @POST("chat")
-    Call<Integer> sendChatRoomNum(
-            @Field("room") int room);
+    @GET("chatRoomList")
+    Observable<List<Chat>> getChatList(@Query("nick") String nick);
 
+    @GET("chatRoomList/id")
+    Observable<List<Chat>> getChatListFromDetail(@Query("nick") String nick, @Query("product_id") int product_id);
 
     //<-------------------키워드 알림 관련--------------------->
     //등록한 키워드 리스트 가지고 오기

@@ -3,27 +3,19 @@ package com.example.goo.carrotmarket.View.Category.Collection.CollectionManage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
-import com.example.goo.carrotmarket.View.Category.Collection.CollectionAdapter;
-import com.example.goo.carrotmarket.View.Category.Collection.CollectionPresenter;
-import com.example.goo.carrotmarket.View.Detail.DetailActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -92,23 +84,6 @@ public class CollectionManageActivity extends AppCompatActivity implements Colle
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbar_back, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void showProgress() {
         progress.setVisibility(View.VISIBLE);
     }
@@ -145,4 +120,23 @@ public class CollectionManageActivity extends AppCompatActivity implements Colle
             Snackbar.make(getWindow().getDecorView().getRootView(), "네트워크 오류", Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar_back, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

@@ -5,26 +5,19 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
-import com.example.goo.carrotmarket.View.Category.CategoryActivity;
-import com.example.goo.carrotmarket.View.Category.CategoryAdapter;
-import com.example.goo.carrotmarket.View.Category.CategoryPresenter;
 import com.example.goo.carrotmarket.View.Category.Collection.CollectionManage.CollectionManageActivity;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
-import com.example.goo.carrotmarket.View.Home.HomeAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -111,7 +104,30 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
 
     }
 
+    @Override
+    public void showProgress() {
+        swipe_refresh.setRefreshing(true);
+    }
 
+    @Override
+    public void hideProgress() {
+        swipe_refresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetResult(List<Product> products) {
+        product = products;
+        adapter = new CollectionAdapter(this, products, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,28 +154,5 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
         }
     }
 
-    @Override
-    public void showProgress() {
-        swipe_refresh.setRefreshing(true);
-    }
 
-    @Override
-    public void hideProgress() {
-        swipe_refresh.setRefreshing(false);
-    }
-
-    @Override
-    public void onErrorLoading(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onGetResult(List<Product> products) {
-        product = products;
-        adapter = new CollectionAdapter(this, products, itemClickListener);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
-
-
-    }
 }

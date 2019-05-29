@@ -1,5 +1,6 @@
 package com.example.goo.carrotmarket.View.Detail;
 
+import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 
@@ -22,6 +23,8 @@ public interface DetailView {
     void onGetResultDelete(String message);
 
     void onGetResult(List<Product> product);
+
+    void onGetResultIsChatRoom(List<Chat> chat);
 
     void onGetResultSellerInfo(List<UserInfo> product);
 

@@ -22,17 +22,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.goo.carrotmarket.Dialog.BottomSheet.BottomSheetDialog;
+import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
+import com.example.goo.carrotmarket.View.Detail.BottomSheet.BottomSheetDialog;
+import com.example.goo.carrotmarket.View.Detail.ChatList.ChatListActivity;
 import com.example.goo.carrotmarket.View.Detail.Reply.ReplyActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,6 +103,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     ImageView like_checked;
     @BindView(R.id.cardview_chat)
     CardView cardview_chat;
+    @BindView(R.id.startChat)
+    TextView startChat;
 
     //bottom sheet dialog
     @BindView(R.id.relative_state)
@@ -124,6 +127,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     private List<Product> product;
     private List<Product> sellingProducts;
     private List<Product> productLike;
+    private List<Chat> chat;
 
     private List<UserInfo> userinfo;
     private DetailPresenter presenter;
@@ -136,9 +140,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     //private List<SliderImages> sliderImagesList;
     boolean refresh;
 
+    int hide;
+
     int id;
     String seller;
-    int hide;
+
+    String myNick;
+    String chatRoomId;
+    String userPartner;
 
     //좋아요 눌렀는지 안 눌렀는지 판단
     boolean flag;
@@ -164,18 +173,16 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         id = Integer.parseInt(intent.getStringExtra("id"));  //해당 게시글 불러올 id 값
         seller = intent.getStringExtra("seller");
         hide = intent.getIntExtra("hide", 0);
+
         refresh = false;
 
         flag = false;
 
-        product = new ArrayList<>();
-        sellingProducts = new ArrayList<>();
-        productLike = new ArrayList<>();
-        userinfo = new ArrayList<>();
-
         //세션
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
+        myNick = user.get(sessionManager.NICK).toString();
+
 
         //프레젠터 이벤트
         initPresenter();
@@ -222,7 +229,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
 
         //판매중,예약중, 거래완료 상태 변경
-        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
+        if (sessionManager.isLoggIn() == true && seller.equals(myNick)) {
             relative_state.setVisibility(View.VISIBLE);
             cardview_selling.setOnClickListener(this);
             cardview_reserving.setOnClickListener(this);
@@ -242,13 +249,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         //로그인 되어 있을 떄만 해당 글을 관심목록에 담을 수 있음.
         if (sessionManager.isLoggIn()) {
             //  System.out.println("로그인됐엉");
-            String nick = user.get(sessionManager.NICK).toString();
+            // String nick = user.get(sessionManager.NICK).toString();
             //  System.out.println("나의 닉네임은 :" + nick);
-            presenter.getLikeStates(nick, id);
+            presenter.getLikeStates(myNick, id);
             presenter.getData(id, refresh);
             presenter.getSellerProducts(seller, refresh, id);
             presenter.getSellerProfile(seller);
-
+            presenter.getChatRoom(myNick, id);
         } else {
             presenter.getData(id, refresh);
             presenter.getSellerProducts(seller, refresh, id);
@@ -273,11 +280,111 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         });
     }
 
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetResult(String message) {
+        showSnackBar(message);
+    }
+
+    @Override
+    public void onGetResultDelete(String message) {
+        Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onGetResult(List<Product> products) {
+        product = products;
+        setValues();
+
+        if (product.get(0).getImageCnt() == 0) {
+            relative_image.setVisibility(View.GONE);
+        } else {
+            relative_image.setVisibility(View.VISIBLE);
+            initDotsSlider();
+        }
+
+    }
+
+    @Override
+    public void onGetResultIsChatRoom(List<Chat> chats) {
+        chat = chats;
+        if (chat.size() == 0) {
+            chatRoomId = "firstChat";
+            System.out.println("채팅방이 아무것도 없어요.");
+        } else {
+            chatRoomId = chat.get(0).getRoom_id();
+            startChat.setText("채팅으로 거래하기(" + chat.size() + ")");
+
+            //TODO 현재 이 게시글에서 내
+            System.out.println("채팅방이 있네 ~ : " + chatRoomId);
+        }
+
+
+    }
+
+    @Override
+    public void onGetResultSellerInfo(List<UserInfo> userinfos) {
+        userinfo = userinfos;
+        setSellerInfo(userinfo);
+
+    }
+
+
+    @Override
+    public void onGetSellerProductsResult(List<Product> products) {
+        sellingProducts = products;
+        setSellerProducts();
+
+    }
+
+    @Override
+    public void onGetResultLikeState(List<Product> products) {
+        productLike = products;
+        // System.out.println("좋아요를 눌렀냐 안눌렀냐 !? " + product.get(0).getLike_state());
+        if (productLike.size() != 0) {
+            if (productLike.get(0).getLike_state() == 1) {
+
+                like_checked.setVisibility(View.VISIBLE);
+                like_unchecked.setVisibility(View.INVISIBLE);
+            } else {
+                like_checked.setVisibility(View.INVISIBLE);
+                like_unchecked.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onPostLike() {
+        Snackbar.make(getWindow().getDecorView().getRootView(), "관심목록에 추가되었습니다.", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showSnackBar(String text) {
+        Snackbar.make(getWindow().getDecorView().getRootView(), text, Snackbar.LENGTH_LONG).show();
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         //내 게시글일 떄 숨기기/숨기기 내 게시글 전용 메뉴 아이템 띄워주기
-        if (sessionManager.isLoggIn() == true && seller.equals(user.get(sessionManager.NICK).toString())) {
+        if (sessionManager.isLoggIn() == true && seller.equals(myNick)) {
             getMenuInflater().inflate(R.menu.appbar_my_detail_product, menu);
 
             if (hide == 0) {
@@ -316,8 +423,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 presenter.getSellerProfile(seller);
 
                 if (sessionManager.isLoggIn() == true) {
-                    String nick = user.get(sessionManager.NICK).toString();
-                    presenter.getLikeStates(nick, id);
+                    //String nick = user.get(sessionManager.NICK).toString();
+                    presenter.getLikeStates(myNick, id);
                 }
 
 
@@ -425,89 +532,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
     }
 
-    @Override
-    public void showProgress() {
-        progress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        progress.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onErrorLoading(String message) {
-        Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onGetResult(String message) {
-        showSnackBar(message);
-
-    }
-
-
-    @Override
-    public void onGetResultDelete(String message) {
-        Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    @Override
-    public void onGetResult(List<Product> products) {
-        product = products;
-        setValues();
-
-        if (product.get(0).getImageCnt() == 0) {
-            relative_image.setVisibility(View.GONE);
-        } else {
-            relative_image.setVisibility(View.VISIBLE);
-            initDotsSlider();
-        }
-
-    }
-
-    @Override
-    public void onGetResultSellerInfo(List<UserInfo> userinfos) {
-        userinfo = userinfos;
-        setSellerInfo(userinfo);
-
-    }
-
-
-    @Override
-    public void onGetSellerProductsResult(List<Product> products) {
-        sellingProducts = products;
-        setSellerProducts();
-
-    }
-
-    @Override
-    public void onGetResultLikeState(List<Product> products) {
-        productLike = products;
-        // System.out.println("좋아요를 눌렀냐 안눌렀냐 !? " + product.get(0).getLike_state());
-        if (productLike.size() != 0) {
-            if (productLike.get(0).getLike_state() == 1) {
-
-                like_checked.setVisibility(View.VISIBLE);
-                like_unchecked.setVisibility(View.INVISIBLE);
-            } else {
-                like_checked.setVisibility(View.INVISIBLE);
-                like_unchecked.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    @Override
-    public void onPostLike() {
-        Snackbar.make(getWindow().getDecorView().getRootView(), "관심목록에 추가되었습니다.", Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showSnackBar(String text) {
-        Snackbar.make(getWindow().getDecorView().getRootView(), text, Snackbar.LENGTH_LONG).show();
-    }
-
 
     public void setValues() {
 
@@ -603,8 +627,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
             case R.id.like_checked:
                 if (sessionManager.isLoggIn() == true) {
-                    String nick = user.get(sessionManager.NICK).toString();
-                    presenter.dislike(id, 0, nick);
+                    //String nick = user.get(sessionManager.NICK).toString();
+                    presenter.dislike(id, 0, myNick);
                     like_checked.setVisibility(View.INVISIBLE);
                     like_unchecked.setVisibility(View.VISIBLE);
                 } else {
@@ -615,8 +639,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
             case R.id.like_unchecked:
                 if (sessionManager.isLoggIn() == true) {
-                    String nick = user.get(sessionManager.NICK).toString();
-                    presenter.like(id, 1, nick);
+                    // String nick = user.get(sessionManager.NICK).toString();
+                    presenter.like(id, 1, myNick);
                     like_checked.setVisibility(View.VISIBLE);
                     like_unchecked.setVisibility(View.INVISIBLE);
                 } else {
@@ -648,15 +672,41 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 break;
 
             case R.id.cardview_chat:
-                if (sessionManager.isLoggIn() == true && !seller.equals(user.get(sessionManager.NICK).toString())) {
-                    intent = new Intent(DetailActivity.this, ChatRoomActivity.class);
-                    intent.putExtra("id", id);
-                    startActivity(intent);
-                } else {
+
+                //처음 채팅을 시작하는 경우
+                if (sessionManager.isLoggIn() == true && !seller.equals(myNick) && chat.size() == 0) {
                     intent = new Intent(DetailActivity.this, ChatRoomActivity.class);
 
+                    intent.putExtra("id", id);
+                    intent.putExtra("roomNum", chatRoomId); //roomNum = "firstChat"
+                    intent.putExtra("nick", user.get(sessionManager.NICK).toString());
+                    intent.putExtra("seller", product.get(0).getSeller());
+                    intent.putExtra("partner", product.get(0).getSeller());
                     startActivity(intent);
-                    //Toast.makeText(this, "자신의 글에서는 채팅으로 거래할 수 없습니다.", Toast.LENGTH_SHORT).show();
+
+                    //내 게시글이 아니고, 기존의 채팅방이 존재하는 경우
+                } else if (sessionManager.isLoggIn() == true && !seller.equals(myNick) && chat.size() != 0) {
+                    intent = new Intent(DetailActivity.this, ChatRoomActivity.class);
+
+                    intent.putExtra("id", id);
+                    intent.putExtra("roomNum", chat.get(0).getRoom_id());
+                    intent.putExtra("nick", myNick);
+                    intent.putExtra("seller", product.get(0).getSeller());
+                    intent.putExtra("partner", product.get(0).getSeller());
+                    Toast.makeText(this, product.get(0).getSeller(), Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    //내 게시글이고, 기존의 채팅방이 존재하는 경우
+                } else if (sessionManager.isLoggIn() == true && seller.equals(myNick) && chat.size() != 0) {
+                    intent = new Intent(DetailActivity.this, ChatListActivity.class);
+
+                    intent.putExtra("id", id);
+                    intent.putExtra("nick", myNick);
+                    startActivity(intent);
+                } //내 게시글이고, 기존의 채팅방이 존재하지 않는 경우
+                else if (sessionManager.isLoggIn() == true && seller.equals(myNick) && chat.size() == 0) {
+                    Toast.makeText(this, "채팅중인 거래가 없습니다. ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "접근불가 ", Toast.LENGTH_SHORT).show();
                 }
 
                 break;

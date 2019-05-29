@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/relative_chat"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -27,13 +29,205 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <RelativeLayout
+        android:id="@+id/relative_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:background="#ffffff"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/productCard"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/productThumb"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:riv_border_color="#333333"
+
+                        app:riv_corner_radius="10dp"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="false" />
+
+
+                </RelativeLayout>
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/productCard"
+            android:maxLines="1"
+            android:text="물건이름"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@+id/productCard"
+            android:text="대치1동"
+            android:textColor="#000000"
+            android:textSize="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/relative_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location"
+            android:layout_toRightOf="@+id/productCard">
+
+
+            <RelativeLayout
+                android:id="@+id/relative_temp"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/price"
+                android:layout_alignTop="@+id/price"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:visibility="gone"
+
+                >
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_traded"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    app:cardBackgroundColor="@color/colorOrange"
+                    app:cardCornerRadius="2dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="거래완료"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_reserving"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/colorGreen"
+                    app:cardCornerRadius="2dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="예약중"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.CardView>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/relative_temp"
+                android:text="35,000원"
+                android:textColor="@color/colorOrange"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+
+        android:id="@+id/relative_reserve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_product"
+        android:background="@color/viewBigBorder"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/shirt"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image"
+            android:layout_alignTop="@+id/image"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/image"
+            android:gravity="center"
+            android:text="5월31일 (금) 오전 3:30"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_delete"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/image"
+            android:background="@drawable/ripple_effect_gray"
+            android:gravity="center"
+            android:text="삭제" />
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/relative_comment"
-        android:layout_below="@+id/appbar" />
+        android:layout_below="@+id/relative_reserve" />
 
     <RelativeLayout
         android:id="@+id/relative_comment"
@@ -72,6 +266,7 @@
             app:cardCornerRadius="3dp">
 
             <Button
+                android:visibility="visible"
                 android:id="@+id/btn_send_inactive"
                 android:layout_width="49dp"
                 android:layout_height="39dp"
@@ -85,6 +280,16 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@color/colorOrange"
+                android:text="전송"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_send_first_chat"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@color/colorGreen"
                 android:text="전송"
                 android:textColor="@color/colorWhite"
                 android:visibility="gone" />

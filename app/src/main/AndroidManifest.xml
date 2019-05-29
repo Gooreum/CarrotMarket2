@@ -51,41 +51,8 @@
         <activity
             android:name=".View.Chat.ChatRoom.ChatRoomActivity"
             android:windowSoftInputMode="adjustResize" />
-
-
-        <!--구글맵을 이용하기 위해 필요한 설정-->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAyTUp-E46buzU4_CDPxGgVGmT23MlNbqU" />
-
-
-        <!--페이스북 핸드폰,이메일 인증에 필요한 설정-->
-        <meta-data
-            android:name="com.facebook.accountkit.ApplicationName"
-            android:value="@string/app_name" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/fb_app_id" />
-        <meta-data
-            android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/account_kit_client_token" />
-
-        <activity android:name="com.facebook.accountkit.ui.AccountKitActivity" />
-        <activity android:name="com.facebook.accountkit.ui.AccountKitEmailRedirectActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/ak_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
         <activity android:name=".View.MyProfile.SetKeyword.SetKeywordActivity" />
+        <activity android:name=".View.Detail.ChatList.ChatListActivity" />
 
 
     </application>

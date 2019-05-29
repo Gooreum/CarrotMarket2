@@ -1,4 +1,4 @@
-package com.example.goo.carrotmarket.View.Chat.ChatList;
+package com.example.goo.carrotmarket.View.Detail.ChatList;
 
 import com.example.goo.carrotmarket.API.ApiClientNodeJs;
 import com.example.goo.carrotmarket.API.ApiInterface;
@@ -12,24 +12,22 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Goo on 2019-05-22.
+ * Created by Goo on 2019-05-29.
  */
 
 public class ChatListPresenter {
 
     ChatListView view;
 
-
     ChatListPresenter(ChatListView view) {
-
         this.view = view;
     }
 
     //회원 목록 불러오기
-    void getChatList(CompositeDisposable compositeDisposable,String nick) {
+    void getChatListFromDetail(CompositeDisposable compositeDisposable, String nick, int product_id) {
         view.showProgress();
         ApiInterface apiInterface = ApiClientNodeJs.getApiLocation().create(ApiInterface.class);
-        compositeDisposable.add(apiInterface.getChatList(nick)
+        compositeDisposable.add(apiInterface.getChatListFromDetail(nick, product_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Chat>>() {
@@ -47,8 +45,5 @@ public class ChatListPresenter {
                 })
         );
     }
-
-
-
 
 }
