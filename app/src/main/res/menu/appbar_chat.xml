@@ -32,4 +32,9 @@
         android:title="채팅방 나가기"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/calendar"
+        android:icon="@drawable/calendar_month2"
+        android:title="약속"
+        app:showAsAction="always" />
 </menu>

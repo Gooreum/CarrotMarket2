@@ -12,8 +12,13 @@ public interface SellListView {
 
 
     void showProgress();
+
     void hideProgress();
+
     void onErrorLoading(String message);
+
     void onGetResult(List<Product> products);
+
+    void onGetRefreshResult(List<Product> products);
 
 }

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_bad_hoogi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/bad1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:id="@+id/check_bad1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="이 분과 다시는 거래하고 싶지 않아요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_below="@+id/bad1"
+            android:layout_marginTop="20dp"
+            android:background="@color/common_google_signin_btn_text_dark" />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="거래하며 불편했던 점을 선택해 주세요."
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/txt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="부정후기는 상다뱅아게 알림이 가지 않아요.
+누가 평가했는지는 알 수 없으니 안심하세요." />
+
+
+        <RelativeLayout
+            android:id="@+id/bad2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/txt4"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/check_bad2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="거래 시간과 장소를 정한 후 연락이 안돼요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/bad3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad2"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="약속 장소에 나타나지 않았어요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad4"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad3"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="거래 시간과 장소를 정한 후 거래 직전 취소했어요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad5"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad4"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="단순 변심으로 환불을 요구했어요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad6"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad5"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad6"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad6"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="상품 가치 없는 물건을 팔아요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad7"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad6"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="차에서 내리지도 않고 창문만 열고 거래하려고 해요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad8"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad7"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="시간약속을 안 지켜요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad9"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad8"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad9"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad9"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="상품 설명에 중요한 정보가 누락됐어요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad10"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad9"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="구매 가격보다 비싼 가격으로 판매해요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad11"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad10"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad11"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad11"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="무리하게 가격을 깎아요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad12"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad11"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad12"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad12"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="불친절해요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad13"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad12"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad13"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad13"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="예약만 해놓고 거래 시간을 명확하게 알려주지 않아요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad14"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad13"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad14"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad14"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="상품 상태가 설명과 달라요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad15"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad14"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad15"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad15"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="너무 늦은 시간이나 새벽에 연락해요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad16"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad15"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/check_bad16"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad16"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="질문해도 답이 없어요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bad17"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/bad16"
+            android:layout_marginTop="5dp"
+
+            >
+
+            <ImageView
+                android:id="@+id/check_bad17"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/check_dark_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/checked_bad17"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/checked_circle2"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_bad17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:text="무조건 택배거래만 하려고 해요."
+                android:textColor="#000000" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>

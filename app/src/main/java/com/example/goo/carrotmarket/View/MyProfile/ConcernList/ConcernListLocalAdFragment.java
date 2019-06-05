@@ -48,4 +48,11 @@ public class ConcernListLocalAdFragment extends Fragment implements ConcernListV
     public void onGetResult(List<Product> products) {
 
     }
+
+    @Override
+    public void onGetRefreshResult(List<Product> products) {
+
+    }
+
+
 }

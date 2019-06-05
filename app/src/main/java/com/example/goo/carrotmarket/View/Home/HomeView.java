@@ -1,7 +1,5 @@
 package com.example.goo.carrotmarket.View.Home;
 
-import com.example.goo.carrotmarket.Model.Category;
-import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
 
 import java.util.List;
@@ -18,6 +16,7 @@ public interface HomeView {
     void onGetResult(List<Product> products);
     void onGetResultFromSpinner1(List<Product> products);
     void onGetResultFromSpinner2(List<Product> products);
+    void onGetResultSpecificProduct(List<Product> products);
     void moveActivity( Class activity);
 
     void snackBar(String dong);

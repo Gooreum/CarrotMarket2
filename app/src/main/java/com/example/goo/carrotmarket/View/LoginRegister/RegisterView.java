@@ -1,10 +1,5 @@
 package com.example.goo.carrotmarket.View.LoginRegister;
 
-import com.example.goo.carrotmarket.Model.Location;
-import com.example.goo.carrotmarket.Model.UserInfo;
-
-import java.util.List;
-
 /**
  * Created by Goo on 2019-05-02.
  */

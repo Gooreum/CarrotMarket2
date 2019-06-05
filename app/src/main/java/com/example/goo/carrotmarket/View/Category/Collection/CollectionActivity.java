@@ -2,6 +2,7 @@ package com.example.goo.carrotmarket.View.Category.Collection;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -51,6 +52,8 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
     HashMap<String, String> user;
     String nick;
 
+    private Parcelable recyclerViewState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +84,7 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
         );
 
         itemClickListener = ((view1, position) -> {
-
+            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
             String id = String.valueOf(product.get(position).getId());
             String seller = product.get(position).getSeller();
             int hide = product.get(position).getHide();
@@ -100,7 +103,8 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getProductCollection(nick);
+        presenter.refreshProductCollection(nick);
+
 
     }
 
@@ -126,6 +130,16 @@ public class CollectionActivity extends AppCompatActivity implements CollectionV
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
+
+    }
+
+    @Override
+    public void onGetRefreshResult(List<Product> products) {
+        product = products;
+        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        adapter = new CollectionAdapter(this, products, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
 
     }
 

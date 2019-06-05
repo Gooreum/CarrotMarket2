@@ -56,7 +56,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 //        holder.txt_date.setText(userinfo.getDong1().toString());
 //        holder.txt_chat_description.setText(userinfo.getDong1().toString());
 
-        //Glide.with(mContext).load(userinfo.getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.dress).into(holder.profileImg);
+        //Glide.with(mContext).load(userinfo.getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.dress).into(holder.profileimg);
 
     }
 

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -53,6 +54,15 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".View.MyProfile.SetKeyword.SetKeywordActivity" />
         <activity android:name=".View.Detail.ChatList.ChatListActivity" />
+        <activity android:name=".View.Chat.ChatRoom.Reserve.ReserveActivity" />
+        <activity android:name=".View.Detail.SelectBuyer.SelectBuyerActivity" />
+        <activity android:name=".View.Hoogi.HoogiActivity" />
+
+        <!--구글맵을 이용하기 위해 필요한 설정-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
 
 
     </application>

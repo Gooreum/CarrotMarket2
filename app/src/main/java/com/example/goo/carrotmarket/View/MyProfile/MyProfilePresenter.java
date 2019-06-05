@@ -1,20 +1,12 @@
 package com.example.goo.carrotmarket.View.MyProfile;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 
-import com.example.goo.carrotmarket.Model.Product;
-import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
-import com.example.goo.carrotmarket.View.Authentication.EmptyActivity;
-import com.example.goo.carrotmarket.View.SelectingLocation.FindMyLocationView;
-
-import java.util.List;
 
 /**
  * Created by Goo on 2019-05-02.
@@ -33,7 +25,7 @@ public class MyProfilePresenter {
     //로그인 상태 확인하고 프로필 화면 설정해주기
     public void setProfile(String profileImg, String nick, String dong) {
 
-            view.setting();
+        view.setProfile(profileImg, nick, dong);
 
     }
 
@@ -46,8 +38,18 @@ public class MyProfilePresenter {
         }
     }
 
+    //버튼 클릭시 로그인 상태 확인을 하고, 다음 화면으로 넘겨주기
+    public void nextActivityIsLoginWithValue(Context context, Class activity, String value) {
+        if (sessionManager.isLoggIn() == true) {
+
+            view.moveActivityWithValue(activity, value);
+        } else {
+            showDialog(context);
+        }
+    }
+
     //버튼 클릭시 로그인 상태확인을 안하고 다음 화면으로 넘겨주기
-    public void nextActivityWithoutLogin( Class activity) {
+    public void nextActivityWithoutLogin(Class activity) {
 
         view.moveActivity(activity);
 

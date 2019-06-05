@@ -15,5 +15,5 @@ public interface ConcernListView {
     void hideProgress();
     void onErrorLoading(String message);
     void onGetResult(List<Product> products);
-
+    void onGetRefreshResult(List<Product> products);
 }

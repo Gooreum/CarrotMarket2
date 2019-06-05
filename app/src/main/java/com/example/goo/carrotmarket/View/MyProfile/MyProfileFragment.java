@@ -21,8 +21,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
-import com.example.goo.carrotmarket.View.Home.HomeActivity2;
 import com.example.goo.carrotmarket.View.Home.Filter.HomeManagerActivity;
+import com.example.goo.carrotmarket.View.Home.HomeActivity2;
+import com.example.goo.carrotmarket.View.LoginRegister.RegisterActivity;
 import com.example.goo.carrotmarket.View.MyProfile.AuthenticateMyLocation.AuthenticateMyLocationActivity;
 import com.example.goo.carrotmarket.View.MyProfile.BuyList.BuyListActivity;
 import com.example.goo.carrotmarket.View.MyProfile.ConcernList.ConcernListActivity;
@@ -30,6 +31,7 @@ import com.example.goo.carrotmarket.View.MyProfile.SellList.SellListActivity;
 import com.example.goo.carrotmarket.View.MyProfile.SetKeyword.SetKeywordActivity;
 import com.example.goo.carrotmarket.View.MyProfile.SetMyLocation.SetMyLocationActivity;
 import com.example.goo.carrotmarket.View.MyProfile.Setting.SettingActivity;
+import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
 import java.util.HashMap;
 
@@ -46,8 +48,17 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
     Toolbar toolbar;
     @BindView(R.id.profileImg)
     CircleImageView view_profileImg;
+    @BindView(R.id.profileImg_login)
+    CircleImageView profileImg_login;
     @BindView(R.id.relative_profile)
     RelativeLayout relative_profile;
+    @BindView(R.id.relative_login)
+    RelativeLayout relative_login;
+
+    @BindView(R.id.relative_change_profile)
+    RelativeLayout relative_change_profile;
+
+
     @BindView(R.id.nick)
     TextView txt_nick;
     @BindView(R.id.dong)
@@ -87,6 +98,8 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
     HashMap<String, String> user;
     String profileImage, nick, dong, dong2;
 
+    Intent intent;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,7 +113,7 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
         setHasOptionsMenu(true);
 
         //프로파일 설정
-        setProfile();
+        isLogin();
 
         //버튼 이벤트 리스너 설정
         initButton();
@@ -112,10 +125,10 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
     public void onResume() {
         super.onResume();
         Log.i("MyProfile_onResume", "onResume");
-        setProfile();
+        isLogin();
     }
 
-    public void setProfile() {
+    public void isLogin() {
         sessionManager = new SessionManager(getContext());
         user = sessionManager.getUserDetail();
         presenter = new MyProfilePresenter(this, getContext());
@@ -130,9 +143,7 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
                 dong2 = user.get(sessionManager.DONG2).toString();
                 presenter.setProfile(profileImage, nick, dong2);
             }
-
         }
-
     }
 
     public void initButton() {
@@ -150,6 +161,8 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
         shareApp.setOnClickListener((View.OnClickListener) this);
         setting.setOnClickListener((View.OnClickListener) this);
         login.setOnClickListener((View.OnClickListener) this);
+        relative_change_profile.setOnClickListener((View.OnClickListener) this);
+        profileImg_login.setOnClickListener((View.OnClickListener) this);
     }
 
     @Override
@@ -180,21 +193,19 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
     }
 
     @Override
-    public void setting() {
-        Glide.with(getContext()).load(profileImage).diskCacheStrategy(DiskCacheStrategy.ALL).into(view_profileImg);
-        login.setVisibility(View.GONE);
-        txt_nick.setVisibility(View.VISIBLE);
+    public void moveActivityWithValue(Class activity, String value) {
+        Intent intent = new Intent(getActivity(), activity);
+        intent.putExtra("nick", value);
+        getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void setProfile(String profileImg, String nick, String dong) {
+        Glide.with(getContext()).load(profileImg).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.profileimg).into(profileImg_login);
+        relative_login.setVisibility(View.GONE);
+        relative_change_profile.setVisibility(View.VISIBLE);
         txt_nick.setText(nick);
-        txt_dong.setVisibility(View.VISIBLE);
-        if (user.get(sessionManager.LOCATION1_STATE).equals("1")) {
-            txt_dong.setText(dong);
-        } else if (user.get(sessionManager.LOCATION2_STATE).equals("1")) {
-            txt_dong.setText(dong2);
-        } else {
-            txt_dong.setText("");
-        }
-
-
+        txt_dong.setText(dong);
     }
 
     @Override
@@ -241,8 +252,13 @@ public class MyProfileFragment extends Fragment implements MyProfileView, View.O
             case R.id.login:
                 presenter.nextActivityWithoutLogin(AuthenticationActivity.class);
                 break;
+            case R.id.relative_change_profile:
+                presenter.nextActivityIsLoginWithValue(getContext(), SellerProfileActivity.class, user.get(sessionManager.NICK).toString());
+                break;
+
+            case R.id.profileImg_login:
+                presenter.nextActivityIsLoginWithValue(getContext(), RegisterActivity.class, user.get(sessionManager.NICK).toString());
+                break;
         }
     }
-
-
 }

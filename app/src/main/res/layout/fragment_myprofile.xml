@@ -50,55 +50,81 @@
 
                 >
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profileImg"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="30dp"
-
-                    android:src="@drawable/ic_person_outline_black_24dp"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="0.2dp" />
-
-
-                <TextView
-                    android:id="@+id/login"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/relative_login"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/profileImg"
-                    android:layout_toRightOf="@+id/profileImg"
-                    android:text="로그인 하기"
-                    android:textColor="#f76707"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:background="@drawable/ripple_effect"
+                    android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/nick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/profileImg"
-                    android:layout_toRightOf="@+id/profileImg"
-                    android:text="밍구르"
-                    android:textColor="#000000"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profileImg"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/profileimg"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="0.2dp" />
 
-                <TextView
-                    android:id="@+id/dong"
-                    android:layout_width="wrap_content"
+
+                    <TextView
+                        android:id="@+id/login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/profileImg"
+                        android:layout_toRightOf="@+id/profileImg"
+                        android:text="로그인 하기"
+                        android:textColor="#f76707"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relative_change_profile"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nick"
-                    android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/profileImg"
-                    android:text="장지동"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:background="@drawable/ripple_effect"
+                    android:visibility="gone">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profileImg_login"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/ic_person_outline_black_24dp"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="0.2dp" />
+
+                    <TextView
+                        android:id="@+id/nick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/profileImg_login"
+                        android:layout_toRightOf="@+id/profileImg_login"
+                        android:text="밍구르"
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/dong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/nick"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/profileImg_login"
+                        android:text="장지동"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
             </RelativeLayout>
 
 
@@ -130,8 +156,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image"
@@ -162,8 +187,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image2"
@@ -194,8 +218,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image3"
@@ -279,8 +302,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image5"
@@ -311,8 +333,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image6"
@@ -343,8 +364,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image7"
@@ -375,8 +395,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@drawable/ripple_effect"
-                    >
+                    android:background="@drawable/ripple_effect">
 
                     <ImageView
                         android:id="@+id/image8"
@@ -414,10 +433,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/view3"
-                android:paddingLeft="15dp"
-                android:gravity="center_vertical"
-                android:text="홈 전체보기 관리"
                 android:background="@drawable/ripple_effect"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="홈 전체보기 관리"
                 android:textColor="#000000" />
 
             <View
@@ -432,10 +451,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/view4"
-                android:paddingLeft="15dp"
-                android:gravity="center_vertical"
-                android:text="고객센터"
                 android:background="@drawable/ripple_effect"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="고객센터"
                 android:textColor="#000000" />
 
             <View
@@ -450,10 +469,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/view5"
-                android:paddingLeft="15dp"
-                android:gravity="center_vertical"
-                android:text="공지사항"
                 android:background="@drawable/ripple_effect"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="공지사항"
                 android:textColor="#000000" />
 
             <View
@@ -468,10 +487,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/view6"
-                android:paddingLeft="15dp"
-                android:gravity="center_vertical"
-                android:text="앱 공유하기"
                 android:background="@drawable/ripple_effect"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="앱 공유하기"
                 android:textColor="#000000" />
 
             <View
@@ -486,9 +505,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_below="@+id/view7"
-                android:paddingLeft="15dp"
-                android:gravity="center_vertical"
                 android:background="@drawable/ripple_effect"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
                 android:text="앱 설정"
                 android:textColor="#000000" />
 

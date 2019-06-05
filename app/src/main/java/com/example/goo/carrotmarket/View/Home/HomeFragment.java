@@ -69,6 +69,9 @@ public class HomeFragment extends Fragment implements HomeView {
     HashMap<String, String> user;
     String nick, city, gu, dong, dong2;
 
+
+    int position, product_id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class HomeFragment extends Fragment implements HomeView {
         //스피너 값 설정
         setSpinner();
 
-
+        //Toast.makeText(getContext(), user.get(sessionManager.PROFILEIMAGE).toString(), Toast.LENGTH_SHORT).show();
         //툴바
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
@@ -136,6 +139,8 @@ public class HomeFragment extends Fragment implements HomeView {
             intent.putExtra("id", id);
             intent.putExtra("seller", seller);
             intent.putExtra("hide", hide);
+            intent.putExtra("position", position);
+            intent.putExtra("fragment", "home");
             getContext().startActivity(intent);
             Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
 
@@ -173,6 +178,17 @@ public class HomeFragment extends Fragment implements HomeView {
         System.out.println("로케이션2 : " + user.get(sessionManager.LOCATION2_STATE).toString());
         setSpinner();
     }
+
+
+    //상세보기 화면에서 돌아왔을 때, 해당 포지션의 게시글만 다시 서버에 보내서 변경된 값 적용해주기
+    @Subscribe
+    public void BackToHomeFromDetail(Events.BackToHomeFromDetail backToHomeFromDetail) {
+        position = backToHomeFromDetail.getPosition();
+        product_id = backToHomeFromDetail.getProduct_id();
+        presenter.getSpecificProduct(product_id);
+
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -216,7 +232,6 @@ public class HomeFragment extends Fragment implements HomeView {
 
 
     public void setSpinner() {
-
 
         //스피너 위치 툴바보다 아래에 잡아주기
         try {
@@ -345,7 +360,26 @@ public class HomeFragment extends Fragment implements HomeView {
         product = products;
     }
 
+    //상품상세보기 화면에서 돌아온 후, 리사이클러뷰의 해당 아이템 값이 변경되어 있다면 값을 수정해준다.
+    @Override
+    public void onGetResultSpecificProduct(List<Product> products) {
 
+
+        if (products.size() == 0 || products == null) {
+            product.remove(product.get(position));
+            adapter.notifyItemRemoved(position);
+        } else {
+            if (product.get(position) != products.get(0)) {
+                product.set(position, products.get(0));
+                adapter.notifyItemChanged(position);
+                if (product.get(position).getHide() == 1) {
+                    product.remove(product.get(position));
+
+                    adapter.notifyItemRemoved(position);
+                }
+            }
+        }
+    }
 
     @Override
     public void snackBar(String dong) {

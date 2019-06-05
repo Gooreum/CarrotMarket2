@@ -1,6 +1,5 @@
 package com.example.goo.carrotmarket.View.Seller.SellerProfile;
 
-import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 
 import java.util.List;
@@ -23,6 +22,7 @@ public interface SellerProfileView {
     void onGetCollectResult(String message);
 
     void onErrorLoading(String message);
+
 
 
 }

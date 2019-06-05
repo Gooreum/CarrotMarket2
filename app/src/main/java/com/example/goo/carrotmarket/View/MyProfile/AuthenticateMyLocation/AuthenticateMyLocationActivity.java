@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -16,7 +17,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.Authentication.AuthenticationActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -143,7 +142,7 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
                 currentPosition
                         = new LatLng(location.getLatitude(), location.getLongitude());
 
-                
+
                 String markerTitle = getCurrentAddress(currentPosition);
                 String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
                         + " 경도:" + String.valueOf(location.getLongitude());
@@ -155,6 +154,11 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
                 setCurrentLocation(location, markerTitle, markerSnippet);
 
                 mCurrentLocatiion = location;
+
+                Toast.makeText(AuthenticateMyLocationActivity.this,markerTitle, Toast.LENGTH_SHORT).show();
+
+                //TODO 위치인증 코드는 여기에다가 하기!!
+
             }
 
 

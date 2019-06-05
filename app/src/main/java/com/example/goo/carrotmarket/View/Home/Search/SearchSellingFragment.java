@@ -88,6 +88,7 @@ public class SearchSellingFragment extends Fragment implements SearchView {
     }
 
 
+
     @Override
     public void onResume() {
         super.onResume();

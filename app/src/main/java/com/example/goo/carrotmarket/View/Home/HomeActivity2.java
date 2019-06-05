@@ -6,23 +6,35 @@ import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
-
+import android.widget.Toast;
 
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.BottomNavigationViewHelper;
 import com.example.goo.carrotmarket.View.Category.CategoryFragment;
-import com.example.goo.carrotmarket.View.Chat.ChatList.ChatListFragment;
+import com.example.goo.carrotmarket.View.Chat.ChatListRealTime.ChatListRealTimeFragment;
 import com.example.goo.carrotmarket.View.MyProfile.MyProfileFragment;
 import com.example.goo.carrotmarket.View.Write.WriteFragment;
 
+import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
 
 public class HomeActivity2 extends AppCompatActivity {
+    public static Socket socket;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home2);
+
+
+        socket = setSocket(socket);
 
         //BottomNavigationViewHelper 클래스로부터 하단네비게이션바의 shifting 애니메이션을 없애도록 한다.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -73,7 +85,8 @@ public class HomeActivity2 extends AppCompatActivity {
 
 
                     Bundle bundle4 = new Bundle();
-                    selectedFragment = new ChatListFragment();
+                    // selectedFragment = new ChatListFragment();
+                    selectedFragment = new ChatListRealTimeFragment();
                     selectedFragment.setArguments(bundle4);
 
                     break;
@@ -93,5 +106,25 @@ public class HomeActivity2 extends AppCompatActivity {
             return true;
         }
     };
+
+    //소켓 생성
+    public Socket setSocket(Socket socket) {
+        try {
+
+            socket = IO.socket("http://54.180.32.57:3000/chat");
+            Toast.makeText(this, "소켓이 생성되었소", Toast.LENGTH_SHORT).show();
+        } catch (URISyntaxException e) {
+            Log.d("error", "onCreate : " + e.toString());
+        }
+
+
+        return socket;
+    }
+
+    public Socket getSocket() {
+        System.out.println("--------------------소켓값은 : " + socket.toString());
+       // Toast.makeText(getApplicationContext(), socket.toString(), Toast.LENGTH_SHORT).show();
+        return this.socket;
+    }
 
 }

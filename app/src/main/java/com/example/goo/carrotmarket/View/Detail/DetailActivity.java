@@ -26,11 +26,14 @@ import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.GlobalBus.Events;
+import com.example.goo.carrotmarket.Util.GlobalBus.GlobalBus;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 import com.example.goo.carrotmarket.View.Detail.BottomSheet.BottomSheetDialog;
 import com.example.goo.carrotmarket.View.Detail.ChatList.ChatListActivity;
 import com.example.goo.carrotmarket.View.Detail.Reply.ReplyActivity;
+import com.example.goo.carrotmarket.View.Detail.SelectBuyer.SelectBuyerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
@@ -143,8 +146,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     int hide;
 
     int id;
+    int position;
     String seller;
 
+    String fragment;
     String myNick;
     String chatRoomId;
     String userPartner;
@@ -157,6 +162,12 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     DetailSellerProductsAdapter adapter;
     DetailSellerProductsAdapter.ItemClickListener itemClickListener;
+
+
+    Events.BackToHomeFromDetail backToHomeFromDetail;
+    Events.BackToSellingFromDetail backToSellingFromDetail;
+    Events.BackToCompleteFromDetail backToCompleteFromDetail;
+    Events.BackToHideFromDetail backToHideFromDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +184,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         id = Integer.parseInt(intent.getStringExtra("id"));  //해당 게시글 불러올 id 값
         seller = intent.getStringExtra("seller");
         hide = intent.getIntExtra("hide", 0);
+        position = intent.getIntExtra("position", 0);
 
         refresh = false;
 
@@ -183,7 +195,11 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         user = sessionManager.getUserDetail();
         myNick = user.get(sessionManager.NICK).toString();
 
-
+        //OttoBus 이벤트 객체 생성
+        backToHomeFromDetail = new Events.BackToHomeFromDetail(position, id);
+        backToSellingFromDetail = new Events.BackToSellingFromDetail(position, id);
+        backToCompleteFromDetail = new Events.BackToCompleteFromDetail(position, id);
+        backToHideFromDetail = new Events.BackToHideFromDetail(position, id);
         //프레젠터 이벤트
         initPresenter();
 
@@ -304,6 +320,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public void onGetResultDelete(String message) {
         Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+        GlobalBus.getBus().post(backToHomeFromDetail);
+
+
         finish();
     }
 
@@ -331,8 +351,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             chatRoomId = chat.get(0).getRoom_id();
             startChat.setText("채팅으로 거래하기(" + chat.size() + ")");
 
-            //TODO 현재 이 게시글에서 내
-            System.out.println("채팅방이 있네 ~ : " + chatRoomId);
+
         }
 
 
@@ -406,13 +425,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
         switch (item.getItemId()) {
 
             case android.R.id.home:
 
 
+                GlobalBus.getBus().post(backToHomeFromDetail);
                 finish();
+
 
                 return true;
             case R.id.refresh:
@@ -559,7 +579,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
 
         likeCount.setText(product.get(0).getLike_count() + "");
-        likeCount.setText(product.get(0).getChat_count() + "");
+        //likeCount.setText(product.get(0).getChat_count() + "");
 
         //내 게시글일 떄!
 
@@ -585,8 +605,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         } else if (userinfo.get(0).getLocation2_state().equals("1")) {
             location.setText(userinfo.get(0).getDong2().toString());
         }
-
-        Glide.with(this).load(userinfo.get(0).getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.ic_person_outline_black_24dp).into(profileImg);
+      //  String profile_img = "http://18.218.21.240/CarrotMarket/productsImages/2019050115353353019729.jpg";
+        Glide.with(this).load(userinfo.get(0).getProfileImage()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.profileimg).into(profileImg);
 
     }
 
@@ -750,6 +770,21 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         cardview_selling.setVisibility(View.GONE);
         cardview_reserving.setVisibility(View.GONE);
         cardview_deal_complete.setVisibility(View.VISIBLE);
+
+        if (sessionManager.isLoggIn() == true && user.get(sessionManager.NICK).toString().equals(seller)) {
+            Intent intent = new Intent(this, SelectBuyerActivity.class);
+            intent.putExtra("id", id);
+            intent.putExtra("title", product.get(0).getTitle().toString());
+
+            if (!product.get(0).getImage0().toString().isEmpty()) {
+                intent.putExtra("product_image", product.get(0).getImage0().toString());
+            } else {
+                intent.putExtra("product_image", "ggg");
+            }
+
+            startActivity(intent);
+        }
+
     }
 }
 

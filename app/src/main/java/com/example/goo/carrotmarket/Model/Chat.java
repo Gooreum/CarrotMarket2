@@ -22,6 +22,14 @@ public class Chat {
     private String user_partner;
 
     @Expose
+    @SerializedName("message")
+    private String message;
+
+    @Expose
+    @SerializedName("date")
+    private String date;
+
+    @Expose
     @SerializedName("product_id")
     private int product_id;
 
@@ -44,6 +52,18 @@ public class Chat {
     @Expose
     @SerializedName("is_complete")
     private int is_complete;
+
+    Chat(){
+
+    }
+
+    public Chat(String room_id, String user_partner, String message, String date, int product_id) {
+        this.room_id = room_id;
+        this.user_partner = user_partner;
+        this.message = message;
+        this.date = date;
+        this.product_id = product_id;
+    }
 
 
     public String getRoom_id() {
@@ -68,6 +88,22 @@ public class Chat {
 
     public void setUser_partner(String user) {
         this.user_partner = user_partner;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getProduct_id() {

@@ -9,14 +9,19 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.goo.carrotmarket.Model.ChatMessage;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Goo on 2019-05-23.
@@ -24,17 +29,17 @@ import butterknife.ButterKnife;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<String> chat_data;
+    private List<ChatMessage> chat_message;
     private ArrayList<String> user;
     private HashMap<String, String> users;
     private String nick;
     private SessionManager sessionManager;
 
-    public ChatRoomAdapter(Context mContext, ArrayList<String> chat_data, ArrayList<String> user) {
+    public ChatRoomAdapter(Context mContext, List<ChatMessage> chat_message) {
 
         this.mContext = mContext;
-        this.chat_data = chat_data;
-        this.user = user;
+        this.chat_message = chat_message;
+
     }
 
 
@@ -52,27 +57,27 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         sessionManager = new SessionManager(mContext);
         users = sessionManager.getUserDetail();
         nick = users.get(sessionManager.NICK).toString();
+        String url = "http://54.180.32.57/CarrotMarket/productImages/20190511043543325746955.jpg";
+        // holder.txt_date.setText(chat_message.get(position).getDate());
 
         RelativeLayout.LayoutParams rl = (RelativeLayout.LayoutParams) holder.txt_me.getLayoutParams();
 
-        if (user.get(position).toString().equals(nick)) {
+        if (chat_message.get(position).getNick().equals(nick)) {
             holder.relative_chat_me.setVisibility(View.VISIBLE);
             holder.relative_chat_you.setVisibility(View.GONE);
 
-            holder.txt_me.setText(chat_data.get(position));
-            holder.user.setText(user.get(position));
-
-
-
+            holder.txt_me.setText(chat_message.get(position).getMessage());
+            holder.user.setText(chat_message.get(position).getNick());
+            holder.txt_date.setText(chat_message.get(position).getDate());
 
         } else {
             holder.relative_chat_me.setVisibility(View.GONE);
             holder.relative_chat_you.setVisibility(View.VISIBLE);
 
-            holder.txt_you.setText(chat_data.get(position));
-            holder.user.setText(user.get(position).toString());
-
-
+            holder.txt_you.setText(chat_message.get(position).getMessage());
+            holder.user.setText(chat_message.get(position).getNick());
+            holder.txt_date_you.setText(chat_message.get(position).getDate());
+            Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.furniture).into(holder.profileImg);
 
         }
 
@@ -82,7 +87,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return chat_data.size();
+        return chat_message.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,7 +99,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         TextView user;
         @BindView(R.id.txt_date)
         TextView txt_date;
-
+        @BindView(R.id.profile_img)
+        CircleImageView profileImg;
         @BindView(R.id.txt_you)
         TextView txt_you;
         @BindView(R.id.txt_date_you)

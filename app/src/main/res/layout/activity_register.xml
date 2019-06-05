@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
@@ -51,23 +53,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/profileImg"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/picture" />
+
+
+        <RelativeLayout
+            android:id="@+id/relative"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/view_profileImg"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+
+                android:src="@drawable/profileimg"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="0.2dp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_camera_alt_black_24dp" />
+        </RelativeLayout>
+
 
     <EditText
         android:id="@+id/nick"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profileImg"
+        android:layout_below="@+id/relative"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:hint="닉네임을 입력해주세요." />

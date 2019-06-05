@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="거래 후기 남기기"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@android:color/darker_gray" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:background="@drawable/ripple_effect_gray"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/productCard"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/productThumb"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:riv_border_color="#333333"
+
+                        app:riv_corner_radius="10dp"
+                        app:riv_mutate_background="true"
+                        app:riv_oval="false" />
+
+
+                </RelativeLayout>
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/txt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/productCard"
+
+            android:text="거래한 상품"
+
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/productCard"
+            android:maxLines="1"
+            android:text="물건이름"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_below="@+id/relative_product">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@id/txt_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="쿄코님과 거래가 어떠셨나요?"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            <RelativeLayout
+                android:id="@+id/relative_emotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_nick"
+                android:layout_marginTop="20dp"
+                android:padding="20dp">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_bad"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/emotion_bad" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_bad_color"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/emotion_bad_color"
+                    android:visibility="gone" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_soso"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/emotion_soso" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_soso_color"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/emotion_soso_color"
+                    android:visibility="gone" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_happy"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/emotion_happy" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_happy_color"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/emotion_happy_color"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_hoogi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/relative_emotion">
+
+                <RelativeLayout
+                    android:id="@+id/relative_bad_hoogi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+
+                <RelativeLayout
+                    android:id="@+id/relative_soso_hoogi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                    <TextView
+                        android:id="@+id/txt_soso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:text="거래하며 좋았던 점을 선택해 주세요."
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/soso1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/txt_soso"
+                        android:layout_marginTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/check_soso1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_soso1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_soso1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="거래 시간과 장소를 정한 후 연락이 안돼요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/soso2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/soso1"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_soso2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_soso2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_soso2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="약속 장소에 나타나지 않았어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/soso3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/soso2"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_soso3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_soso3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_soso3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="거래 시간과 장소를 정한 후 거래 직전 취소했어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/soso4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/soso3"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_soso4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_soso4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_soso4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="단순 변심으로 환불을 요구했어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relative_happy_hoogi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+
+                    <TextView
+                        android:id="@+id/txt_happy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:text="거래하며 좋았던 점을 선택해 주세요."
+                        android:textColor="#000000"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/happy1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/txt_happy"
+                        android:layout_marginTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/check_happy1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_happy1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_happy1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="거래 시간과 장소를 정한 후 연락이 안돼요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/happy2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/happy1"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_happy2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_happy2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_happy2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="약속 장소에 나타나지 않았어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/happy3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/happy2"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_happy3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_happy3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_happy3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="거래 시간과 장소를 정한 후 거래 직전 취소했어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/happy4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/happy3"
+                        android:layout_marginTop="5dp">
+
+                        <ImageView
+                            android:id="@+id/check_happy4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/check_dark_gray"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/checked_happy4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/checked_circle2"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txt_happy4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:text="단순 변심으로 환불을 요구했어요."
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_done"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/relative_hoogi"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/colorOrange"
+                app:cardCornerRadius="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="거래후기 작성 완료"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

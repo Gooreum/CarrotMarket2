@@ -36,6 +36,7 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
     Toolbar toolbar;
     @BindView(R.id.profileImg)
     CircleImageView profileImg;
+
     @BindView(R.id.nick)
     TextView txt_nick;
     @BindView(R.id.cardView_Manner)
@@ -96,8 +97,14 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
 
         presenter = new SellerProfilePresenter(this);
         presenter.getSellerProfile(seller);
-        presenter.getCollectingState(seller, follower);
 
+        if (seller.equals(follower)) {
+            cardView_Manner.setVisibility(View.GONE);
+            cardView_collection.setVisibility(View.GONE);
+        } else {
+            presenter.getCollectingState(seller, follower);
+
+        }
         //버튼 이벤트
         initButton();
 
@@ -156,13 +163,13 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
 
     @Override
     public void onGetCollectingState(List<UserInfo> userInfos) {
-       // userInfoList = userInfos;
+        // userInfoList = userInfos;
         if (userInfos.size() != 0) {
             if (userInfos.get(0).getCollect_state() == 1) {
                 cardView_collection.setVisibility(View.GONE);
                 cardView_collecting.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             cardView_collection.setVisibility(View.VISIBLE);
             cardView_collecting.setVisibility(View.GONE);
         }
@@ -171,7 +178,7 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
 
     @Override
     public void onGetCollectResult(String message) {
-            Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -201,7 +208,7 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
 
 
                 presenter.changeCollectState(seller, follower, 2);
-                cardView_collecting.setVisibility(View.GONE );
+                cardView_collecting.setVisibility(View.GONE);
                 cardView_collection.setVisibility(View.VISIBLE);
                 break;
 

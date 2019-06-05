@@ -2,24 +2,22 @@ package com.example.goo.carrotmarket.View.MyProfile.ConcernList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
-import com.example.goo.carrotmarket.View.Home.HomeAdapter;
-import com.example.goo.carrotmarket.View.Home.HomePresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +37,6 @@ public class ConcernListSellingFragment extends Fragment implements ConcernListV
     RecyclerView recyclerView;
 
 
-
     ConcernListPresenter presenter;
     ConcernListAdapter adapter;
     ConcernListAdapter.ItemClickListener itemClickListener;
@@ -47,6 +44,9 @@ public class ConcernListSellingFragment extends Fragment implements ConcernListV
     List<Product> product;
     SessionManager sessionManager;
     HashMap<String, String> user;
+
+    private Parcelable recyclerViewState;
+    String nick;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class ConcernListSellingFragment extends Fragment implements ConcernListV
 
         //프레젠터
         presenter = new ConcernListPresenter(this);
-        String nick = user.get(sessionManager.NICK).toString();
+        nick = user.get(sessionManager.NICK).toString();
         presenter.getProducts(nick);
 
         //새로고침
@@ -75,13 +75,16 @@ public class ConcernListSellingFragment extends Fragment implements ConcernListV
 
         //리사이클러뷰 아이템 클릭 리스너
         itemClickListener = ((view1, position) -> {
+            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
             String id = String.valueOf(product.get(position).getId());
             String seller = product.get(position).getSeller();
             int hide = product.get(position).getHide();
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra("id", id);
             intent.putExtra("seller", seller);
-            intent.putExtra("hide",hide);
+            intent.putExtra("hide", hide);
+            intent.putExtra("position", position);
             getContext().startActivity(intent);
             Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
         });
@@ -112,4 +115,23 @@ public class ConcernListSellingFragment extends Fragment implements ConcernListV
 
         product = products;
     }
+
+    @Override
+    public void onGetRefreshResult(List<Product> products) {
+        product = products;
+        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        adapter = new ConcernListAdapter(getContext(), product, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i("onResume","----------------------ConcernListSellingFragment_onResume------------------");
+        presenter.refreshProducts(nick);
+
+    }
+
 }

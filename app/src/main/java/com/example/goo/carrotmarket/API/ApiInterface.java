@@ -2,6 +2,7 @@ package com.example.goo.carrotmarket.API;
 
 import com.example.goo.carrotmarket.Model.Category;
 import com.example.goo.carrotmarket.Model.Chat;
+import com.example.goo.carrotmarket.Model.ChatMessage;
 import com.example.goo.carrotmarket.Model.Keyword;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
@@ -88,6 +89,10 @@ public interface ApiInterface {
 
     @GET("product.php")
     Call<List<Product>> getProduct();
+
+    //홈 화면에서 특정 게시글에 대한 값 받아오기
+    @GET("specificProduct.php")
+    Call<List<Product>> getSpecificProduct(@Query("product_id") int product_id);
 
     @GET("getProductLike.php")
     Call<List<Product>> getProductLike(@Query("nick") String nick);
@@ -191,6 +196,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("register.php")
     Call<UserInfo> register(
+            @Field("profileImg") String profileImg,
             @Field("nick") String nick,
             @Field("city1") String city1,
             @Field("gu1") String gu1,
@@ -222,8 +228,21 @@ public interface ApiInterface {
     @GET("chatRoomList")
     Observable<List<Chat>> getChatList(@Query("nick") String nick);
 
+    //상품 상세보기 화면에서 채팅목록 불러오기
     @GET("chatRoomList/id")
     Observable<List<Chat>> getChatListFromDetail(@Query("nick") String nick, @Query("product_id") int product_id);
+
+    @GET("chat/messages")
+    Observable<List<ChatMessage>> getChatMessages(@Query("roomNum") String roomNum);
+
+
+    @GET("chat/product")
+    Observable<List<Product>> getProduct(@Query("product_id") int product_id);
+
+
+    //구매자 선택 화면에서 상품 거래를 위해 채팅하고 있는 사람들
+
+
 
     //<-------------------키워드 알림 관련--------------------->
     //등록한 키워드 리스트 가지고 오기

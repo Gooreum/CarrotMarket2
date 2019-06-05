@@ -20,7 +20,6 @@ import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class ChatListFragment extends Fragment implements ChatListView {
         //툴바 설정
         setToolbar();
         //1.로그인 한 상태일 때
-        chat = new ArrayList<>();
+        //chat = new ArrayList<>();
         presenter = new ChatListPresenter(this);
 
         //유저 목록 가져오기 및 새로고침 리스너 셋팅
@@ -101,7 +100,7 @@ public class ChatListFragment extends Fragment implements ChatListView {
         itemClickListener = ((view1, position) -> {
 
             Intent intent = new Intent(getContext(), ChatRoomActivity.class);
-            intent.putExtra("id", chat.get(position).getRoom_id());
+            intent.putExtra("id", chat.get(position).getProduct_id());
             intent.putExtra("roomNum", chat.get(position).getRoom_id());
             intent.putExtra("nick", user.get(sessionManager.NICK).toString());
             intent.putExtra("seller", chat.get(position).getNick_seller());
