@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,12 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Hoogi.HoogiActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,11 +50,20 @@ public class SelectBuyerActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.productThumb)
     RoundedImageView productThumb;
 
-    String product_title, product_image;
+    String product_title, product_image, nick;
     int product_id;
 
     SelectBuyerPresenter presenter;
     Intent intent;
+
+
+    SessionManager sessionManager;
+    HashMap<String, String> user;
+
+    List<Hoogi> list;
+
+    SelectBuyerAdapter adapter;
+    SelectBuyerAdapter.ItemClickListener itemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +76,35 @@ public class SelectBuyerActivity extends AppCompatActivity implements View.OnCli
         //버튼 클릭 리스너
         setButtonListener();
 
-        presenter = new SelectBuyerPresenter(this);
+        //로그인 세션
+        sessionManager = new SessionManager(this);
+        user = sessionManager.getUserDetail();
+        nick = user.get(sessionManager.NICK).toString();
+
 
         product_id = intent.getIntExtra("id", 0);
         product_title = intent.getStringExtra("title");
         product_image = intent.getStringExtra("product_image");
 
-        presenter.getProduct(product_image, product_title);
 
+        presenter = new SelectBuyerPresenter(this);
+        presenter.getProduct(product_image, product_title);
+        presenter.getBuyerList(nick, product_id);
+
+
+        //리사이클러뷰 아이템 클릭 리스너
+        itemClickListener = ((view1, position) -> {
+
+
+            Intent intent = new Intent(this, HoogiActivity.class);
+            intent.putExtra("id", product_id);
+            intent.putExtra("buyer", list.get(position).getBuyer().toString());
+            intent.putExtra("title", product_title);
+            intent.putExtra("seller", list.get(position).getSeller().toString());
+            startActivity(intent);
+
+
+        });
 
     }
 
@@ -134,6 +171,11 @@ public class SelectBuyerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onGetProductResult(String product_image, String product_title) {
         Glide.with(this).load(product_image).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.ic_person_outline_black_24dp).into(productThumb);
         title.setText(product_title);
@@ -142,5 +184,20 @@ public class SelectBuyerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void moveToChatList(int product_id) {
 
+    }
+
+    @Override
+    public void onGetBuyerResult(List<Hoogi> lists) {
+        list = lists;
+        recyclerView_buyer.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SelectBuyerAdapter(this, list, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView_buyer.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getBuyerList(nick, product_id);
     }
 }

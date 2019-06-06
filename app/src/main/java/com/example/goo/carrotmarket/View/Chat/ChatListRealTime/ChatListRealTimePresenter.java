@@ -45,8 +45,8 @@ public class ChatListRealTimePresenter {
 
     //메세지가 정상적으로 전송 및 받기가 되면 어댑터에 그 값들을 답아준다.
 
-    public void addMessage( String room_id, String user_partner, String message,String date, int product_id ) {
-        view.setAdapter(room_id,user_partner, message, date, product_id);
+    public void addMessage( String room_id, String user_partner, String message,String date, int product_id, String nick_buyer, String nick_seller ) {
+        view.setAdapter(room_id,user_partner, message, date, product_id,nick_buyer,nick_seller);
 
     }
 

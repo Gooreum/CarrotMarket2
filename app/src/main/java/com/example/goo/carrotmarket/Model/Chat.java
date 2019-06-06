@@ -53,16 +53,27 @@ public class Chat {
     @SerializedName("is_complete")
     private int is_complete;
 
-    Chat(){
+    Chat() {
 
     }
-
     public Chat(String room_id, String user_partner, String message, String date, int product_id) {
         this.room_id = room_id;
         this.user_partner = user_partner;
         this.message = message;
         this.date = date;
         this.product_id = product_id;
+
+    }
+
+
+    public Chat(String room_id, String user_partner, String message, String date, int product_id, String nick_buyer, String nick_seller) {
+        this.room_id = room_id;
+        this.user_partner = user_partner;
+        this.message = message;
+        this.date = date;
+        this.product_id = product_id;
+        this.nick_buyer = nick_buyer;
+        this.nick_seller = nick_seller;
     }
 
 

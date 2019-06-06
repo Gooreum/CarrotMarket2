@@ -198,6 +198,31 @@
 
 
         </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_see_my_hoogi"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:layout_alignBottom="@+id/productCard"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/productCard"
+            android:padding="1dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#000000"
+            app:cardCornerRadius="3dp">
+
+            <TextView
+                android:layout_width="78dp"
+                android:layout_height="77dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ripple_effect"
+                android:gravity="center"
+                android:text="거래후기      보기"
+                android:textColor="#000000" />
+
+
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
 
 

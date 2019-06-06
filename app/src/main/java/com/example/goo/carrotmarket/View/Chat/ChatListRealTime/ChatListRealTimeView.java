@@ -6,5 +6,5 @@ package com.example.goo.carrotmarket.View.Chat.ChatListRealTime;
 
 public interface ChatListRealTimeView {
 
-    void setAdapter(String room_id, String user_partner, String message, String date, int product_id );
+    void setAdapter(String room_id, String user_partner, String message, String date, int product_id,String nick_buyer, String nick_seller );
 }

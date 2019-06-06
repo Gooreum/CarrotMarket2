@@ -3,11 +3,15 @@ package com.example.goo.carrotmarket.View.Hoogi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
@@ -16,49 +20,61 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Goo on 2019-06-06.
  */
 
-public class HoogiActivity extends AppCompatActivity implements View.OnClickListener {
+public class HoogiActivity extends AppCompatActivity implements View.OnClickListener, HoogiView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
-    @BindView(R.id.image_bad)
-    CircleImageView image_bad;
-    @BindView(R.id.image_bad_color)
-    CircleImageView image_bad_color;
-    @BindView(R.id.image_soso)
-    CircleImageView image_soso;
-    @BindView(R.id.image_soso_color)
-    CircleImageView image_soso_color;
-    @BindView(R.id.image_happy)
-    CircleImageView image_happy;
-    @BindView(R.id.image_happy_color)
-    CircleImageView image_happy_color;
 
-    @BindView(R.id.relative_bad_hoogi)
-    RelativeLayout relative_bad_hoogi;
-    @BindView(R.id.relative_soso_hoogi)
-    RelativeLayout relative_soso_hoogi;
-    @BindView(R.id.relative_happy_hoogi)
-    RelativeLayout relative_happy_hoogi;
+    @BindView(R.id.txt_title)
+    TextView txt_title;
+    @BindView(R.id.txt_nick)
+    TextView txt_nick;
+
+
+    @BindView(R.id.cardview_done)
+    CardView cardView_done;
+    @BindView(R.id.edit_hoogi)
+    EditText edit_hoogi;
+
 
     Intent intent;
 
     SessionManager sessionManager;
     HashMap<String, String> user;
 
+    int product_id;
+    String buyer, title, seller, nick;
+
+    HoogiPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hoogi);
+        setContentView(R.layout.activity_hoogi2);
         ButterKnife.bind(this);
+        intent = getIntent();
         //로그인 세션
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
+        nick = user.get(sessionManager.NICK).toString();
+
+        presenter = new HoogiPresenter(this);
+
+
+        product_id = intent.getIntExtra("id", 0);
+        buyer = intent.getStringExtra("buyer");
+        seller = intent.getStringExtra("seller");
+        title = intent.getStringExtra("title");
+
+
+        presenter.setValues(title, seller, buyer, nick);
 
         setToolbar();
         setButtonListener();
@@ -75,12 +91,8 @@ public class HoogiActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void setButtonListener() {
-        image_bad.setOnClickListener(this);
-        image_bad_color.setOnClickListener(this);
-        image_soso.setOnClickListener(this);
-        image_soso_color.setOnClickListener(this);
-        image_happy.setOnClickListener(this);
-        image_happy_color.setOnClickListener(this);
+
+        cardView_done.setOnClickListener(this);
 
 
     }
@@ -116,64 +128,69 @@ public class HoogiActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.image_bad:
-                image_bad.setVisibility(View.GONE);
-                image_bad_color.setVisibility(View.VISIBLE);
-                image_soso.setVisibility(View.VISIBLE);
-                image_soso_color.setVisibility(View.GONE);
-                image_happy.setVisibility(View.VISIBLE);
-                image_happy_color.setVisibility(View.GONE);
 
-                relative_bad_hoogi.setVisibility(View.VISIBLE);
-                relative_soso_hoogi.setVisibility(View.GONE);
-                relative_happy_hoogi.setVisibility(View.GONE);
+            case R.id.cardview_done:
 
+                String hoogi = edit_hoogi.getText().toString().trim();
+                if (hoogi.isEmpty()) {
+                    edit_hoogi.setError("내용을 작성해주세요");
+                } else {
+                    if (nick.equals(seller)) {
+                        presenter.sellerToBuyerHoogi(nick, buyer, hoogi, product_id);
+                    } else if (nick.equals(buyer)) {
+                        presenter.sellerToBuyerHoogi(buyer, nick, hoogi, product_id);
+                    }
+
+                }
                 break;
 
-            case R.id.image_bad_color:
-
-
-                break;
-
-            case R.id.image_soso:
-
-                image_bad.setVisibility(View.VISIBLE);
-                image_bad_color.setVisibility(View.GONE);
-                image_soso.setVisibility(View.GONE);
-                image_soso_color.setVisibility(View.VISIBLE);
-                image_happy.setVisibility(View.VISIBLE);
-                image_happy_color.setVisibility(View.GONE);
-
-                relative_bad_hoogi.setVisibility(View.GONE);
-                relative_soso_hoogi.setVisibility(View.VISIBLE);
-                relative_happy_hoogi.setVisibility(View.GONE);
-
-                break;
-
-            case R.id.image_soso_color:
-
-
-                break;
-
-            case R.id.image_happy:
-
-                image_bad.setVisibility(View.VISIBLE);
-                image_bad_color.setVisibility(View.GONE);
-                image_soso.setVisibility(View.VISIBLE);
-                image_soso_color.setVisibility(View.GONE);
-                image_happy.setVisibility(View.GONE);
-                image_happy_color.setVisibility(View.VISIBLE);
-
-                relative_bad_hoogi.setVisibility(View.GONE);
-                relative_soso_hoogi.setVisibility(View.GONE);
-                relative_happy_hoogi.setVisibility(View.VISIBLE);
-
-                break;
-
-            case R.id.image_happy_color:
-
-
-                break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setValues(String title, String seller, String buyer, String nick) {
+        txt_title.setText(title);
+        //내가 판매자라면
+        if (nick.equals(seller)) {
+            txt_nick.setText(buyer + "님과 거래가 어떠셨나요?");
+
+            //내가 구매자라면
+        } else if (nick.equals(buyer)) {
+            txt_nick.setText(seller + "님과 거래가 어떠셨나요?");
+        }
+
+    }
+
+    @Override
+    public void onGetResult(String message) {
+        if (message.equals("success")) {
+
+            //1.내가 판매자라면
+            if (nick.equals(seller)) {
+                Toast.makeText(this, buyer + "님에게 후기를 남겼습니다.", Toast.LENGTH_SHORT).show();
+
+                //2.내가 구매자라면
+            } else if (nick.equals(buyer)) {
+                Toast.makeText(this, seller + "님에게 후기를 남겼습니다.", Toast.LENGTH_SHORT).show();
+            }
+
+
+            finish();
+        }
+    }
+
+    @Override
+    public void onErrorLoading(String message) {
+        Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT).show();
     }
 }

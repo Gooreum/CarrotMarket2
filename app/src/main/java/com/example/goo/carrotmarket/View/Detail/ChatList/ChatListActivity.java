@@ -47,8 +47,9 @@ public class ChatListActivity extends AppCompatActivity implements ChatListView 
     List<Chat> chat;
 
     Intent intent;
-    String nick;
+    String nick, title;
     int product_id;
+
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -61,6 +62,7 @@ public class ChatListActivity extends AppCompatActivity implements ChatListView 
         setToolbar();
 
         intent = getIntent();
+        title = intent.getStringExtra("title");
         nick = intent.getStringExtra("nick");
         product_id = intent.getIntExtra("id", 0);
         presenter = new ChatListPresenter(this);
@@ -99,14 +101,19 @@ public class ChatListActivity extends AppCompatActivity implements ChatListView 
         itemClickListener = ((view1, position) -> {
 
             Intent intent = new Intent(this, ChatRoomActivity.class);
-            intent.putExtra("id", chat.get(position).getRoom_id());
+            intent.putExtra("id", chat.get(position).getProduct_id());
             intent.putExtra("roomNum", chat.get(position).getRoom_id());
             intent.putExtra("nick", nick);
+            intent.putExtra("title", title);
+            intent.putExtra("buyer", chat.get(position).getNick_buyer());
             intent.putExtra("seller", chat.get(position).getNick_seller());
             intent.putExtra("partner", chat.get(position).getUser_partner());
             Toast.makeText(this, chat.get(position).getRoom_id(), Toast.LENGTH_SHORT).show();
             startActivity(intent);
 
+
+            System.out.println("타이틀은 : " + title + " 바이어는 : " + chat.get(position).getNick_buyer() +
+                    " 판매자는 : " + chat.get(position).getNick_seller());
         });
     }
 
@@ -192,7 +199,7 @@ public class ChatListActivity extends AppCompatActivity implements ChatListView 
         chat = chats;
         if (chat.size() > 0) {
             int chat_cnt = chat.size();
-            txt_chat_list_cnt.setText(chat_cnt+"");
+            txt_chat_list_cnt.setText(chat_cnt + "");
         }
     }
 

@@ -605,7 +605,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         } else if (userinfo.get(0).getLocation2_state().equals("1")) {
             location.setText(userinfo.get(0).getDong2().toString());
         }
-      //  String profile_img = "http://18.218.21.240/CarrotMarket/productsImages/2019050115353353019729.jpg";
+        //  String profile_img = "http://18.218.21.240/CarrotMarket/productsImages/2019050115353353019729.jpg";
         Glide.with(this).load(userinfo.get(0).getProfileImage()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.profileimg).into(profileImg);
 
     }
@@ -718,7 +718,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                     //내 게시글이고, 기존의 채팅방이 존재하는 경우
                 } else if (sessionManager.isLoggIn() == true && seller.equals(myNick) && chat.size() != 0) {
                     intent = new Intent(DetailActivity.this, ChatListActivity.class);
-
+                    intent.putExtra("title", product.get(0).getTitle());
                     intent.putExtra("id", id);
                     intent.putExtra("nick", myNick);
                     startActivity(intent);

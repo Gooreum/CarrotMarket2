@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,7 +25,7 @@ import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.Reserve.ReserveActivity;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
-import com.example.goo.carrotmarket.View.Home.HomeActivity2;
+import com.example.goo.carrotmarket.View.Hoogi.HoogiActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONException;
@@ -57,6 +56,9 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     RelativeLayout relative_product;
     @BindView(R.id.cardview_hoogi)
     CardView cardview_hoogi;
+    @BindView(R.id.cardview_see_my_hoogi)
+    CardView cardview_see_my_hoogi;
+
 
     @BindView(R.id.relative_reserve)
     RelativeLayout relative_reserve;
@@ -107,11 +109,8 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     InputMethodManager imm;
 
 
-    String roomNum;
-    String seller;
-    String partner;
-    String date;
-    String roomNumExist;
+    String roomNum, seller, buyer,partner,date,roomNumExist;
+
     int message_state;
 
     long mNow;
@@ -119,7 +118,6 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
     SimpleDateFormat mFormat = new SimpleDateFormat("a hh:mm ");
 
-    HomeActivity2 homeActivity2 = new HomeActivity2();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,20 +134,27 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
         nick = user.get(sessionManager.NICK).toString();
-        seller = intent.getStringExtra("seller");
-        partner = intent.getStringExtra("partner");
 
+        seller = intent.getStringExtra("seller");
+        buyer = intent.getStringExtra("buyer");
+        partner = intent.getStringExtra("partner");
         product_id = intent.getIntExtra("id", 0);
+        roomNum = intent.getStringExtra("roomNum");
+
+
+        System.out.println("바이어는 : " + buyer + "판매자는 : " + seller);
+        //내가 판매자가 아니라면 거래후기 남기기 버튼 안보이게 처리
+        if(!nick.equals(seller)){
+            cardview_hoogi.setVisibility(View.GONE);
+        }
+
+
 
         //툴바 셋팅
         setToolbar();
 
         //  chat_data = new ArrayList<>();
         users = new ArrayList<>();
-
-
-        roomNum = intent.getStringExtra("roomNum");
-        Toast.makeText(this, "하하 : " + roomNum, Toast.LENGTH_SHORT).show();
 
 
         //툴바에 채팅하고 있는 상대 이름 적기
@@ -159,7 +164,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
         //소켓 통신 준비!
 
-        presenter.prepareNetwork(socket, roomNum, handling_message, handling_first_chat_complete,handling_leave );
+        presenter.prepareNetwork(socket, roomNum, handling_message, handling_first_chat_complete, handling_leave);
 
 
         if (roomNum.equals("firstChat")) {
@@ -194,13 +199,13 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                         message = data.getString("message").toString();
                         nick = data.getString("nick").toString();
                         message_date = data.getString("date").toString();
-                       // message_state = data.getString("message_state").toString();
+                        // message_state = data.getString("message_state").toString();
 
                     } catch (JSONException e) {
                         return;
                     }
 
-                    presenter.addMessage(message, nick, message_date,"message");
+                    presenter.addMessage(message, nick, message_date, "message");
 
                 }
             });
@@ -251,7 +256,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                         return;
                     }
 
-                    presenter.addMessage(message, nick, message_date,message_state);
+                    presenter.addMessage(message, nick, message_date, message_state);
                 }
             });
         }
@@ -312,7 +317,6 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onGetResultProduct(List<Product> products) {
 
-
         product = products;
         Glide.with(this).load(products.get(0).getImage0().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.shirt).into(productThumb);
         title.setText(products.get(0).getTitle());
@@ -327,10 +331,10 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void setAdapter(String message, String user, String message_date,String message_state) {
+    public void setAdapter(String message, String user, String message_date, String message_state) {
 
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
-        chat_message.add(new ChatMessage(user, message, message_date,message_state));
+        chat_message.add(new ChatMessage(user, message, message_date, message_state));
         adapter = new ChatRoomAdapter(this, chat_message);
         adapter.notifyItemChanged(chat_message.size() - 1);
         recyclerViewChat.setAdapter(adapter);
@@ -450,6 +454,15 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.cardview_hoogi:
+                intent = new Intent(this, HoogiActivity.class);
+                intent.putExtra("id", Integer.toString(product_id));
+                intent.putExtra("title", product.get(0).getTitle());
+                intent.putExtra("buyer", partner);
+                intent.putExtra("seller", seller);
+                startActivity(intent);
+                break;
+
+            case R.id.cardview_see_my_hoogi:
 
                 break;
         }
@@ -464,6 +477,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         txt_delete.setOnClickListener(this);
         recyclerViewChat.setOnClickListener(this);
         cardview_hoogi.setOnClickListener(this);
+        cardview_see_my_hoogi.setOnClickListener(this);
     }
 
 

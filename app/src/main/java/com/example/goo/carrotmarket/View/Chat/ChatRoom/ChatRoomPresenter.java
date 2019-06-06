@@ -244,4 +244,11 @@ public class ChatRoomPresenter {
         );
     }
 
+    //판매자의 경우 거래후기를 남겼는지 안남겼는지 확인하기
+    void getHoogiState(int product_id) {
+        view.showProgress();
+
+    }
+
+
 }

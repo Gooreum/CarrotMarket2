@@ -66,7 +66,7 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
         //로그인 세션
         sessionManager = new SessionManager(getContext());
         user = sessionManager.getUserDetail();
-        if(sessionManager.isLoggIn() == true){
+        if (sessionManager.isLoggIn() == true) {
             nick = user.get(sessionManager.NICK).toString();
             presenter = new ChatListRealTimePresenter(this);
             presenter.prepareNetwork(socket, handling, nick);
@@ -108,7 +108,7 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
 
                     JSONObject data = (JSONObject) args[0];
 
-                    String room_id, user_partner, message, message_date;
+                    String room_id, user_partner, message, message_date, nick_buyer, nick_seller;
                     int product_id;
 
                     try {
@@ -118,12 +118,15 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
                         message = data.getString("message").toString();
                         message_date = data.getString("date").toString();
                         product_id = data.getInt("product_id");
-
+                        nick_buyer = data.getString("nick_buyer").toString();
+                        nick_seller = data.getString("nick_seller").toString();
                     } catch (JSONException e) {
                         System.out.println("------------------에러 ------------------");
                         return;
                     }
-                    presenter.addMessage(room_id, user_partner, message, message_date, product_id);
+
+                    //System.out.println("ashfdklahjslkdjas "+ nick_buyer + " lkfsdjflksdjf" + nick_seller);
+                    presenter.addMessage(room_id, user_partner, message, message_date, product_id,nick_buyer,nick_seller);
 
                 }
             });
@@ -148,10 +151,12 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
             intent.putExtra("roomNum", chat.get(position).getRoom_id());
             intent.putExtra("nick", user.get(sessionManager.NICK).toString());
             intent.putExtra("seller", chat.get(position).getNick_seller());
+            intent.putExtra("buyer", chat.get(position).getNick_buyer());
             intent.putExtra("partner", chat.get(position).getUser_partner());
             Toast.makeText(getContext(), chat.get(position).getRoom_id(), Toast.LENGTH_SHORT).show();
             getContext().startActivity(intent);
 
+            System.out.println("바이어는 : " + chat.get(position).getNick_buyer() + "판매자는 : " + chat.get(position).getNick_seller());
         });
     }
 
@@ -165,9 +170,9 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
     }
 
     @Override
-    public void setAdapter(String room_id, String user_partner, String message, String date, int product_id) {
+    public void setAdapter(String room_id, String user_partner, String message, String date, int product_id,String nick_buyer, String nick_seller) {
 
-        chat.add(new Chat(room_id, user_partner, message, date, product_id));
+        chat.add(new Chat(room_id, user_partner, message, date, product_id,nick_buyer,nick_seller));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ChatListRealTimeAdapter(getContext(), chat, itemClickListener);
         recyclerView.setAdapter(adapter);

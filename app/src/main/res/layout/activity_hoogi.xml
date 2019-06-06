@@ -95,7 +95,7 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt3"
@@ -544,7 +544,9 @@
                 android:layout_height="60dp"
                 android:layout_below="@+id/relative_hoogi"
                 android:layout_marginTop="20dp"
+
                 app:cardBackgroundColor="@color/colorOrange"
+
                 app:cardCornerRadius="3dp">
 
                 <TextView

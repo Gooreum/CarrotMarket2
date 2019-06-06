@@ -3,6 +3,7 @@ package com.example.goo.carrotmarket.API;
 import com.example.goo.carrotmarket.Model.Category;
 import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.Model.ChatMessage;
+import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.Model.Keyword;
 import com.example.goo.carrotmarket.Model.Location;
 import com.example.goo.carrotmarket.Model.Product;
@@ -243,10 +244,34 @@ public interface ApiInterface {
     //구매자 선택 화면에서 상품 거래를 위해 채팅하고 있는 사람들
 
 
-
     //<-------------------키워드 알림 관련--------------------->
     //등록한 키워드 리스트 가지고 오기
     @GET("keywords")
     Observable<List<Keyword>> getKeywords(@Query("nick") String nick);
+
+
+    //<-------------------거래 후기 남기기---------------------->
+
+    //채팅목록에서 상품 거래중인 회원목록 불러오기
+    @GET("getBuyer.php")
+    Call<List<Hoogi>> getBuyer(@Query("nick") String nick, @Query("product_id") int product_id);
+
+    //판매자가 구매자에게 거래 후기 남기기
+    @FormUrlEncoded
+    @POST("leaveHoogi.php")
+    Call<Hoogi> leaveSellerToBuyerHoogi(
+            @Field("seller") String seller,
+            @Field("buyer") String buyer,
+            @Field("sellerToBuyerHoogi") String hoogi,
+            @Field("product_id") int product_id);
+
+    //구매자가 판매자에게  거래 후기 남기기
+    @FormUrlEncoded
+    @POST("leaveHoogi.php")
+    Call<Hoogi> leaveBuyerToSellerHoogi(
+            @Field("seller") String seller,
+            @Field("buyer") String buyer,
+            @Field("buyerToSellerHoogi") String hoogi,
+            @Field("product_id") int product_id);
 
 }
