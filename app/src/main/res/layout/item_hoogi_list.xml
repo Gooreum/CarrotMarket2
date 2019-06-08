@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative_chat"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-
-    android:background="@color/colorWhite">
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:paddingTop="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_effect"
+
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImg"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
 
-            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_person_outline_black_24dp"
             app:civ_border_color="@color/viewBigBorder"
@@ -29,45 +29,50 @@
             android:id="@+id/txt_nick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileImg"
             android:layout_alignTop="@+id/profileImg"
             android:layout_marginRight="7dp"
-            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/profileImg"
+            android:gravity="center"
+
             android:text="갤럭시"
             android:textColor="#000000"
-            android:textSize="16dp" />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/profileImg"
             android:layout_alignTop="@+id/profileImg"
-            android:layout_marginRight="7dp"
-            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/txt_nick"
+            android:gravity="center"
             android:text="서초구 서초3동"
             android:textSize="14dp" />
+
+
+        <TextView
+            android:id="@+id/txt_hoogi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignStart="@+id/profileImg"
+            android:layout_below="@+id/profileImg"
+            android:layout_marginTop="10dp"
+            android:text="비움을 실천하고 계신 밍구르님, 정말 멋져요!"
+            android:textColor="#000000"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/profileImg"
+
+            android:layout_below="@+id/txt_hoogi"
             android:layout_marginTop="5dp"
             android:text="5월6일"
             android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/txt_chat_description"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/txt_nick"
-            android:layout_toRightOf="@+id/profileImg"
-            android:maxLines="1"
-            android:text="비움을 실천하고 계신 밍구르님, 정말 멋져요!"
-            android:textSize="16dp" />
-
 
     </RelativeLayout>
 

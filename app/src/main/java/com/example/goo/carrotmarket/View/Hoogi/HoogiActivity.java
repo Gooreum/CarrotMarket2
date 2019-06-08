@@ -73,7 +73,8 @@ public class HoogiActivity extends AppCompatActivity implements View.OnClickList
         seller = intent.getStringExtra("seller");
         title = intent.getStringExtra("title");
 
-
+        Toast.makeText(this, "아이디 값은 : " + product_id + "바이어는 : "+ buyer
+                        +"판매자는 ㅣ " + seller , Toast.LENGTH_SHORT).show();
         presenter.setValues(title, seller, buyer, nick);
 
         setToolbar();
@@ -138,7 +139,7 @@ public class HoogiActivity extends AppCompatActivity implements View.OnClickList
                     if (nick.equals(seller)) {
                         presenter.sellerToBuyerHoogi(nick, buyer, hoogi, product_id);
                     } else if (nick.equals(buyer)) {
-                        presenter.sellerToBuyerHoogi(buyer, nick, hoogi, product_id);
+                        presenter.buyerToSellerHoogi(seller, nick, hoogi, product_id);
                     }
 
                 }

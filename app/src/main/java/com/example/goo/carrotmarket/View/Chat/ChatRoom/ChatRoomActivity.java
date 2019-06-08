@@ -455,7 +455,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.cardview_hoogi:
                 intent = new Intent(this, HoogiActivity.class);
-                intent.putExtra("id", Integer.toString(product_id));
+                intent.putExtra("id", product_id);
                 intent.putExtra("title", product.get(0).getTitle());
                 intent.putExtra("buyer", partner);
                 intent.putExtra("seller", seller);

@@ -156,7 +156,7 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
             Toast.makeText(getContext(), chat.get(position).getRoom_id(), Toast.LENGTH_SHORT).show();
             getContext().startActivity(intent);
 
-            System.out.println("바이어는 : " + chat.get(position).getNick_buyer() + "판매자는 : " + chat.get(position).getNick_seller());
+            System.out.println("id값은 : " + chat.get(position).getProduct_id() );
         });
     }
 

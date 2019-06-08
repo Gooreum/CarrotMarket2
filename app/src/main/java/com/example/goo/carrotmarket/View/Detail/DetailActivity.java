@@ -264,9 +264,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
         //로그인 되어 있을 떄만 해당 글을 관심목록에 담을 수 있음.
         if (sessionManager.isLoggIn()) {
-            //  System.out.println("로그인됐엉");
-            // String nick = user.get(sessionManager.NICK).toString();
-            //  System.out.println("나의 닉네임은 :" + nick);
+
             presenter.getLikeStates(myNick, id);
             presenter.getData(id, refresh);
             presenter.getSellerProducts(seller, refresh, id);

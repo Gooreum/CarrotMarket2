@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview_product"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+
+            android:id="@+id/relative_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/productCard"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+
+                >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/productThumb"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:riv_border_color="#333333"
+
+                            app:riv_corner_radius="10dp"
+                            app:riv_mutate_background="true"
+                            app:riv_oval="false" />
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/card_imageCnt"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="5dp"
+                            app:cardBackgroundColor="#000000"
+                            app:cardCornerRadius="5dp">
+
+                            <TextView
+                                android:id="@+id/imgCnt"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="10"
+                                android:textColor="#ffffff"
+                                android:textSize="10dp" />
+                        </android.support.v7.widget.CardView>
+
+                    </RelativeLayout>
+                </FrameLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/productCard"
+                android:maxLines="1"
+                android:text="물건이름"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/title"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="3dp"
+                android:maxLines="2"
+                android:text="물건 상세내용"
+                android:textColor="#000000"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/productCard"
+                android:text="대치1동"
+                android:textColor="#000000"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/uploadTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/location"
+                android:text="끌올 28분전"
+                android:textColor="#000000"
+                android:textSize="10dp" />
+
+
+            <!--      <TextView
+                           android:id="@+id/loveCount"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignBottom="@+id/love"
+                           android:layout_alignParentBottom="true"
+                           android:layout_alignParentRight="true"
+                           android:layout_alignTop="@+id/love"
+                           android:layout_marginRight="10dp"
+                           android:text="1"
+                           android:textSize="15dp" />
+
+                       <ImageView
+                           android:id="@+id/love"
+                           android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:layout_alignParentBottom="true"
+                           android:layout_toLeftOf="@+id/loveCount"
+                           android:scaleType="centerCrop"
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:src="@drawable/likes"
+
+                           />
+
+
+                       <TextView
+                           android:id="@+id/messageCount"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignBottom="@+id/love"
+                           android:layout_alignParentBottom="true"
+                           android:layout_alignTop="@+id/love"
+                           android:layout_marginRight="10dp"
+                           android:layout_toLeftOf="@+id/love"
+                           android:text="1"
+                           android:textSize="15dp" />
+
+
+                       <ImageView
+                           android:id="@+id/message"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentBottom="true"
+                           android:layout_toLeftOf="@+id/messageCount"
+
+                           android:clickable="true"
+                           android:focusable="true"
+                           android:src="@drawable/ic_favorite_border"
+
+                            />-->
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_hoogi"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/relative_product"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ripple_effect">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/darkGray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="작성한 후기 보기"
+                android:textColor="#000000"
+                android:textSize="15dp"
+
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

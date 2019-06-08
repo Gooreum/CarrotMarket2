@@ -104,6 +104,8 @@ public class Product {
     @SerializedName("image9")
     private String image9;
 
+
+
     private List<String> arrayImage;
 
     public int getId() {

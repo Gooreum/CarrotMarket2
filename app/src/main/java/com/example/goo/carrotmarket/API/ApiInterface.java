@@ -250,7 +250,7 @@ public interface ApiInterface {
     Observable<List<Keyword>> getKeywords(@Query("nick") String nick);
 
 
-    //<-------------------거래 후기 남기기---------------------->
+    //<-------------------거래 후기 ---------------------->
 
     //채팅목록에서 상품 거래중인 회원목록 불러오기
     @GET("getBuyer.php")
@@ -273,5 +273,27 @@ public interface ApiInterface {
             @Field("buyer") String buyer,
             @Field("buyerToSellerHoogi") String hoogi,
             @Field("product_id") int product_id);
+
+
+    //거래 후기 가져오기
+    @GET("getMyHoogi.php")
+    Call<List<Hoogi>> getHoogi(
+            @Query("buyer") String buyer,
+            @Query("seller") String seller,
+            @Query("product_id") int product_id
+    );
+
+
+    //상대방 거래 후기 리스트 가져오기
+    @GET("getYourHoogi.php")
+    Call<List<Hoogi>> getYourHoogi(
+            @Query("nick") String nick
+    );
+
+    //구매목록 가져오기
+    @GET("getHoogi.php")
+    Call<List<Product>> getBuyList(
+            @Query("buyer") String buyer,
+            @Query("hoogi_state") int hoogi_state);
 
 }

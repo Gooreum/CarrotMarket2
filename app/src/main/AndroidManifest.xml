@@ -90,7 +90,8 @@
                 <data android:scheme="@string/ak_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".View.Hoogi.SeeMyHoogi.SeeMyHoogiActivity" />
+        <activity android:name=".View.Seller.SellerProfile.SellerHoogi.SellerHoogiActivity" />
 
 
     </application>

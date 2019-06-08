@@ -20,6 +20,7 @@ import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Hoogi.HoogiActivity;
+import com.example.goo.carrotmarket.View.Hoogi.SeeMyHoogi.SeeMyHoogiActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.HashMap;
@@ -95,13 +96,25 @@ public class SelectBuyerActivity extends AppCompatActivity implements View.OnCli
         //리사이클러뷰 아이템 클릭 리스너
         itemClickListener = ((view1, position) -> {
 
+            if (list.get(position).getHoogi_state() == 1) {
 
-            Intent intent = new Intent(this, HoogiActivity.class);
-            intent.putExtra("id", product_id);
-            intent.putExtra("buyer", list.get(position).getBuyer().toString());
-            intent.putExtra("title", product_title);
-            intent.putExtra("seller", list.get(position).getSeller().toString());
-            startActivity(intent);
+                Intent intent = new Intent(this, SeeMyHoogiActivity.class);
+                intent.putExtra("id", product_id);
+                intent.putExtra("title", product_title);
+
+                intent.putExtra("buyer", list.get(position).getBuyer().toString());
+                intent.putExtra("seller", list.get(position).getSeller().toString());
+                //intent.putExtra("hoogi", list.get(position).getSeller_to_buyer().toString());
+                startActivity(intent);
+            } else if (list.get(position).getHoogi_state() == 0) {
+                Intent intent = new Intent(this, HoogiActivity.class);
+                intent.putExtra("id", product_id);
+                intent.putExtra("buyer", list.get(position).getBuyer().toString());
+                intent.putExtra("title", product_title);
+                intent.putExtra("seller", list.get(position).getSeller().toString());
+                startActivity(intent);
+
+            }
 
 
         });

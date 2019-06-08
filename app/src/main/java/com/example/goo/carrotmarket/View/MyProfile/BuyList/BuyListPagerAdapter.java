@@ -21,9 +21,9 @@ public class BuyListPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new BuyListWaitingReplyFragment();
+                return new BuyListWaitingHoogiFragment();
             case 1:
-                return new BuyListCompleteReplyFragment();
+                return new BuyListCompleteHoogiFragment();
             default:
                 return null;
         }

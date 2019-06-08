@@ -18,6 +18,7 @@ import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
+import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerHoogi.SellerHoogiActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,8 +56,8 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
     RelativeLayout relative_manner_evaluation;
     @BindView(R.id.recyclerView_Evaluation)
     RecyclerView recyclerView_Evaluation;
-    @BindView(R.id.relative_deal_after)
-    RelativeLayout relative_deal_after;
+    @BindView(R.id.relative_hoogi)
+    RelativeLayout relative_hoogi;
     @BindView(R.id.recyclerView_after)
     RecyclerView recyclerView_after;
     @BindView(R.id.products)
@@ -71,6 +72,7 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
     String follower;
     SessionManager sessionManager;
     HashMap<String, String> user;
+    com.example.goo.carrotmarket.Util.ToolBar toolBar = new com.example.goo.carrotmarket.Util.ToolBar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +82,8 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
         ButterKnife.bind(this);
 
         //툴바 생성
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        toolBar.setToolbar(toolbar, this);
+
 
         sessionManager = new SessionManager(this);
         user = sessionManager.getUserDetail();
@@ -142,6 +142,7 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
         relative_products.setOnClickListener(this);
         cardView_collection.setOnClickListener(this);
         cardView_collecting.setOnClickListener(this);
+        relative_hoogi.setOnClickListener(this);
     }
 
 
@@ -212,6 +213,12 @@ public class SellerProfileActivity extends AppCompatActivity implements SellerPr
                 cardView_collection.setVisibility(View.VISIBLE);
                 break;
 
+            case R.id.relative_hoogi:
+                Intent intent2 = new Intent(SellerProfileActivity.this, SellerHoogiActivity.class);
+                intent2.putExtra("nick", seller);
+                startActivity(intent2);
+
+                break;
         }
     }
 }
