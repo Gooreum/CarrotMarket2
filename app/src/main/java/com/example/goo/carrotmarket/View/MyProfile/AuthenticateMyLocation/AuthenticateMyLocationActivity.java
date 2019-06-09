@@ -23,9 +23,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.SessionManager;
+import com.example.goo.carrotmarket.Util.ToolBar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -43,6 +48,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,9 +57,25 @@ import butterknife.ButterKnife;
 
 
 public class AuthenticateMyLocationActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+        implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, AuthenticateMyLocationView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.relative_fail)
+    RelativeLayout relative_fail;
+    @BindView(R.id.txt_dong2)
+    TextView txt_dong2;
+    @BindView(R.id.txt_message2)
+    TextView txt_message2;
+
+    @BindView(R.id.relative_ok)
+    RelativeLayout relative_ok;
+    @BindView(R.id.txt_dong)
+    TextView txt_dong;
+    @BindView(R.id.txt_message)
+    TextView txt_message;
 
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
@@ -85,6 +107,11 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
     private View mLayout;  // Snackbar 사용하기 위해서는 View가 필요합니다.
     // (참고로 Toast에서는 Context가 필요했습니다.)
 
+    ToolBar toolBar = new ToolBar();
+    SessionManager sessionManager;
+    HashMap<String, String> user;
+    AuthenticateMyLocationPresenter presenter;
+    String markerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +124,10 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         //툴바 생성
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        toolBar.setToolbar(toolbar, this);
+        sessionManager = new SessionManager(this);
+        user = sessionManager.getUserDetail();
+        presenter = new AuthenticateMyLocationPresenter(this);
 
         mLayout = findViewById(R.id.layout_map);
 
@@ -143,7 +170,7 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
                         = new LatLng(location.getLatitude(), location.getLongitude());
 
 
-                String markerTitle = getCurrentAddress(currentPosition);
+                markerTitle = getCurrentAddress(currentPosition);
                 String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
                         + " 경도:" + String.valueOf(location.getLongitude());
 
@@ -155,13 +182,10 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
 
                 mCurrentLocatiion = location;
 
-                Toast.makeText(AuthenticateMyLocationActivity.this,markerTitle, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(AuthenticateMyLocationActivity.this, markerTitle, Toast.LENGTH_SHORT).show();
 
-                //TODO 위치인증 코드는 여기에다가 하기!!
-
+                presenter.showMyAuthenticateState();
             }
-
-
         }
 
     };
@@ -214,6 +238,7 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
         setDefaultLocation();
 
 
+
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -263,6 +288,8 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
 
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -291,8 +318,6 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
                 mGoogleMap.setMyLocationEnabled(true);
 
         }
-
-
     }
 
 
@@ -329,7 +354,6 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
         } catch (IllegalArgumentException illegalArgumentException) {
             Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
-
         }
 
 
@@ -378,7 +402,7 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
 
     public void setDefaultLocation() {
 
-
+        showProgress();
         //디폴트 위치, Seoul
         LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
         String markerTitle = "위치정보 가져올 수 없음";
@@ -420,9 +444,8 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
     }
 
 
-    /*
-     * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
-     */
+    // ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
+
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
@@ -559,5 +582,52 @@ public class AuthenticateMyLocationActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onGetResult() {
+        hideProgress();
+        //TODO 위치인증 코드는 여기에다가 하기!!
+        if (user.get(sessionManager.LOCATION1_STATE.toString()).equals("1")) {
+            if (markerTitle.contains(user.get(sessionManager.GU))) {
+
+                relative_ok.setVisibility(View.VISIBLE);
+                relative_fail.setVisibility(View.GONE);
+                txt_dong.setText(markerTitle + "\n");
+                txt_message.setText("현재 위치가 내 동네로 설정한" + user.get(sessionManager.DONG).toString() + "내에 있습니다.");
+
+            } else {
+
+                relative_ok.setVisibility(View.GONE);
+                relative_fail.setVisibility(View.VISIBLE);
+                txt_dong2.setText(markerTitle + "\n");
+                txt_message2.setText("내 동네가 '" + user.get(sessionManager.GU).toString() + "'으로 설정되어 있습니다. \n'" + user.get(sessionManager.GU).toString() + "'에서만 동네 인증을 할 수 있어요.\n현재 위치를 확인해주세요.");
+
+            }
+        } else if (user.get(sessionManager.LOCATION2_STATE.toString()).equals("1")) {
+            if (markerTitle.contains(user.get(sessionManager.GU2))) {
+                relative_ok.setVisibility(View.VISIBLE);
+                relative_fail.setVisibility(View.GONE);
+                txt_dong.setText(markerTitle + "\n");
+                txt_message.setText("현재 위치가 내 동네로 설정한 '" + user.get(sessionManager.DONG2).toString() + "'내에 있습니다.");
+
+            } else {
+                relative_ok.setVisibility(View.GONE);
+                relative_fail.setVisibility(View.VISIBLE);
+                txt_dong2.setText(markerTitle + "\n");
+                txt_message2.setText("내 동네가 '" + user.get(sessionManager.GU2).toString() + "'으로 설정되어 있습니다. \n'" + user.get(sessionManager.GU2).toString() + "'에서만 동네 인증을 할 수 있어요.\n현재 위치를 확인해주세요.");
+
+            }
+        }
+
+    }
 }
 

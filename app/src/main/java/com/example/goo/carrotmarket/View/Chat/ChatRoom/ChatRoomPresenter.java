@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.example.goo.carrotmarket.API.ApiClientNodeJs;
 import com.example.goo.carrotmarket.API.ApiInterface;
 import com.example.goo.carrotmarket.Model.ChatMessage;
+import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.Model.Product;
 
 import org.json.JSONException;
@@ -37,21 +38,21 @@ public class ChatRoomPresenter {
         view.setToolbar();
     }
 
-   /* //소켓 생성
-    public Socket setSocket(Socket socket) {
-        try {
+    /* //소켓 생성
+     public Socket setSocket(Socket socket) {
+         try {
 
-            socket = IO.socket("http://54.180.32.57:3000/chat");
+             socket = IO.socket("http://54.180.32.57:3000/chat");
 
-        } catch (URISyntaxException e) {
-            Log.d("error", "onCreate : " + e.toString());
-        }
+         } catch (URISyntaxException e) {
+             Log.d("error", "onCreate : " + e.toString());
+         }
 
-        return socket;
-    }
-*/
+         return socket;
+     }
+ */
     //생성된 소켓으로 nodejs socket.io 서버와 이벤트 주고받기
-    public void prepareNetwork(Socket socket, String room_id, Emitter.Listener handling_message, Emitter.Listener handling_first_chat_complete,Emitter.Listener handling_leave) {
+    public void prepareNetwork(Socket socket, String room_id, Emitter.Listener handling_message, Emitter.Listener handling_first_chat_complete, Emitter.Listener handling_leave) {
 
         socket.connect();
         if (room_id.equals("firstChat")) {
@@ -62,12 +63,12 @@ public class ChatRoomPresenter {
 
         socket.on("message", handling_message);
         socket.on("firstChatComplete", handling_first_chat_complete);
-        socket.on("leave",handling_leave);
+        socket.on("leave", handling_leave);
 
     }
 
     //전송버튼을 누르면 소켓을 통해 닉네임,프로젝트 아이디 전송
-    public void sendMessage(EditText edit_comment, String nick, String date,String date2, String room_num, Socket socket) {
+    public void sendMessage(EditText edit_comment, String nick, String date, String date2, String room_num, Socket socket) {
         String message = edit_comment.getText().toString().trim();
 
 
@@ -90,7 +91,7 @@ public class ChatRoomPresenter {
     }
 
     //전송버튼을 누르면 소켓을 통해 닉네임,프로젝트 아이디 전송
-    public void sendFirstMessage(String roomNum, EditText edit_comment, String nick, String user_partner,Socket socket, int product_id, String nick_seller, String nick_buyer,String date,String date2) {
+    public void sendFirstMessage(String roomNum, EditText edit_comment, String nick, String user_partner, Socket socket, int product_id, String nick_seller, String nick_buyer, String date, String date2) {
         String message = edit_comment.getText().toString().trim();
 
 
@@ -117,14 +118,14 @@ public class ChatRoomPresenter {
     }
 
     //전송버튼을 누르면 소켓을 통해 닉네임,프로젝트 아이디 전송
-    public void leaveRoom( String room_num, String nick, String message, String date, String date2, Socket socket) {
+    public void leaveRoom(String room_num, String nick, String message, String date, String date2, Socket socket) {
 
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("roomNum", room_num);
             jsonObject.put("nick", nick);
-            jsonObject.put("message", nick+"님이 나갔습니다.");
+            jsonObject.put("message", nick + "님이 나갔습니다.");
             jsonObject.put("date", date);
             jsonObject.put("date2", date2);
             jsonObject.put("message_state", "leave");
@@ -137,7 +138,7 @@ public class ChatRoomPresenter {
     }
 
     //메세지가 정상적으로 전송 및 받기가 되면 어댑터에 그 값들을 답아준다.
-    public void addMessage(String message, String user, String message_date,String message_state) {
+    public void addMessage(String message, String user, String message_date, String message_state) {
         view.setAdapter(message, user, message_date, message_state);
     }
 
@@ -245,9 +246,26 @@ public class ChatRoomPresenter {
     }
 
     //판매자의 경우 거래후기를 남겼는지 안남겼는지 확인하기
-    void getHoogiState(int product_id) {
+    void getHoogiState(CompositeDisposable compositeDisposable, int product_id, String seller, String buyer) {
         view.showProgress();
-
+        ApiInterface apiInterface = ApiClientNodeJs.getApiLocation().create(ApiInterface.class);
+        compositeDisposable.add(apiInterface.getHoogiState(product_id, seller, buyer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Hoogi>>() {
+                    @Override
+                    public void accept(List<Hoogi> hoogiList) throws Exception {
+                        view.hideProgress();
+                        view.onGetResultHoogi(hoogiList);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.hideProgress();
+                        view.onErrorLoading(throwable.getMessage());
+                    }
+                })
+        );
     }
 
 

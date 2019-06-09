@@ -20,12 +20,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.Model.ChatMessage;
+import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
+import com.example.goo.carrotmarket.Util.ToolBar;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.Reserve.ReserveActivity;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
 import com.example.goo.carrotmarket.View.Hoogi.HoogiActivity;
+import com.example.goo.carrotmarket.View.Hoogi.SeeMyHoogi.SeeMyHoogiActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONException;
@@ -97,6 +100,8 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     List<ChatMessage> chat_message;
     ArrayList<String> users;
     List<Product> product;
+    List<Hoogi> hoogi;
+
 
     ChatRoomPresenter presenter;
     ChatRoomAdapter adapter;
@@ -109,7 +114,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     InputMethodManager imm;
 
 
-    String roomNum, seller, buyer,partner,date,roomNumExist;
+    String roomNum, seller, buyer, partner, date, roomNumExist;
 
     int message_state;
 
@@ -118,6 +123,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
     SimpleDateFormat mFormat = new SimpleDateFormat("a hh:mm ");
 
+    ToolBar toolBar = new ToolBar();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,16 +149,11 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
 
         System.out.println("바이어는 : " + buyer + "판매자는 : " + seller);
-        //내가 판매자가 아니라면 거래후기 남기기 버튼 안보이게 처리
-        if(!nick.equals(seller)){
-            cardview_hoogi.setVisibility(View.GONE);
-        }
-
 
 
         //툴바 셋팅
-        setToolbar();
 
+        presenter.setToolbar();
         //  chat_data = new ArrayList<>();
         users = new ArrayList<>();
 
@@ -160,7 +161,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         //툴바에 채팅하고 있는 상대 이름 적기
         presenter.setToolbar();
         presenter.getProduct(compositeDisposable, product_id);
-
+        presenter.getHoogiState(compositeDisposable, product_id, seller, buyer);
 
         //소켓 통신 준비!
 
@@ -275,17 +276,14 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    @Override
-    public void setToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false); //툴바에 타이틀 적지 않기
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-        txt_nick.setText(partner);
-    }
 
     //-----------ChatRoomView 인터페이스 구현---------------
 
+    @Override
+    public void setToolbar() {
+        toolBar.setToolbar(toolbar, this);
+        txt_nick.setText(partner);
+    }
 
     @Override
     public void showProgress() {
@@ -322,6 +320,57 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         title.setText(products.get(0).getTitle());
         location.setText(products.get(0).getDong());
         price.setText(products.get(0).getPrice() + "원");
+
+    }
+
+    @Override
+    public void onGetResultHoogi(List<Hoogi> hoogiList) {
+
+        hoogi = hoogiList;
+        //내가 판매자인 경우
+        if (nick.equals(seller)) {
+            switch (hoogiList.get(0).getHoogi_state()) {
+
+                //판매자이면서 후기를 작성하지 않은 경우
+                case 0:
+                    cardview_hoogi.setVisibility(View.VISIBLE);
+                    break;
+
+
+                //판매자이면서 후기를 작성한 경우
+                case 1:
+                    cardview_hoogi.setVisibility(View.GONE);
+                    cardview_see_my_hoogi.setVisibility(View.VISIBLE);
+                    break;
+
+
+            }
+
+
+            //내가 구매자인 경우
+        } else if (nick.equals(buyer)) {
+
+            switch (hoogiList.get(0).getBuyer_hoogi_state()) {
+                case 0:
+                    if (hoogiList.get(0).getHoogi_state() == 1) {
+                        cardview_hoogi.setVisibility(View.VISIBLE);
+                        cardview_see_my_hoogi.setVisibility(View.GONE);
+                    } else if (hoogiList.get(0).getHoogi_state() == 0) {
+                        cardview_hoogi.setVisibility(View.GONE);
+                        cardview_see_my_hoogi.setVisibility(View.GONE);
+                    }
+
+                    break;
+
+
+                case 1:
+                    cardview_hoogi.setVisibility(View.GONE);
+                    cardview_see_my_hoogi.setVisibility(View.VISIBLE);
+                    break;
+            }
+
+
+        }
 
     }
 
@@ -457,16 +506,22 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                 intent = new Intent(this, HoogiActivity.class);
                 intent.putExtra("id", product_id);
                 intent.putExtra("title", product.get(0).getTitle());
-                intent.putExtra("buyer", partner);
+                intent.putExtra("buyer", buyer);
                 intent.putExtra("seller", seller);
                 startActivity(intent);
                 break;
 
             case R.id.cardview_see_my_hoogi:
-
+                intent = new Intent(this, SeeMyHoogiActivity.class);
+                intent.putExtra("id", product_id);
+                intent.putExtra("title", product.get(0).getTitle());
+                intent.putExtra("buyer", buyer);
+                intent.putExtra("seller", seller);
+                startActivity(intent);
                 break;
         }
     }
+
 
 
     //버튼 리스너

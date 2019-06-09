@@ -47,31 +47,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
 
-
-                <fragment
-                    android:id="@+id/fragment"
-                    android:name="com.google.android.gms.maps.MapFragment"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="20dp"
-                    app:cardCornerRadius="3dp">
-
-
-                    <Button
-                        android:id="@+id/btn_getMyLocation"
+                    <fragment
+                        android:id="@+id/fragment"
+                        android:name="com.google.android.gms.maps.MapFragment"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorWhite"
-                        android:text="현재 위치 받아오기"
-                        android:textColor="@color/colorOrange" />
-
-                </android.support.v7.widget.CardView>
-
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
+                </RelativeLayout>
 
             </FrameLayout>
 
@@ -98,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/image"
                     android:layout_toRightOf="@+id/image"
-                    android:text="현재 위치"
+                    android:text="현재 위치 "
                     android:textColor="#000000" />
 
                 <TextView
@@ -116,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@+id/image"
                     android:text="현재 위치가 내 동네로 설정한 '사동'내에 있습니다."
                     android:textColor="#000000" />
@@ -137,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorOrange"
-                        android:text="현재 위치 받아오기"
+                        android:text="동네 인증 완료하기"
                         android:textColor="@color/colorWhite" />
 
                 </android.support.v7.widget.CardView>
@@ -151,7 +143,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/image2"
@@ -166,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/image2"
                     android:layout_toRightOf="@+id/image2"
-                    android:text="현재 위치"
+                    android:text="현재 위치 "
                     android:textColor="#000000" />
 
                 <TextView
@@ -184,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt2"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@+id/image2"
                     android:text="내 동네가 '문정동'으로 설정되어 있습니다.                                  '문정동'에서만 동네 인증을 할 수 있어요.
 현재 위치를 확인해주세요."

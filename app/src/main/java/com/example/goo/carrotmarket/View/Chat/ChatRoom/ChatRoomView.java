@@ -1,6 +1,7 @@
 package com.example.goo.carrotmarket.View.Chat.ChatRoom;
 
 import com.example.goo.carrotmarket.Model.ChatMessage;
+import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.Model.Product;
 
 import java.util.List;
@@ -17,15 +18,17 @@ public interface ChatRoomView {
 
     void onErrorLoading(String message);
 
-    void onGetResultMessages(List<ChatMessage> messages);
+    void onGetResultMessages(List<ChatMessage> messageList);
 
-    void onGetResultProduct(List<Product> products);
+    void onGetResultProduct(List<Product> productList);
+
+    void onGetResultHoogi(List<Hoogi> hoogiList);
 
     void setEditTextEmpty();
 
     void setToolbar();
 
-    void setAdapter(String message, String user,String message_date,String message_state);
+    void setAdapter(String message, String user, String message_date, String message_state);
 
     void showActiveButton();
 

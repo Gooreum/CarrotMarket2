@@ -240,6 +240,9 @@ public interface ApiInterface {
     @GET("chat/product")
     Observable<List<Product>> getProduct(@Query("product_id") int product_id);
 
+    @GET("chat/hoogi/state")
+    Observable<List<Hoogi>> getHoogiState(@Query("product_id") int product_id, @Query("seller") String seller, @Query("buyer") String buyer);
+
 
     //구매자 선택 화면에서 상품 거래를 위해 채팅하고 있는 사람들
 
