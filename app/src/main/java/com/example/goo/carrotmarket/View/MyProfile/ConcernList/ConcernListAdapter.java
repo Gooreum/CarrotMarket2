@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
-import com.example.goo.carrotmarket.View.Home.HomeAdapter;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -60,7 +59,11 @@ public class ConcernListAdapter extends RecyclerView.Adapter<ConcernListAdapter.
         holder.txt_description.setText(product.getDescription());
         holder.txt_price.setText(product.getPrice() + "원");
         holder.txt_location.setText(product.getDong().toString());
-
+        if (product.getUpdateWritingCnt() >= 1) {
+            holder.txt_uploadTime.setText("끌올 " + product.getDate());
+        } else {
+            holder.txt_uploadTime.setText(product.getDate());
+        }
         int imageCnt = product.getImageCnt();
         if (imageCnt <= 1) {
             holder.card_imageCnt.setVisibility(View.GONE);
@@ -166,6 +169,8 @@ public class ConcernListAdapter extends RecyclerView.Adapter<ConcernListAdapter.
         CardView cardview_traded;
         @BindView(R.id.cardview_reserving)
         CardView cardview_reserving;
+        @BindView(R.id.uploadTime)
+        TextView txt_uploadTime;
         ItemClickListener itemClickListener;
 
         public ViewHolder(View itemView, ItemClickListener itemClickListener) {

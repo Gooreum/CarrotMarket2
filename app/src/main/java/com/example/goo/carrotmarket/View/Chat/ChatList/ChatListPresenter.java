@@ -10,6 +10,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Created by Goo on 2019-05-22.
@@ -26,7 +28,7 @@ public class ChatListPresenter {
     }
 
     //회원 목록 불러오기
-    void getChatList(CompositeDisposable compositeDisposable,String nick) {
+    void getChatList(CompositeDisposable compositeDisposable, String nick) {
         view.showProgress();
         ApiInterface apiInterface = ApiClientNodeJs.getApiLocation().create(ApiInterface.class);
         compositeDisposable.add(apiInterface.getChatList(nick)
@@ -48,7 +50,14 @@ public class ChatListPresenter {
         );
     }
 
+    //생성된 소켓으로 nodejs socket.io 서버와 이벤트 주고받기
+    public void prepareNetwork(Socket socket, Emitter.Listener handling, String nick) {
 
+        socket.connect();
+        socket.emit("myChatList", nick);
+        socket.on("myChatList", handling);
+
+    }
 
 
 }

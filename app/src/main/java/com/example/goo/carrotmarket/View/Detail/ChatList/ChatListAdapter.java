@@ -74,8 +74,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         CircleImageView profileImg;
         @BindView(R.id.txt_nick)
         TextView txt_nick;
-        @BindView(R.id.txt_location)
-        TextView txt_location;
+
         @BindView(R.id.txt_date)
         TextView txt_date;
         @BindView(R.id.txt_chat_description)

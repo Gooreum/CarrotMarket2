@@ -11,13 +11,21 @@ import java.util.List;
 public interface HomeView {
 
     void showProgress();
+
     void hideProgress();
+
     void onErrorLoading(String message);
+
     void onGetResult(List<Product> products);
+
+    void onGetRefreshResult(List<Product> products);
+
     void onGetResultFromSpinner1(List<Product> products);
+
     void onGetResultFromSpinner2(List<Product> products);
-    void onGetResultSpecificProduct(List<Product> products);
-    void moveActivity( Class activity);
+
+
+    void moveActivity(Class activity);
 
     void snackBar(String dong);
 

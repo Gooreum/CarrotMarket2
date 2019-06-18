@@ -53,7 +53,7 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
     List<Chat> chat;
 
 
-    // Socket socket;
+     //Socket socket;
 
 
     @Nullable
@@ -79,7 +79,7 @@ public class ChatListRealTimeFragment extends Fragment implements ChatListRealTi
         //툴바 설정
         setToolbar();
         //1.로그인 한 상태일 때
-        //chat = new ArrayList<>();
+
 
 
         // socket = presenter.setSocket(socket);

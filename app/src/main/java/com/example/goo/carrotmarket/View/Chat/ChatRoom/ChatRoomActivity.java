@@ -29,6 +29,7 @@ import com.example.goo.carrotmarket.View.Chat.ChatRoom.Reserve.ReserveActivity;
 import com.example.goo.carrotmarket.View.Detail.DetailActivity;
 import com.example.goo.carrotmarket.View.Hoogi.HoogiActivity;
 import com.example.goo.carrotmarket.View.Hoogi.SeeMyHoogi.SeeMyHoogiActivity;
+import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.json.JSONException;
@@ -105,7 +106,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
     ChatRoomPresenter presenter;
     ChatRoomAdapter adapter;
-
+    ChatRoomAdapter.ItemClickListener itemClickListener;
 
     SessionManager sessionManager;
     String nick;
@@ -180,7 +181,19 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
         setButtonListener();
 
+        //리사이클러뷰 아이템 클릭 리스너
+        itemClickListener = ((view1, position) -> {
 
+
+            String nick = chat_message.get(position).getNick();
+
+            Intent intent = new Intent(this, SellerProfileActivity.class);
+            intent.putExtra("nick", nick);
+
+            startActivity(intent);
+
+
+        });
     }
 
 
@@ -305,7 +318,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
         chat_message = messages;
-        adapter = new ChatRoomAdapter(this, chat_message);
+        adapter = new ChatRoomAdapter(this, chat_message, itemClickListener);
         adapter.notifyItemChanged(chat_message.size() - 1);
         recyclerViewChat.setAdapter(adapter);
         recyclerViewChat.scrollToPosition(chat_message.size() - 1);
@@ -384,7 +397,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
 
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
         chat_message.add(new ChatMessage(user, message, message_date, message_state));
-        adapter = new ChatRoomAdapter(this, chat_message);
+        adapter = new ChatRoomAdapter(this, chat_message, itemClickListener);
         adapter.notifyItemChanged(chat_message.size() - 1);
         recyclerViewChat.setAdapter(adapter);
         recyclerViewChat.scrollToPosition(chat_message.size() - 1);
@@ -482,7 +495,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.btn_send_active:
 
-                presenter.sendMessage(edit_comment, nick, getTime(), getCurrentTime("yyyyMMddHHmmssSSS"), roomNum, socket);
+                presenter.sendMessage(edit_comment, nick, partner, getTime(), getCurrentTime("yyyyMMddHHmmssSSS"), roomNum, socket);
                 break;
 
             case R.id.txt_delete:
@@ -521,7 +534,6 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
-
 
 
     //버튼 리스너

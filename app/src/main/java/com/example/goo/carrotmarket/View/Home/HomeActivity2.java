@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.BottomNavigationViewHelper;
 import com.example.goo.carrotmarket.View.Category.CategoryFragment;
-import com.example.goo.carrotmarket.View.Chat.ChatListRealTime.ChatListRealTimeFragment;
+import com.example.goo.carrotmarket.View.Chat.ChatList.ChatListFragment;
 import com.example.goo.carrotmarket.View.MyProfile.MyProfileFragment;
 import com.example.goo.carrotmarket.View.Write.WriteFragment;
 
@@ -25,7 +25,6 @@ import io.socket.client.Socket;
 
 public class HomeActivity2 extends AppCompatActivity {
     public static Socket socket;
-
 
 
     @Override
@@ -85,8 +84,8 @@ public class HomeActivity2 extends AppCompatActivity {
 
 
                     Bundle bundle4 = new Bundle();
-                    // selectedFragment = new ChatListFragment();
-                    selectedFragment = new ChatListRealTimeFragment();
+                    selectedFragment = new ChatListFragment();
+                    //selectedFragment = new ChatListRealTimeFragment();
                     selectedFragment.setArguments(bundle4);
 
                     break;
@@ -109,6 +108,7 @@ public class HomeActivity2 extends AppCompatActivity {
 
     //소켓 생성
     public Socket setSocket(Socket socket) {
+
         try {
 
             socket = IO.socket("http://54.180.32.57:3000/chat");
@@ -116,14 +116,18 @@ public class HomeActivity2 extends AppCompatActivity {
         } catch (URISyntaxException e) {
             Log.d("error", "onCreate : " + e.toString());
         }
-
+        if (socket.connected() == true) {
+            Toast.makeText(this, "소켓이 살아 있소", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "소켓이 die 했소", Toast.LENGTH_SHORT).show();
+        }
 
         return socket;
     }
 
     public Socket getSocket() {
         System.out.println("--------------------소켓값은 : " + socket.toString());
-       // Toast.makeText(getApplicationContext(), socket.toString(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), socket.toString(), Toast.LENGTH_SHORT).show();
         return this.socket;
     }
 

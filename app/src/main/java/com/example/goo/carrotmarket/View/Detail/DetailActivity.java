@@ -27,7 +27,6 @@ import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.Model.UserInfo;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.GlobalBus.Events;
-import com.example.goo.carrotmarket.Util.GlobalBus.GlobalBus;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 import com.example.goo.carrotmarket.View.Detail.BottomSheet.BottomSheetDialog;
@@ -149,10 +148,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     int position;
     String seller;
 
-    String fragment;
+
     String myNick;
     String chatRoomId;
-    String userPartner;
+
 
     //좋아요 눌렀는지 안 눌렀는지 판단
     boolean flag;
@@ -164,7 +163,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     DetailSellerProductsAdapter.ItemClickListener itemClickListener;
 
 
-    Events.BackToHomeFromDetail backToHomeFromDetail;
+    //Events.BackToHomeFromDetail backToHomeFromDetail;
     Events.BackToSellingFromDetail backToSellingFromDetail;
     Events.BackToCompleteFromDetail backToCompleteFromDetail;
     Events.BackToHideFromDetail backToHideFromDetail;
@@ -196,10 +195,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         myNick = user.get(sessionManager.NICK).toString();
 
         //OttoBus 이벤트 객체 생성
-        backToHomeFromDetail = new Events.BackToHomeFromDetail(position, id);
+     /*
         backToSellingFromDetail = new Events.BackToSellingFromDetail(position, id);
         backToCompleteFromDetail = new Events.BackToCompleteFromDetail(position, id);
-        backToHideFromDetail = new Events.BackToHideFromDetail(position, id);
+        backToHideFromDetail = new Events.BackToHideFromDetail(position, id);*/
         //프레젠터 이벤트
         initPresenter();
 
@@ -236,13 +235,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         like_checked.setOnClickListener(this);
 
         like_unchecked.setOnClickListener(this);
+        txt_reply.setOnClickListener(this);
 
-        //댓글작성
-        if (sessionManager.isLoggIn() == true) {
-            txt_reply.setOnClickListener(this);
-        } else {
-            presenter.showLoginDialog(this);
-        }
 
         //판매중,예약중, 거래완료 상태 변경
         if (sessionManager.isLoggIn() == true && seller.equals(myNick)) {
@@ -319,7 +313,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public void onGetResultDelete(String message) {
         Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
-        GlobalBus.getBus().post(backToHomeFromDetail);
+        // GlobalBus.getBus().post(backToHomeFromDetail);
 
 
         finish();
@@ -428,7 +422,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             case android.R.id.home:
 
 
-                GlobalBus.getBus().post(backToHomeFromDetail);
                 finish();
 
 
@@ -596,6 +589,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
+    //판매자 프로필 셋팅
     public void setSellerInfo(List<UserInfo> userinfo) {
         nick.setText(userinfo.get(0).getNick().toString());
         if (userinfo.get(0).getLocation1_state().equals("1")) {
@@ -608,7 +602,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
-    //판매자 프로필 셋팅
+
     public void setSellerProducts() {
         //판매자의 판매하고 있는 상품이 현재 보고 있는 상품밖에 없으면 판매자의 상품 모두보기 화면은 안보이게 처리
         if (sellingProducts.size() == 0) {
@@ -683,9 +677,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 break;
 
             case R.id.txt_reply:
-                intent = new Intent(DetailActivity.this, ReplyActivity.class);
-                //intent.putExtra("nick", nick.getText().toString());
-                startActivity(intent);
+                //댓글작성
+                if (sessionManager.isLoggIn() == true) {
+                    intent = new Intent(DetailActivity.this, ReplyActivity.class);
+                    //intent.putExtra("nick", nick.getText().toString());
+                    startActivity(intent);
+                } else {
+                    presenter.showLoginDialog(this);
+                }
+
 
                 break;
 
@@ -774,10 +774,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             intent.putExtra("id", id);
             intent.putExtra("title", product.get(0).getTitle().toString());
 
-            if (!product.get(0).getImage0().toString().isEmpty()) {
+            if (product.get(0).getImageCnt() != 0) {
                 intent.putExtra("product_image", product.get(0).getImage0().toString());
             } else {
-                intent.putExtra("product_image", "ggg");
+                intent.putExtra("product_image", "http://54.180.32.57/CarrotMarket/profileImages/후루루룩.jpg");
             }
 
             startActivity(intent);

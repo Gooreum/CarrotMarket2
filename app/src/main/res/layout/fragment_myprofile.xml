@@ -158,12 +158,14 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/coins" />
+                        android:src="@drawable/coins"
+
+                        />
 
                     <TextView
                         android:id="@+id/category"
@@ -189,12 +191,14 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/inspection" />
+                        android:src="@drawable/inspection"
+
+                        />
 
                     <TextView
                         android:id="@+id/category2"
@@ -220,12 +224,14 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image3"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/heart" />
+                        android:src="@drawable/heart"
+
+                        />
 
                     <TextView
                         android:id="@+id/category3"
@@ -304,12 +310,14 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image5"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/setting_location" />
+                        android:src="@drawable/setting_location"
+
+                        />
 
                     <TextView
                         android:id="@+id/category5"
@@ -335,7 +343,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image6"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -366,7 +374,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image7"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -397,7 +405,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/ripple_effect">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image8"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

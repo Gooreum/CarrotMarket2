@@ -40,7 +40,8 @@ dependencies {
     //need for network lib retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
-
+    //need for network log
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
 
     //rxjava2
     implementation "io.reactivex.rxjava2:rxjava:2.1.7"
@@ -57,6 +58,7 @@ dependencies {
     //glide & picasso
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
 
     //circleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'

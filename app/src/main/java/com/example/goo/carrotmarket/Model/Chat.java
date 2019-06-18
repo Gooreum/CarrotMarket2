@@ -22,12 +22,20 @@ public class Chat {
     private String user_partner;
 
     @Expose
+    @SerializedName("profileImg")
+    private String profileImg;
+
+    @Expose
     @SerializedName("message")
     private String message;
 
     @Expose
     @SerializedName("date")
     private String date;
+
+    @Expose
+    @SerializedName("date2")
+    private String date2;
 
     @Expose
     @SerializedName("product_id")
@@ -101,6 +109,14 @@ public class Chat {
         this.user_partner = user_partner;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -115,6 +131,14 @@ public class Chat {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDate2() {
+        return date2;
+    }
+
+    public void setDate2(String date2) {
+        this.date2 = date2;
     }
 
     public int getProduct_id() {

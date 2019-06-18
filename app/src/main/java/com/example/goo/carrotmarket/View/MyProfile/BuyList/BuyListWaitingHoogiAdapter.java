@@ -60,7 +60,11 @@ public class BuyListWaitingHoogiAdapter extends RecyclerView.Adapter<BuyListWait
         holder.txt_description.setText(product.getDescription());
 
         holder.txt_location.setText(product.getDong().toString());
-
+        if (product.getUpdateWritingCnt() >= 1) {
+            holder.txt_uploadTime.setText("끌올 " + product.getDate());
+        } else {
+            holder.txt_uploadTime.setText(product.getDate());
+        }
         int imageCnt = product.getImageCnt();
         if (imageCnt <= 1) {
             holder.card_imageCnt.setVisibility(View.GONE);
@@ -149,7 +153,8 @@ public class BuyListWaitingHoogiAdapter extends RecyclerView.Adapter<BuyListWait
         TextView imgCnt;
         @BindView(R.id.relative_hoogi)
         RelativeLayout relative_hoogi;
-
+        @BindView(R.id.uploadTime)
+        TextView txt_uploadTime;
         ItemClickListener productListener, hoogiListener;
 
         public ViewHolder(View itemView, ItemClickListener productListener, ItemClickListener hoogiListener) {

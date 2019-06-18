@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +34,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private List<Chat> listItems;
     private Context mContext;
     private ItemClickListener itemClickListener;
+
 
     public ChatListAdapter(Context mContext, List<Chat> listItems, ItemClickListener itemClickListener) {
         this.listItems = listItems;
@@ -51,13 +56,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
         Chat chat = listItems.get(position);
 
+
         holder.txt_nick.setText(chat.getUser_partner().toString());
+        // holder.txt_date.setText(chat.getDate2().toString());
+        holder.txt_date.setText(transformDate(chat.getDate2()) + "");
+        holder.txt_chat_description.setText(chat.getMessage().toString());
 
-       // holder.txt_location.setText(userinfo.getDong1().toString());
-//        holder.txt_date.setText(userinfo.getDong1().toString());
-//        holder.txt_chat_description.setText(userinfo.getDong1().toString());
 
-        //Glide.with(mContext).load(userinfo.getProfileImage().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.dress).into(holder.profileimg);
+        Glide.with(mContext).load(chat.getProfileImg().toString()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.profileimg).into(holder.profileImg);
 
     }
 
@@ -75,8 +81,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         CircleImageView profileImg;
         @BindView(R.id.txt_nick)
         TextView txt_nick;
-        @BindView(R.id.txt_location)
-        TextView txt_location;
+
         @BindView(R.id.txt_date)
         TextView txt_date;
         @BindView(R.id.txt_chat_description)
@@ -101,5 +106,30 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    // 날짜가 yyyymmdd 형식으로 입력되었을 경우 Date로 변경하는 메서드
+    public String transformDate(String date) {
+        SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+        // Date로 변경하기 위해서는 날짜 형식을 yyyy-mm-dd로 변경해야 한다.
+        SimpleDateFormat afterFormat = new SimpleDateFormat("yyyy년MM월dd일");
+
+        java.util.Date tempDate = null;
+
+        try {
+            // 현재 yyyymmdd로된 날짜 형식으로 java.util.Date객체를 만든다.
+            tempDate = beforeFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // java.util.Date를 yyyy-mm-dd 형식으로 변경하여 String로 반환한다.
+        String transDate = afterFormat.format(tempDate);
+
+        // 반환된 String 값을 Date로 변경한다.
+        // Date d = Date.valueOf(transDate);
+
+        return transDate;
     }
 }

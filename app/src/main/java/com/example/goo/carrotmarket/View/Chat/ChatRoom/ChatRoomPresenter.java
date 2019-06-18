@@ -68,7 +68,7 @@ public class ChatRoomPresenter {
     }
 
     //전송버튼을 누르면 소켓을 통해 닉네임,프로젝트 아이디 전송
-    public void sendMessage(EditText edit_comment, String nick, String date, String date2, String room_num, Socket socket) {
+    public void sendMessage(EditText edit_comment, String nick, String user_partner, String date, String date2, String room_num, Socket socket) {
         String message = edit_comment.getText().toString().trim();
 
 
@@ -77,6 +77,8 @@ public class ChatRoomPresenter {
 
             jsonObject.put("message", message);
             jsonObject.put("nick", nick);
+            jsonObject.put("partner", user_partner);
+
             jsonObject.put("roomNum", room_num);
             jsonObject.put("date", date);
             jsonObject.put("date2", date2);

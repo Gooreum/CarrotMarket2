@@ -2,6 +2,7 @@ package com.example.goo.carrotmarket.View.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,8 +71,7 @@ public class HomeFragment extends Fragment implements HomeView {
     HashMap<String, String> user;
     String nick, city, gu, dong, dong2;
 
-
-    int position, product_id;
+    private Parcelable recyclerViewState;
 
     @Nullable
     @Override
@@ -80,11 +81,11 @@ public class HomeFragment extends Fragment implements HomeView {
 
         ButterKnife.bind(this, view);
         GlobalBus.getBus().register(this);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //로그인 세션
         sessionManager = new SessionManager(getContext());
         user = sessionManager.getUserDetail();
-
+        product = new ArrayList<>();
         //스피너 값 설정
         setSpinner();
 
@@ -131,7 +132,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
         //리사이클러뷰 아이템 클릭 리스너
         itemClickListener = ((view1, position) -> {
-
+            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
             String id = String.valueOf(product.get(position).getId());
             String seller = product.get(position).getSeller();
             int hide = product.get(position).getHide();
@@ -152,8 +153,8 @@ public class HomeFragment extends Fragment implements HomeView {
     //필터화면에서 다시 돌아왔을 떄 새로고침 해주기
     @Subscribe
     public void BackToHomeFromFilter(Events.BackToHomeFromFilter backToHome) {
-
-        if (sessionManager.isLoggIn() == true) {
+        presenter.getProducts(nick, city, gu, dong);
+/*        if (sessionManager.isLoggIn() == true) {
 
             nick = user.get(sessionManager.NICK).toString();
             if (user.get(sessionManager.LOCATION1_STATE.toString()).equals("1")) {
@@ -167,7 +168,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 dong = user.get(sessionManager.DONG2).toString();
                 presenter.getProducts(nick, city, gu, dong);
             }
-        }
+        }*/
     }
 
     //내 지역설정 화면에서 다시 돌아왔을 떄 새로고침 해주기
@@ -179,16 +180,20 @@ public class HomeFragment extends Fragment implements HomeView {
         setSpinner();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("온 리쥼 : ", "온 리쥼");
+        if (sessionManager.isLoggIn() == true) {
+            presenter.getProductsFromDetail(nick, city, gu, dong);
 
-    //상세보기 화면에서 돌아왔을 때, 해당 포지션의 게시글만 다시 서버에 보내서 변경된 값 적용해주기
-    @Subscribe
-    public void BackToHomeFromDetail(Events.BackToHomeFromDetail backToHomeFromDetail) {
-        position = backToHomeFromDetail.getPosition();
-        product_id = backToHomeFromDetail.getProduct_id();
-        presenter.getSpecificProduct(product_id);
+        } else {
+            presenter.getProductsFromDetailNotLogin();
+
+        }
+
 
     }
-
 
     @Override
     public void onDestroyView() {
@@ -353,33 +358,24 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void onGetResult(List<Product> products) {
         //리사이클러뷰 메니저
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         adapter = new HomeAdapter(getContext(), products, itemClickListener);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         product = products;
     }
 
-    //상품상세보기 화면에서 돌아온 후, 리사이클러뷰의 해당 아이템 값이 변경되어 있다면 값을 수정해준다.
     @Override
-    public void onGetResultSpecificProduct(List<Product> products) {
+    public void onGetRefreshResult(List<Product> products) {
+        product = products;
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        adapter = new HomeAdapter(getContext(), products, itemClickListener);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
 
-
-        if (products.size() == 0 || products == null) {
-            product.remove(product.get(position));
-            adapter.notifyItemRemoved(position);
-        } else {
-            if (product.get(position) != products.get(0)) {
-                product.set(position, products.get(0));
-                adapter.notifyItemChanged(position);
-                if (product.get(position).getHide() == 1) {
-                    product.remove(product.get(position));
-
-                    adapter.notifyItemRemoved(position);
-                }
-            }
-        }
     }
+
 
     @Override
     public void snackBar(String dong) {
@@ -413,7 +409,8 @@ public class HomeFragment extends Fragment implements HomeView {
         recyclerView.setAdapter(adapter);
         product = products;
         sessionManager.updateLocation2(city, gu, dong2, "0", "1");
-        // Toast.makeText(getContext(), city + gu + dong2, Toast.LENGTH_SHORT).show();
+
     }
+
 
 }

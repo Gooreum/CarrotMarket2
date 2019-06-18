@@ -1,10 +1,5 @@
 package com.example.goo.carrotmarket.View.Chat.ChatListRealTime;
 
-import android.util.Log;
-
-import java.net.URISyntaxException;
-
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
@@ -20,19 +15,6 @@ public class ChatListRealTimePresenter {
         this.view = view;
     }
 
-
-    //소켓 생성
-    public Socket setSocket(Socket socket) {
-        try {
-
-            socket = IO.socket("http://54.180.32.57:3000/chat");
-
-        } catch (URISyntaxException e) {
-            Log.d("error", "onCreate : " + e.toString());
-        }
-
-        return socket;
-    }
 
     //생성된 소켓으로 nodejs socket.io 서버와 이벤트 주고받기
     public void prepareNetwork(Socket socket, Emitter.Listener handling, String nick) {

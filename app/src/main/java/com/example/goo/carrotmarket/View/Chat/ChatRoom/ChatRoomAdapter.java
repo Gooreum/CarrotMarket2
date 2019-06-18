@@ -34,12 +34,14 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     private HashMap<String, String> users;
     private String nick;
     private SessionManager sessionManager;
+    private ItemClickListener itemClickListener;
 
-    public ChatRoomAdapter(Context mContext, List<ChatMessage> chat_message) {
+
+    public ChatRoomAdapter(Context mContext, List<ChatMessage> chat_message, ItemClickListener itemClickListener) {
 
         this.mContext = mContext;
         this.chat_message = chat_message;
-
+        this.itemClickListener = itemClickListener;
     }
 
 
@@ -48,7 +50,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_room, parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view,itemClickListener);
 
     }
 
@@ -90,7 +92,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         return chat_message.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         @BindView(R.id.txt_me)
@@ -109,12 +111,19 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         RelativeLayout relative_chat_me;
         @BindView(R.id.relative_chat_you)
         RelativeLayout relative_chat_you;
+        ItemClickListener itemClickListener;
 
-
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, ItemClickListener itemClickListener) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+            this.itemClickListener = itemClickListener;
+            profileImg.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemClickListener.onItemClick(v, getAdapterPosition());
         }
 
         public TextView getText_chat() {
@@ -134,5 +143,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
 
     }
 
-
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
 }

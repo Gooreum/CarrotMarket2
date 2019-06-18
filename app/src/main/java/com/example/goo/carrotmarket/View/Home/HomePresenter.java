@@ -66,6 +66,62 @@ public class HomePresenter {
         });
     }
 
+    //홈화면에서 상품 받아오기
+    void getProductsFromDetail(String nick, String city, String gu, String dong) {
+        //view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<List<Product>> call = apiInterface.getProduct(nick, city, gu, dong);
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+             //   view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    view.onGetRefreshResult(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+            //    view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+    //홈화면에서 상품 받아오기
+    void getProductsFromDetailNotLogin() {
+        //view.showProgress();
+
+        //Request to Server
+
+        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
+        Call<List<Product>> call = apiInterface.getProduct();
+
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+              //  view.hideProgress();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    view.onGetRefreshResult(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+              //  view.hideProgress();
+                view.onErrorLoading(t.getLocalizedMessage());
+
+            }
+        });
+    }
+
     //검색 결과 받아오기
     void getProducts() {
         view.showProgress();
@@ -94,33 +150,7 @@ public class HomePresenter {
         });
     }
 
-    //리사이클러뷰의 특정 아이템 값 받아오기
-    void getSpecificProduct(int product_id) {
-        view.showProgress();
 
-        //Request to Server
-
-        ApiInterface apiInterface = ApiClient.getApiLocation().create(ApiInterface.class);
-        Call<List<Product>> call = apiInterface.getSpecificProduct(product_id);
-
-        call.enqueue(new Callback<List<Product>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
-                view.hideProgress();
-                if (response.isSuccessful() && response.body() != null) {
-
-                    view.onGetResultSpecificProduct(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
-                view.hideProgress();
-                view.onErrorLoading(t.getLocalizedMessage());
-
-            }
-        });
-    }
 
 
     //스피너에서 지역 선택 후 상품 받아오기
