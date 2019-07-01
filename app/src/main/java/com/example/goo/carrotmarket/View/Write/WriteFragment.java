@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.example.goo.carrotmarket.Dialog.CustomDialogAuth;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.example.goo.carrotmarket.Util.SessionManager;
@@ -25,36 +27,8 @@ import butterknife.ButterKnife;
  * Created by Goo on 2019-04-24.
  */
 
-public class WriteFragment extends Fragment implements View.OnClickListener,WritingView {
+public class WriteFragment extends Fragment implements View.OnClickListener, WritingView {
 
-    /*    @BindView(R.id.digital)
-        TextView digital;
-        @BindView(R.id.child)
-        TextView child;
-        @BindView(R.id.female)
-        TextView female;
-        @BindView(R.id.beauty)
-        TextView beauty;
-        @BindView(R.id.sports)
-        TextView sports;
-        @BindView(R.id.entertain)
-        TextView entertain;
-        @BindView(R.id.furniture)
-        TextView furniture;
-        @BindView(R.id.etc)
-        TextView etc;
-        @BindView(R.id.life)
-        TextView life;
-        @BindView(R.id.female_etc)
-        TextView female_etc;
-        @BindView(R.id.male)
-        TextView male;
-        @BindView(R.id.game)
-        TextView game;
-        @BindView(R.id.pet)
-        TextView pet;
-        @BindView(R.id.buying)
-        TextView buying;*/
     @BindView(R.id.relative_digital)
     RelativeLayout relative_digital;
     @BindView(R.id.relative_furniture)
@@ -92,6 +66,9 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
     HashMap<String, String> user;
     WritingPresenter presenter;
 
+    boolean isAuth = false;
+    String location1, location2;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -103,6 +80,9 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
         //로그인 세션
         sessionManager = new SessionManager(getContext());
         user = sessionManager.getUserDetail();
+
+        setIsAuth();
+
 
         //dialog띄우기 위한 프레젠터
         presenter = new WritingPresenter((WritingView) this);
@@ -117,6 +97,16 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
 
 
         return view;
+    }
+
+    public void setIsAuth() {
+        if (user.get(sessionManager.LOCATION1_STATE).equals("1") && user.get(sessionManager.LOCATION1_AUTH).equals("1")) {
+            isAuth = true;
+        } else if (user.get(sessionManager.LOCATION2_STATE).equals("1") && user.get(sessionManager.LOCATION2_AUTH).equals("1")) {
+            isAuth = true;
+        } else {
+            isAuth = false;
+        }
     }
 
     public void initOnClick() {
@@ -134,20 +124,6 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
         relative_pet.setOnClickListener(this);
         relative_buying.setOnClickListener(this);
         relative_ticket.setOnClickListener(this);
-/*        digital.setOnClickListener(this);
-        child.setOnClickListener(this);
-        female.setOnClickListener(this);
-        beauty.setOnClickListener(this);
-        sports.setOnClickListener(this);
-        entertain.setOnClickListener(this);
-        etc.setOnClickListener(this);
-        furniture.setOnClickListener(this);
-        life.setOnClickListener(this);
-        female_etc.setOnClickListener(this);
-        male.setOnClickListener(this);
-        game.setOnClickListener(this);
-        pet.setOnClickListener(this);
-        buying.setOnClickListener(this);*/
 
     }
 
@@ -155,7 +131,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
     @Override
     public void onClick(View view) {
         //로그인 상태 검사
-        if (sessionManager.isLoggIn() == true) {
+        if (sessionManager.isLoggIn() == true && isAuth == true) {
             switch (view.getId()) {
                 case R.id.relative_digital:
                     intent = new Intent(getActivity(), WritingActivity.class);
@@ -228,84 +204,15 @@ public class WriteFragment extends Fragment implements View.OnClickListener,Writ
                     startActivity(intent);
                     break;
 
-              /*  case R.id.digital:
-
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "디지털/가전");
-                    startActivity(intent);
-
-
-                    break;
-                case R.id.child:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "유아동/유아도서");
-                    startActivity(intent);
-                    break;
-                case R.id.female:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "여성의류");
-                    startActivity(intent);
-                    break;
-                case R.id.beauty:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "뷰티/미용");
-                    startActivity(intent);
-                    break;
-                case R.id.sports:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "스포츠/레저");
-                    startActivity(intent);
-                    break;
-                case R.id.entertain:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "도서/티켓/음반");
-                    startActivity(intent);
-                    break;
-                case R.id.etc:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "기타 중고물품");
-                    startActivity(intent);
-                    break;
-                case R.id.furniture:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "가구/인테리어");
-                    startActivity(intent);
-                    break;
-                case R.id.life:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "생활/가공식품");
-                    startActivity(intent);
-                    break;
-                case R.id.female_etc:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "가구/인테리어");
-                    startActivity(intent);
-                    break;
-                case R.id.male:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "남성패션/잡화");
-                    startActivity(intent);
-                    break;
-                case R.id.game:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "게임/취미");
-                    startActivity(intent);
-                    break;
-                case R.id.pet:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "반려동물용품");
-                    startActivity(intent);
-                    break;
-                case R.id.buying:
-                    intent = new Intent(getActivity(), WritingActivity.class);
-                    intent.putExtra("category", "삽니다.");
-                    startActivity(intent);
-                    break;
-*/
             }
             //로그인 되어 있지 않은 상황인 경우 다이얼로그 창 띄움
-        } else {
+        } else if (sessionManager.isLoggIn() == false) {
             presenter.showDialog(getContext());
+        } else if (sessionManager.isLoggIn() == true && isAuth == false) {
+            CustomDialogAuth customDialogAuth = new CustomDialogAuth();
+            customDialogAuth.show(getFragmentManager(),"CustomDialogAuth");
+
+            Toast.makeText(getContext(), "동네를 인증해주세요!", Toast.LENGTH_SHORT).show();
         }
     }
 
