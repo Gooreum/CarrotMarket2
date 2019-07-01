@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.goo.carrotmarket.Model.Chat;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.ChatSocket;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.ChatRoomActivity;
 
@@ -30,9 +31,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
+import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-
-import static com.example.goo.carrotmarket.View.Home.HomeActivity2.socket;
 
 /**
  * Created by Goo on 2019-04-24.
@@ -58,6 +58,8 @@ public class ChatListFragment extends Fragment implements ChatListView {
 
     String nick;
 
+    Socket chatSocket;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,15 +74,19 @@ public class ChatListFragment extends Fragment implements ChatListView {
         ButterKnife.bind(this, view);
 
 
+        chatSocket = ChatSocket.getSocket();
+
+
+        Log.d("Socket", chatSocket.toString());
         //툴바 설정
         setToolbar();
+
         //1.로그인 한 상태일 때
         chat = new ArrayList<>();
         presenter = new ChatListPresenter(this);
 
         //유저 목록 가져오기 및 새로고침 리스너 셋팅
         setPresenter();
-
 
 
         //리사이클러뷰 아이템 클릭 리스너
@@ -127,7 +133,7 @@ public class ChatListFragment extends Fragment implements ChatListView {
     public void setPresenter() {
         if (sessionManager.isLoggIn() == true) {
             presenter.getChatList(compositeDisposable, nick);
-            presenter.prepareNetwork(socket, handling, nick);
+            presenter.prepareNetwork(chatSocket, handling, nick);
 
             //새로고침
             swipe_refresh.setOnRefreshListener(
@@ -160,6 +166,13 @@ public class ChatListFragment extends Fragment implements ChatListView {
     public void onResume() {
         super.onResume();
         Log.i("온 리쥼 : ", "온 리쥼");
+
+
+
+        Toast.makeText(getContext(), "onResume" + chatSocket.toString(), Toast.LENGTH_SHORT).show();
+
+        chatSocket = ChatSocket.getSocket();
+
         // socket.connect();
         //  socket.emit("myChatList", nick);
         //  socket.on("myChatList", handling);
@@ -172,8 +185,8 @@ public class ChatListFragment extends Fragment implements ChatListView {
         Log.i("onDestroy : ", "디스트로이");
         super.onDestroy();
         compositeDisposable.clear();
-        socket.disconnect();
-        socket.off("myChatList", handling);
+        chatSocket.disconnect();
+        chatSocket.off("myChatList", handling);
         Toast.makeText(getContext(), "디스트로이", Toast.LENGTH_SHORT).show();
     }
 

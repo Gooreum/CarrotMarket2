@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.example.goo.carrotmarket.Model.ChatMessage;
 import com.example.goo.carrotmarket.Model.Hoogi;
 import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
+import com.example.goo.carrotmarket.Util.ChatSocket;
 import com.example.goo.carrotmarket.Util.SessionManager;
 import com.example.goo.carrotmarket.Util.ToolBar;
 import com.example.goo.carrotmarket.View.Chat.ChatRoom.Reserve.ReserveActivity;
@@ -44,9 +46,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
+import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-
-import static com.example.goo.carrotmarket.View.Home.HomeActivity2.socket;
 
 /**
  * Created by Goo on 2019-05-23.
@@ -97,7 +98,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
     Intent intent;
     int product_id;
 
-    //Socket socket;
+    Socket socket;
     List<ChatMessage> chat_message;
     ArrayList<String> users;
     List<Product> product;
@@ -132,7 +133,9 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_chat);
 
         ButterKnife.bind(this);
+        socket = ChatSocket.getSocket();
 
+        Log.d("Socket", socket.toString());
         presenter = new ChatRoomPresenter(this);
         intent = getIntent();
 
