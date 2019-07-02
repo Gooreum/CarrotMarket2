@@ -36,6 +36,8 @@ import com.example.goo.carrotmarket.View.Detail.SelectBuyer.SelectBuyerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProducts.SellerActivity;
 import com.example.goo.carrotmarket.View.Seller.SellerProfile.SellerProfileActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,8 +153,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     String myNick;
     String chatRoomId;
-
-
+    long currentDate;
+    String product_date2;
+    long product_date;
     //좋아요 눌렀는지 안 눌렀는지 판단
     boolean flag;
 
@@ -194,11 +197,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         user = sessionManager.getUserDetail();
         myNick = user.get(sessionManager.NICK).toString();
 
-        //OttoBus 이벤트 객체 생성
-     /*
-        backToSellingFromDetail = new Events.BackToSellingFromDetail(position, id);
-        backToCompleteFromDetail = new Events.BackToCompleteFromDetail(position, id);
-        backToHideFromDetail = new Events.BackToHideFromDetail(position, id);*/
         //프레젠터 이벤트
         initPresenter();
 
@@ -313,15 +311,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public void onGetResultDelete(String message) {
         Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
-        // GlobalBus.getBus().post(backToHomeFromDetail);
-
-
         finish();
     }
 
     @Override
     public void onGetResult(List<Product> products) {
         product = products;
+        setDate(product);
         setValues();
 
         if (product.get(0).getImageCnt() == 0) {
@@ -367,7 +363,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public void onGetResultLikeState(List<Product> products) {
         productLike = products;
-        // System.out.println("좋아요를 눌렀냐 안눌렀냐 !? " + product.get(0).getLike_state());
+
         if (productLike.size() != 0) {
             if (productLike.get(0).getLike_state() == 1) {
 
@@ -547,10 +543,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     public void setValues() {
 
         title.setText(product.get(0).getTitle().toString());
+        location.setText(product.get(0).getDong().toString());
+
+
         if (product.get(0).getUpdateWritingCnt() >= 1) {
-            date.setText("끌올 " + product.get(0).getDate().toString() + "전에");
+            // date.setText("끌올 " + product.get(0).getDate().toString() + "전에");
+            date.setText("끌올 " + product_date2);
         } else {
-            date.setText(product.get(0).getDate().toString() + "전에");
+            // date.setText(product.get(0).getDate().toString() + "전에");
+            date.setText(product_date2);
         }
 
         description.setText(product.get(0).getDescription().toString());
@@ -592,12 +593,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     //판매자 프로필 셋팅
     public void setSellerInfo(List<UserInfo> userinfo) {
         nick.setText(userinfo.get(0).getNick().toString());
-        if (userinfo.get(0).getLocation1_state().equals("1")) {
-            location.setText(userinfo.get(0).getDong1().toString());
-        } else if (userinfo.get(0).getLocation2_state().equals("1")) {
-            location.setText(userinfo.get(0).getDong2().toString());
-        }
-        //  String profile_img = "http://18.218.21.240/CarrotMarket/productsImages/2019050115353353019729.jpg";
+
+
         Glide.with(this).load(userinfo.get(0).getProfileImage()).diskCacheStrategy(DiskCacheStrategy.ALL).error(R.drawable.profileimg).into(profileImg);
 
     }
@@ -783,6 +780,61 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             startActivity(intent);
         }
 
+    }
+
+    // 날짜가 yyyymmdd 형식으로 입력되었을 경우 Date로 변경하는 메서드
+    public String transformDate(String date) {
+        SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+        // Date로 변경하기 위해서는 날짜 형식을 yyyy-mm-dd로 변경해야 한다.
+        SimpleDateFormat afterFormat = new SimpleDateFormat("yyyy년MM월dd일");
+
+        java.util.Date tempDate = null;
+
+        try {
+            // 현재 yyyymmdd로된 날짜 형식으로 java.util.Date객체를 만든다.
+            tempDate = beforeFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // java.util.Date를 yyyy-mm-dd 형식으로 변경하여 String로 반환한다.
+        product_date2 = afterFormat.format(tempDate);
+
+        // 반환된 String 값을 Date로 변경한다.
+        // Date d = Date.valueOf(transDate);
+
+        return product_date2;
+
+    }
+
+    public void setDate(List<Product> product) {
+        currentDate = Long.parseLong(getCurrentTime("yyyyMMddHHmmssSSS"));
+        product_date = currentDate - Long.parseLong(product.get(0).getDate());
+        product_date2 = "0";
+
+        //1분 미만인 경우
+        if (product_date < 60000) {
+            product_date = product_date / 1000;
+            product_date2 = product_date + "초 전";
+            //1시간 미만인 경우
+        } else if (product_date >= 60000 && product_date < 3600000) {
+            product_date = product_date / 60000;
+            product_date2 = product_date + "분 전";
+            //하루 미만인 경우
+        } else if (product_date >= 3600000 && product_date < 86400000) {
+            product_date = product_date / 3600000;
+            product_date2 = product_date + "시간 전";
+            //하루 이상인 경우
+        } else if (product_date > 86400000) {
+            //product_date = Long.parseLong(product.getDate());
+            transformDate(product.get(0).getDate());
+            //product_date2 = String.valueOf(product_date);
+        }
+    }
+
+    public static String getCurrentTime(String timeFormat) {
+        return new SimpleDateFormat(timeFormat).format(System.currentTimeMillis());
     }
 }
 

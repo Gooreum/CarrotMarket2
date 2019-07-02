@@ -17,6 +17,8 @@ import com.example.goo.carrotmarket.Model.Product;
 import com.example.goo.carrotmarket.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +35,9 @@ public class BuyListCompletedHoogiAdapter extends RecyclerView.Adapter<BuyListCo
     private List<Product> listItems;
     private Context mContext;
     private ItemClickListener productListener, hoogiListener;
-
+    private long date = Long.parseLong(getCurrentTime("yyyyMMddHHmmssSSS"));
+    String product_date2 = "0";
+    long product_date = 0;
 
     public BuyListCompletedHoogiAdapter(Context mContext, List<Product> listItems, ItemClickListener productListener, ItemClickListener hoogiListener) {
         this.listItems = listItems;
@@ -60,11 +64,19 @@ public class BuyListCompletedHoogiAdapter extends RecyclerView.Adapter<BuyListCo
         holder.txt_description.setText(product.getDescription());
 
         holder.txt_location.setText(product.getDong().toString());
+
+        product_date = date - Long.parseLong(product.getDate());
+        product_date2 = "0";
+
+        setDate(product);
+
         if (product.getUpdateWritingCnt() >= 1) {
-            holder.txt_uploadTime.setText("끌올 " + product.getDate());
+            holder.txt_uploadTime.setText("끌올 " + product_date2);
         } else {
-            holder.txt_uploadTime.setText(product.getDate());
+            holder.txt_uploadTime.setText(product_date2 + "");
         }
+
+
         int imageCnt = product.getImageCnt();
         if (imageCnt <= 1) {
             holder.card_imageCnt.setVisibility(View.GONE);
@@ -187,4 +199,56 @@ public class BuyListCompletedHoogiAdapter extends RecyclerView.Adapter<BuyListCo
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
+
+    public static String getCurrentTime(String timeFormat) {
+        return new SimpleDateFormat(timeFormat).format(System.currentTimeMillis());
+    }
+
+    // 날짜가 yyyymmdd 형식으로 입력되었을 경우 Date로 변경하는 메서드
+    public String transformDate(String date) {
+        SimpleDateFormat beforeFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+        // Date로 변경하기 위해서는 날짜 형식을 yyyy-mm-dd로 변경해야 한다.
+        SimpleDateFormat afterFormat = new SimpleDateFormat("yyyy년MM월dd일");
+
+        java.util.Date tempDate = null;
+
+        try {
+            // 현재 yyyymmdd로된 날짜 형식으로 java.util.Date객체를 만든다.
+            tempDate = beforeFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // java.util.Date를 yyyy-mm-dd 형식으로 변경하여 String로 반환한다.
+        product_date2 = afterFormat.format(tempDate);
+
+        // 반환된 String 값을 Date로 변경한다.
+        // Date d = Date.valueOf(transDate);
+
+        return product_date2;
+
+    }
+
+    public void setDate(Product product) {
+        //1분 미만인 경우
+        if (product_date < 60000) {
+            product_date = product_date / 1000;
+            product_date2 = product_date + "초 전";
+            //1시간 미만인 경우
+        } else if (product_date >= 60000 && product_date < 3600000) {
+            product_date = product_date / 60000;
+            product_date2 = product_date + "분 전";
+            //하루 미만인 경우
+        } else if (product_date >= 3600000 && product_date < 86400000) {
+            product_date = product_date / 3600000;
+            product_date2 = product_date + "시간 전";
+            //하루 이상인 경우
+        } else if (product_date > 86400000) {
+            //product_date = Long.parseLong(product.getDate());
+            transformDate(product.getDate());
+            //product_date2 = String.valueOf(product_date);
+        }
+    }
+
 }
