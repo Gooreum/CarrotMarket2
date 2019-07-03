@@ -23,4 +23,5 @@
 
 * **라이브러리** : gson, okhttp3, facebook_account_kit, butterknife, picasso, glide, google map, otto, socket.io
 
-![github]()
+
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.gif" width="300" style="max-width:100%;" />
