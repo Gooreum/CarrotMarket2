@@ -44,11 +44,15 @@
 **4.게시글 작성**
  * 
 
-<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B2%8C%EC%8B%9C%EA%B8%80%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0.gif" width="300" style="max-width:100%;" />
+<img 
+src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B2%8C%EC%8B%9C%EA%B8%80%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0.gif" width="300" style="max-width:100%;" />
+
 
 **5.다른 사용자 게시글 보기**
- * 
- <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EB%8B%A4%EB%A5%B8%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B2%8C%EC%8B%9C%EA%B8%80%EB%B3%B4%EA%B8%B0.gif" width="300" style="max-width:100%;" />
+ *다른 사용자 게시글 보기 
+ 
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EB%8B%A4%EB%A5%B8%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B2%8C%EC%8B%9C%EA%B8%80%EB%B3%B4%EA%B8%B0.gif" width="300" style="max-width:100%;" />
+ 
 
 **6.동네추가**
  * 
@@ -93,11 +97,11 @@
 **14.채팅**
  * 
 
-<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EC%B1%84%ED%8C%851.gif" width="300" style="max-width:100%;" />
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EC%B1%84%ED%8C%851.gif" width="700" style="max-width:100%;" />
 
-<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EC%B1%84%ED%8C%852.gif" width="300" style="max-width:100%;" />
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EC%B1%84%ED%8C%852.gif" width="700" style="max-width:100%;" />
 	
 **15.거래후기 남기기**
  * 
 
-<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B1%B0%EB%9E%98%ED%9B%84%EA%B8%B0.gif" width="300" style="max-width:100%;" />
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B1%B0%EB%9E%98%ED%9B%84%EA%B8%B0.gif" width="700" style="max-width:100%;" />
