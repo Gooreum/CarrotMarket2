@@ -49,7 +49,7 @@ src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B2%8C
 
 
 **5.다른 사용자 게시글 보기**
- *다른 사용자 게시글 보기 
+ * 다른 사용자 게시글 보기 
  
 <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EB%8B%A4%EB%A5%B8%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B2%8C%EC%8B%9C%EA%B8%80%EB%B3%B4%EA%B8%B0.gif" width="300" style="max-width:100%;" />
  
