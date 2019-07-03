@@ -27,8 +27,7 @@
 **1.회원가입**
  * Facebook_account_kit의 문자인증 서비스를 이용하여, 회원가입을 할 수 있도록 하였습니다. 
 
-<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.gif" width="300" style="max-width:100%;" />
-
+<img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.gif" width="300" style="max-width:100%;" aligncenter />
 
 **2.로그인**
  * 로그인도 마찬가지로 문자인증을 통해 할 수 있습니다. 
