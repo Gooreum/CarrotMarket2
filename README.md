@@ -23,5 +23,8 @@
 
 * **라이브러리** : gson, okhttp3, facebook_account_kit, butterknife, picasso, glide, google map, otto, socket.io
 
+## 주요기능
+**1.회원가입**
+ * Facebook account_kit
 
 <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.gif" width="300" style="max-width:100%;" />
