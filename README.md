@@ -99,7 +99,7 @@ src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B2%8C
 
 **14.채팅**
  * 중고거래는 채팅을 통해 가능합니다. 
- * 채팅 서버는 Node.js로 구현해보았습니다. 
+ * 채팅 서버는 Node.js로 구현하였습니다. 
 
 <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EC%B1%84%ED%8C%851.gif" width="700" style="max-width:100%;" />
 
