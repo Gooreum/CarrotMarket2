@@ -63,7 +63,7 @@ src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EA%B2%8C
 
 <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EB%8B%A4%EB%A5%B8%EB%8F%99%EB%84%A4%EB%93%B1%EB%A1%9D.gif" width="300" style="max-width:100%;" />
 
-**7.게시글 끌올하기**
+**7.게시글 업데이트 하기**
  * 최대 10번 까지 게시글 시간을 업데이트 하여 게시글이 상단에 노출될 수 있도록 하였습니다. 
 
 <img src="https://github.com/Gooreum/CarrotMarket2/blob/master/readmeImages/%EB%81%8C%EC%96%B4%EC%98%AC%EB%A6%AC%EA%B8%B0.gif" width="300" style="max-width:100%;" />
